@@ -35,6 +35,6 @@ Thumbs.db
 
 # Other files #
 ######################
-/nbproject/private/
+/nbproject/
 /application/logs/*.php
 !/ci-beam.sql
