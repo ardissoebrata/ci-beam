@@ -1,0 +1,5 @@
+RewriteEngine on 
+RewriteBase /ci-beam
+RewriteRule ^$ index.php [L] 
+RewriteCond $1 !^(index\.php|resource|system|user_guide|robots\.txt|favicon\.ico) 
+RewriteRule ^(.*)$ index.php/$1 [L] 
