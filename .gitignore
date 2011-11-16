@@ -33,9 +33,11 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
-# Other files #
+# Project specifics #
 ######################
 /nbproject/
+/.git-rewrite/
+!/ci-beam.sql
 /application/logs/*.php
 /application/config/database.php
-!/ci-beam.sql
+/application/modules/account/config/recaptcha.php
