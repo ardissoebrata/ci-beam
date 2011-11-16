@@ -39,5 +39,3 @@ Thumbs.db
 /.git-rewrite/
 !/ci-beam.sql
 /application/logs/*.php
-/application/config/database.php
-/application/modules/account/config/recaptcha.php
