@@ -37,4 +37,5 @@ Thumbs.db
 ######################
 /nbproject/
 /application/logs/*.php
+/application/config/database.php
 !/ci-beam.sql
