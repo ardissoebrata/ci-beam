@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 $lang['sign_in_page_name']						= 'Sign In';
-$lang['sign_in_heading']						= 'Sign in with your A3M Account';
+$lang['sign_in_heading']						= 'Sign in with your Account';
 $lang['sign_in_third_party_heading']			= 'Sign in with your account from';
 $lang['sign_in_with']							= 'Sign In with %s';
 
