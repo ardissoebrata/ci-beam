@@ -38,7 +38,8 @@ class Sign_out extends CI_Controller {
 		if ( ! $this->config->item("sign_out_view_enabled")) redirect('');
 		
 		// Load sign out view
-		$this->load->view('sign_out');
+		$this->template->set_content('sign_out');
+        $this->template->build();
 	}
 	
 }
