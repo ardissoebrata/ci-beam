@@ -1,5 +1,5 @@
 	<div class="row">
-		<div class="span8">
+		<div class="span9">
 			<h2><?php echo lang('sign_up_heading'); ?></h2>
             <?php echo form_open(uri_string()); ?>
 			<?php echo form_fieldset(); ?>
@@ -42,15 +42,15 @@
 				</div>
 			</div>
             <?php if (isset($recaptcha)) : ?>
-            <div class="prefix_2 grid_4 alpha omega">
-                <?php echo $recaptcha; ?>
-            </div>
-            <?php if (isset($sign_up_recaptcha_error)) : ?>
-            <div class="prefix_2 grid_4 alpha omega">
-                <span class="field_error"><?php echo $sign_up_recaptcha_error; ?></span>
-            </div>
-            <?php endif; ?>
-            <div class="clear"></div>
+			<div class="clearfix<?php echo isset($sign_up_recaptcha_error) ? ' error' : ''; ?>">
+				<?php echo form_label('', 'recaptcha_response_field'); ?>
+				<div class="input">
+					<?php echo $recaptcha; ?>
+					<?php if (isset($sign_up_recaptcha_error)) : ?>
+					<span class="help-block"><?php echo $sign_up_recaptcha_error; ?></span>
+					<?php endif; ?>					
+				</div>
+			</div>
             <?php endif; ?>
 			<?php echo form_fieldset_close(); ?>
             <div class="actions">
@@ -60,17 +60,18 @@
                         'content' => lang('sign_up_create_my_account')
                     )); ?>
             </div>
-            <div class="prefix_2 grid_4 alpha omega">
+            <div class="clearfix">
                 <p><?php echo lang('sign_up_already_have_account'); ?> <?php echo anchor('account/sign_in', lang('sign_up_sign_in_now')); ?></p>
             </div>
             <?php echo form_close(); ?>
         </div>
-        <div class="span8">
-            <h3><?php echo sprintf(lang('sign_up_third_party_heading')); ?></h3>
-            <ul>
+        <div class="span7">
+            <h2><?php echo sprintf(lang('sign_up_third_party_heading')); ?></h2>
+            <ul class="unstyled">
                 <?php foreach($this->config->item('third_party_auth_providers') as $provider) : ?>
-                <li class="third_party <?php echo $provider; ?>"><?php echo anchor('account/connect_'.$provider, lang('connect_'.$provider), 
-                    array('title'=>sprintf(lang('sign_up_with'), lang('connect_'.$provider)))); ?></li>
+                <li class="third_party <?php echo $provider; ?>">
+					<?php echo anchor('account/connect_'.$provider, lang('connect_'.$provider), array('title'=>sprintf(lang('sign_up_with'), lang('connect_'.$provider)))); ?>
+				</li>
                 <?php endforeach; ?>
             </ul>
             <div class="clear"></div>
