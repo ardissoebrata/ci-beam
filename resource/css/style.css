@@ -28,3 +28,8 @@ li.twitter { background: url(../img/auth_icons/twitter.png) no-repeat; }
 li.facebook { background: url(../img/auth_icons/facebook.png) no-repeat; }
 li.myspace { background: url(../img/auth_icons/myspace.png) no-repeat; }
 li.openid { background: url(../img/auth_icons/openid.png) no-repeat; }
+
+.topbar p {
+	color: #BFBFBF;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
