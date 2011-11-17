@@ -29,9 +29,12 @@ class Template
 			
 		$this->CI =& get_instance();
 			
-		if (count($config) > 0) {
+		if (count($config) > 0) 
+		{
 			$this->initialize($config);
-		} else {
+		} 
+		else 
+		{
 			$this->_load_config_file();
 		}
 		
@@ -117,12 +120,13 @@ class Template
 	 * 
 	 * @param string $title 
 	 */
-	function set_page_title($title = FALSE) {
-		
+	function set_page_title($title = FALSE) 
+	{
 		if ($title)
 			$this->data['page_title'] = $title;
-		else {
-			$this->data['page_title'] = ucwords($this->CI->router->class);
+		else 
+		{
+			$this->data['page_title'] = ucwords(str_replace('_', ' ', $this->CI->router->class));
 			$action = $this->CI->router->method;
 			if ($action != 'index')
 				$this->data['page_title'] = ucwords($action) . ' ' . $this->data['page_title'];
@@ -136,21 +140,19 @@ class Template
 	 * Load the content for the main area of the page, and store
 	 * in the data array to be later sent to the template
 	 */
-	function set_content($view, $data = array()){
-		
+	function set_content($view, $data = array())
+	{
 		$this->data['content'] = $this->CI->load->view($view, $data, true);
-        
 	}
 	
 	
 	/**
 	 * Clears all CSS. Raw and scripts
 	 */
-	function clear_css(){
-		
+	function clear_css()
+	{
 		$this->css_raw = '';
 		$this->css_scripts = '';
-		
 	}
 	
 	
@@ -162,32 +164,29 @@ class Template
 	 * straight to screen to reduce the number of resources the browser
 	 * needs to load at run time
 	 */
-	function add_css($css, $load = true){
-		
-		if($load){
-			
+	function add_css($css, $load = true)
+	{
+		if($load)
+		{
 			$this->css_load .= '<link href="'.$this->CI->config->item('base_url') . $this->data['assets_dir'] . 'css/' . $css . '.css?'
 				.filemtime($this->data['assets_dir'] . 'css/' . $css . '.css')
 				.'" media="screen" rel="stylesheet" type="text/css" />';
-		
-		} else {
-
+		} 
+		else 
+		{
 			$css_contents = @implode(file($this->CI->config->item('base_url') . $this->data['assets_dir'] . 'css/' . $css . '.css', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
 		
 			$this->css_raw .= $css_contents;
-
 		}
-		
 	}
 	
 	
 	/**
 	 * Clears all JS. Raw and scripts
 	 */
-	function clear_js(){
-		
+	function clear_js()
+	{
 		$this->data['js'] = '';
-		
 	}
 	
 	
@@ -199,42 +198,38 @@ class Template
 	 * straight to screen to reduce the number of resources the browser
 	 * needs to load at run time
 	 */
-	function add_js($js, $load = true){
-		
-		if($load){
-		
+	function add_js($js, $load = true)
+	{
+		if($load)
+		{
 			$this->js_load .= '<script src="'.$this->CI->config->item('base_url') . $this->data['assets_dir'] . 'js/' . $js . '.js?'
 				.filemtime($this->data['assets_dir'] . 'js/' . $js . '.js')
 				.'" type="text/javascript"></script>';
-
-		} else {
-		
+		} 
+		else 
+		{
 			$js_contents = @implode(file($this->CI->config->item('base_url') . $this->data['assets_dir'] . 'js/' . $js . '.js', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
 
 			$this->js_raw = $js_contents;
-		
 		}
-		
 	}
 	
 	
 	/**
 	 * Clear all data in the head
 	 */
-	function clear_head(){
-		
+	function clear_head()
+	{
 		$this->data['head'] = '';
-		
 	}
 	
 	
 	/**
 	 * Add tag to head
 	 */
-	function add_head($head){
-		
+	function add_head($head)
+	{
 		$this->data['head'] .= $head;
-		
 	}
 
 
@@ -242,26 +237,25 @@ class Template
 	 * Add http header to output stack
 	 *
 	 */
-	function add_http_header($header){
-
+	function add_http_header($header)
+	{
 		$this->http_headers[] = $header;
-
 	}
 
 	/**
 	 *  Sequentially load http headers from output stack
 	 */
-	function build_http_header() {
-
+	function build_http_header() 
+	{
 		// Add some default headers, no point in adding to config!
 		$this->http_headers[] = "Pragma: no-cache";
 		$this->http_headers[] = "Expires: Sat, 01 Jan 2000 00:00:00 GMT";
 		$this->http_headers[] = "Cache-Control: private, no-cache, no-store, must-revalidate";
 
-		foreach($this->http_headers as $h) {
+		foreach($this->http_headers as $h) 
+		{
 			$this->CI->output->set_header($h);
 		}
-
 	}
 
 	
@@ -270,10 +264,9 @@ class Template
 	 * Adds a message to the current page stack
 	 * Available types are warning, error, success and info
 	 */
-	function add_message($type, $message){
-	
+	function add_message($type, $message)
+	{
 		$this->messages[$type][] = $message;
-	
 	}
 	
 	
@@ -281,10 +274,9 @@ class Template
 	 * Serves purely as a wrapper for the CI flashdata
 	 * Just to keep syntax organised
 	 */
-	function set_flashdata($type, $message){
-	
+	function set_flashdata($type, $message)
+	{
 		$this->CI->session->set_flashdata($type, $message);
-		
 	}
 	
 	
@@ -293,37 +285,37 @@ class Template
 	 * and any warning, error, success and info messages 
 	 * that were added via session->flashdata
 	 */
-	function prepare_messages(){
-		
-		foreach($this->messages as $type => $messages){
-			
+	function prepare_messages()
+	{
+		foreach($this->messages as $type => $messages)
+		{
 			// add flash data for this type to the stack
 			$flash = $this->CI->session->flashdata($type);
-			if($flash != ''){
+			if($flash != '')
+			{
 				$messages[] = $flash;
 			}
 			
 			// if there's messages of this type, prepare for printing
-			if(sizeof($messages)){
+			if(sizeof($messages))
+			{
 				$this->data['messages'] .= '<div class="alert-message '.$type.' fade in">';
 				$this->data['messages'] .= '<a class="close" href="#">&times;</a>';
 			
-				foreach($messages as $message){
+				foreach($messages as $message)
+				{
 					$this->data['messages'] .= '<p>'.$message.'</p>';
 				}
 			
 				$this->data['messages'] .= '</div>';
 			}
-			
 		}
 		
-		if (count($this->messages) > 0) {
-			
+		if (count($this->messages) > 0) 
+		{
 			$this->data['messages'] .= '<script type="text/javascript">$(".alert-message").alert();</script>';
 			$this->data['js'] .= '<script src="' . $this->CI->config->item('base_url') . $this->data['assets_dir'] . 'css/twitter-bootstrap/js/bootstrap-alerts.js" type="text/javascript"></script>';
 		}
-			
-	
 	}
 	
 	
@@ -332,21 +324,25 @@ class Template
 	 * Combine and organise the raw and loaded
 	 * javascript and css files
 	 */
-	function prepare_jcss(){
-
+	function prepare_jcss()
+	{
 		// combine the raw and loaded css
-		if(strlen($this->css_raw)){
+		if(strlen($this->css_raw))
+		{
 			$this->data['css'] .= '<style type="text/css">' . $this->css_raw . '</style>';
 		}
-		if(strlen($this->css_load)){
+		if(strlen($this->css_load))
+		{
 			$this->data['css'] .= $this->css_load;
 		}
 	
 		// combine the raw and loaded css
-		if(strlen($this->js_raw)){
+		if(strlen($this->js_raw))
+		{
 			$this->data['js'] .= '<script lang="text/javascript">' . $this->js_raw . '</script>';
 		}
-		if(strlen($this->js_load)){
+		if(strlen($this->js_load))
+		{
 			$this->data['js'] .= $this->js_load;
 		}
 			
@@ -357,8 +353,8 @@ class Template
 	/**
 	 * Send the data compiled data to the screen
 	 */
-	function build(){
-	
+	function build()
+	{
 		$this->prepare_jcss();
 		$this->prepare_messages();
 		$this->build_http_header();
@@ -367,6 +363,5 @@ class Template
 			$this->set_page_title();
 		
 		$this->CI->load->view('templates/'.$this->data['template'].'/index.php', $this->data);
-		
 	}
 }
