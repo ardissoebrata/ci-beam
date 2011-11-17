@@ -311,7 +311,7 @@ class Template
 			}
 		}
 		
-		if (count($this->messages) > 0) 
+		if (isset($this->data['messages']) AND ! empty($this->data['messages'])) 
 		{
 			$this->data['messages'] .= '<script type="text/javascript">$(".alert-message").alert();</script>';
 			$this->data['js'] .= '<script src="' . $this->CI->config->item('base_url') . $this->data['assets_dir'] . 'css/twitter-bootstrap/js/bootstrap-alerts.js" type="text/javascript"></script>';
