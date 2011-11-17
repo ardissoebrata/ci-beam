@@ -40,57 +40,72 @@ class Sign_in extends CI_Controller {
 		$recaptcha_result = $this->recaptcha->check();
 		
 		// Setup form validation
-		$this->form_validation->set_error_delimiters('<span class="field_error">', '</span>');
+		$this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
 		$this->form_validation->set_rules(array(
-			array('field'=>'sign_in_username_email', 'label'=>'lang:sign_in_username_email', 'rules'=>'trim|required'),
+			array('field'=>'sign_in_username_email', 'label'=>'lang:sign_in_username_email', 'rules'=>'trim|required|callback_username_check'),
 			array('field'=>'sign_in_password', 'label'=>'lang:sign_in_password', 'rules'=>'trim|required')
 		));
 		
 		// Run form validation
 		if ($this->form_validation->run() === TRUE) 
 		{
-			// Get user by username / email
-			if ( ! $user = $this->account_model->get_by_username_email($this->input->post('sign_in_username_email'))) 
+			// Either don't need to pass recaptcha or just passed recaptcha
+			if ( ! ($recaptcha_pass === TRUE || $recaptcha_result === TRUE) && $this->config->item("sign_in_recaptcha_enabled") === TRUE)
 			{
-				// Username / email doesn't exist
-				$data['sign_in_username_email_error'] = lang('sign_in_username_email_does_not_exist');
+				$data['sign_in_recaptcha_error'] = $this->input->post('recaptcha_response_field') ? lang('sign_in_recaptcha_incorrect') : lang('sign_in_recaptcha_required');
 			}
 			else
 			{
-				// Either don't need to pass recaptcha or just passed recaptcha
-				if ( ! ($recaptcha_pass === TRUE || $recaptcha_result === TRUE) && $this->config->item("sign_in_recaptcha_enabled") === TRUE)
+				// Get user by username / email
+				$user = $this->account_model->get_by_username_email($this->input->post('sign_in_username_email'));
+
+				// Check password
+				if ( ! $this->authentication->check_password($user->password, $this->input->post('sign_in_password')))
 				{
-					$data['sign_in_recaptcha_error'] = $this->input->post('recaptcha_response_field') ? lang('sign_in_recaptcha_incorrect') : lang('sign_in_recaptcha_required');
+					// Increment sign in failed attempts
+					$this->session->set_userdata('sign_in_failed_attempts', (int)$this->session->userdata('sign_in_failed_attempts')+1);
+
+					$this->template->set_message('error', lang('sign_in_combination_incorrect'));
 				}
 				else
 				{
-					// Check password
-					if ( ! $this->authentication->check_password($user->password, $this->input->post('sign_in_password')))
-					{
-						// Increment sign in failed attempts
-						$this->session->set_userdata('sign_in_failed_attempts', (int)$this->session->userdata('sign_in_failed_attempts')+1);
-						
-						$data['sign_in_error'] = lang('sign_in_combination_incorrect');
-					}
-					else
-					{
-						// Clear sign in fail counter
-						$this->session->unset_userdata('sign_in_failed_attempts');
-						
-						// Run sign in routine
-						$this->authentication->sign_in($user->id, $this->input->post('sign_in_remember'));
-					}
+					// Clear sign in fail counter
+					$this->session->unset_userdata('sign_in_failed_attempts');
+
+					// Run sign in routine
+					$this->authentication->sign_in($user->id, $this->input->post('sign_in_remember'));
 				}
 			}
 		}
 		
 		// Load recaptcha code
 		if ($this->config->item("sign_in_recaptcha_enabled") === TRUE) 
-			if ($this->config->item('sign_in_recaptcha_offset') <= $this->session->userdata('sign_in_failed_attempts')) 
+			if ($this->config->item('sign_in_recaptcha_offset') >= $this->session->userdata('sign_in_failed_attempts')) 
 				$data['recaptcha'] = $this->recaptcha->load($recaptcha_result, $this->config->item("ssl_enabled"));
 		
 		// Load sign in view
-		$this->load->view('sign_in', isset($data) ? $data : NULL);
+		$this->template->set_page_title(lang('sign_in_page_name'));
+		$this->template->set_content('sign_in', isset($data) ? $data : NULL);
+        $this->template->build();
+	}
+	
+	/**
+	 * Check if a username/email exist
+	 *
+	 * @access public
+	 * @param string
+	 * @return bool
+	 */
+	function username_check($username)
+	{
+		if ($this->account_model->get_by_username_email($username)) 
+			return TRUE;
+		else
+		{
+			// Username / email doesn't exist
+			$this->form_validation->set_message('username_check', lang('sign_in_username_email_does_not_exist'));
+			return FALSE;
+		} 
 	}
 	
 }
