@@ -26,12 +26,11 @@ class Facebook_lib {
 		// Create the Facebook object
 		$this->fb = new Facebook(array(
 			'appId' => $this->CI->config->item('facebook_app_id'),
-			'secret' => $this->CI->config->item('facebook_secret'),
-			'cookie' => true,
+			'secret' => $this->CI->config->item('facebook_secret')
 		));
 		
 		// Check for Facebook session
-		if ($this->fb->getSession()) 
+		if ($this->fb->getUser()) 
 		{
 			try 
 			{
