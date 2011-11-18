@@ -40,7 +40,7 @@ class Account_password extends CI_Controller {
 		if ( ! $data['account']->password) redirect('');
 		
 		### Setup form validation
-		$this->form_validation->set_error_delimiters('<span class="field_error">', '</span>');
+		$this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
 		$this->form_validation->set_rules(array(
 			array('field'=>'password_new_password', 'label'=>'lang:password_new_password', 'rules'=>'trim|required|min_length[6]'),
 			array('field'=>'password_retype_new_password', 'label'=>'lang:password_retype_new_password', 'rules'=>'trim|required|matches[password_new_password]')
@@ -55,7 +55,12 @@ class Account_password extends CI_Controller {
 			redirect('account/account_password');
 		}
 	
-		$this->load->view('account/account_password', $data);
+		$data['current'] = 'account_password';
+		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		
+		$this->template->set_page_title(lang('password_page_name'));
+		$this->template->set_content('account/account_password', $data);
+		$this->template->build();
 	}
 	
 }
