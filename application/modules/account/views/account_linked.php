@@ -9,10 +9,10 @@
                 <?php if ($facebook_links) : ?>
                     <?php foreach ($facebook_links as $facebook_link) : ?>
 			<div class="row">
-				<div class="span2">
+				<div class="span1">
 					<img src="resource/img/auth_icons/facebook.png" alt="<?php echo lang('connect_facebook'); ?>" title="<?php echo lang('connect_facebook'); ?>" width="40" />
 				</div>
-				<div class="span4">
+				<div class="span5">
 					<?php echo lang('connect_facebook'); ?><br />
 					<?php echo anchor('http://facebook.com/profile.php?id='.$facebook_link->facebook_id, substr('http://facebook.com/profile.php?id='.$facebook_link->facebook_id, 0, 30).(strlen('http://facebook.com/profile.php?id='.$facebook_link->facebook_id) > 30 ? '...' : ''), array('target' => '_blank', 'title' => 'http://facebook.com/profile.php?id='.$facebook_link->facebook_id)); ?>
 				</div>
@@ -36,10 +36,10 @@
                 <?php if ($twitter_links) : ?>
                     <?php foreach ($twitter_links as $twitter_link) : ?>
 			<div class="row">
-				<div class="span2">
+				<div class="span1">
 					<img src="resource/img/auth_icons/twitter.png" alt="<?php echo lang('connect_twitter'); ?>" title="<?php echo lang('connect_twitter'); ?>" width="40" />
 				</div>
-				<div class="span4">
+				<div class="span5">
 					<?php echo lang('connect_twitter'); ?><br />
 					<?php echo anchor('http://twitter.com/'.$twitter_link->twitter->screen_name, substr('http://twitter.com/'.$twitter_link->twitter->screen_name, 0, 30).(strlen('http://twitter.com/'.$twitter_link->twitter->screen_name) > 30 ? '...' : ''), array('target' => '_blank', 'title' => 'http://twitter.com/'.$twitter_link->twitter->screen_name)); ?>
 				</div>
@@ -63,10 +63,10 @@
                 <?php if ($openid_links) : ?>
                     <?php foreach ($openid_links as $openid_link) : ?>
 			<div class="row">
-				<div class="span2">
+				<div class="span1">
 					<img src="resource/img/auth_icons/<?php echo $openid_link->provider; ?>.png" alt="<?php echo lang('connect_'.$openid_link->provider); ?>" width="40" />
 				</div>
-				<div class="span4">
+				<div class="span5">
 					<?php echo lang('connect_'.$openid_link->provider); ?><br />
 					<?php echo anchor($openid_link->openid, substr($openid_link->openid, 0, 30).(strlen($openid_link->openid) > 30 ? '...' : ''), array('target' => '_blank', 'title' => $openid_link->openid)); ?>
 				</div>
