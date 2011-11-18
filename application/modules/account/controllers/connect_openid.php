@@ -55,8 +55,8 @@ class Connect_openid extends CI_Controller {
 						$this->authentication->sign_in($user->account_id);
 					}
 					$user->account_id === $this->session->userdata('account_id') ?
-						$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_openid'))) :
-							$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_openid')));
+						$this->session->set_flashdata('error', sprintf(lang('linked_linked_with_this_account'), lang('connect_openid'))) :
+							$this->session->set_flashdata('error', sprintf(lang('linked_linked_with_another_account'), lang('connect_openid')));
 					redirect('account/account_linked');
 				}
 				// The user has not connect openid to a3m
@@ -99,7 +99,7 @@ class Connect_openid extends CI_Controller {
 					{
 						// Connect openid to a3m
 						$this->account_openid_model->insert($response->getDisplayIdentifier(), $this->session->userdata('account_id'));
-						$this->session->set_flashdata('linked_info', sprintf(lang('linked_linked_with_your_account'), lang('connect_openid')));
+						$this->session->set_flashdata('success', sprintf(lang('linked_linked_with_your_account'), lang('connect_openid')));
 						redirect('account/account_linked');
 					}
 				}
@@ -116,7 +116,7 @@ class Connect_openid extends CI_Controller {
 		$this->load->library('form_validation');
 		
 		// Setup form validation
-		$this->form_validation->set_error_delimiters('<span class="field_error">', '</span>');
+		$this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
 		$this->form_validation->set_rules(array(
 			array('field'=>'connect_openid_url', 'label'=>'lang:connect_openid_url', 'rules'=>'trim|required')
 		));
@@ -146,7 +146,9 @@ class Connect_openid extends CI_Controller {
 			}
 		}
 		
-		$this->load->view('connect_openid', isset($data) ? $data : NULL);
+		$this->template->set_page_title(sprintf(lang('connect_with_x'), lang('connect_openid')));
+		$this->template->set_content('connect_openid', isset($data) ? $data : NULL);
+        $this->template->build();		
 	}
 	
 }

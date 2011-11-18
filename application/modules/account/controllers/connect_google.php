@@ -49,8 +49,8 @@ class Connect_google extends CI_Controller {
 						$this->authentication->sign_in($user->account_id);
 					}
 					$user->account_id === $this->session->userdata('account_id') ?
-						$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_this_account'), lang('connect_google'))) :
-							$this->session->set_flashdata('linked_error', sprintf(lang('linked_linked_with_another_account'), lang('connect_google')));
+						$this->session->set_flashdata('error', sprintf(lang('linked_linked_with_this_account'), lang('connect_google'))) :
+							$this->session->set_flashdata('error', sprintf(lang('linked_linked_with_another_account'), lang('connect_google')));
 					redirect('account/account_linked');
 				}
 				// The user has not connect google to a3m
@@ -93,7 +93,7 @@ class Connect_google extends CI_Controller {
 					{
 						// Connect google to a3m
 						$this->account_openid_model->insert($response->getDisplayIdentifier(), $this->session->userdata('account_id'));
-						$this->session->set_flashdata('linked_info', sprintf(lang('linked_linked_with_your_account'), lang('connect_google')));
+						$this->session->set_flashdata('success', sprintf(lang('linked_linked_with_your_account'), lang('connect_google')));
 						redirect('account/account_linked');
 					}
 				}
