@@ -45,7 +45,7 @@ class Account_profile extends CI_Controller {
 		}
 		
 		// Setup form validation
-		$this->form_validation->set_error_delimiters('<div class="field_error">', '</div>');
+		$this->form_validation->set_error_delimiters('<div class="help-block">', '</div>');
 		$this->form_validation->set_rules(array(
 			array('field'=>'profile_username', 'label'=>'lang:profile_username', 'rules'=>'trim|required|alpha_dash|min_length[2]|max_length[24]')
 		));
@@ -121,7 +121,12 @@ class Account_profile extends CI_Controller {
 			if ( ! isset($error)) $data['profile_info'] = lang('profile_updated');
 		}
 		
-		$this->load->view('account/account_profile', $data);
+		$data['current'] = 'account_profile';
+		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		
+		$this->template->set_page_title(lang('profile_page_name'));
+		$this->template->set_content('account/account_profile', $data);
+		$this->template->build();
 	}
 	
 	/**
