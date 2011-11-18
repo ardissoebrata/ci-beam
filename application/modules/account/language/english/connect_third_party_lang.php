@@ -29,6 +29,7 @@ $lang['connect_openid_url']						= 'OpenID URL';
 $lang['connect_start_what_is_openid']			= 'What is OpenID?';
 $lang['connect_proceed']						= 'Proceed';
 
+$lang['connect_invalid_openid']					= 'Invalid %s account.';
 
 /* End of file connect_third_party_lang.php */
 /* Location: ./application/modules/account/language/english/connect_third_party_lang.php */
