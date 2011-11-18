@@ -118,7 +118,7 @@ class Account_profile extends CI_Controller {
 				}
 			}
 			
-			if ( ! isset($error)) $data['profile_info'] = lang('profile_updated');
+			if ( ! isset($error)) $this->template->add_message('success', lang('profile_updated'));
 		}
 		
 		$data['current'] = 'account_profile';
