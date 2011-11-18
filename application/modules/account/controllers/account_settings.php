@@ -52,7 +52,7 @@ class Account_settings extends CI_Controller {
 		}
 		
 		// Setup form validation
-		$this->form_validation->set_error_delimiters('<div class="field_error">', '</div>');
+		$this->form_validation->set_error_delimiters('<div class="help-block">', '</div>');
 		$this->form_validation->set_rules(array(
 			array('field'=>'settings_email', 'label'=>'lang:settings_email', 'rules'=>'trim|required|valid_email|max_length[160]'),
 			array('field'=>'settings_fullname', 'label'=>'lang:settings_fullname', 'rules'=>'trim|max_length[160]'),
@@ -93,11 +93,16 @@ class Account_settings extends CI_Controller {
 				$attributes['timezone'] = $this->input->post('settings_timezone') ? $this->input->post('settings_timezone') : NULL;
 				$this->account_details_model->update($data['account']->id, $attributes);
 				
-				$data['settings_info'] = lang('settings_details_updated');
+				$this->template->add_message('success', lang('settings_details_updated'));
 			}
 		}
 		
-		$this->load->view('account/account_settings', $data);
+		$data['current'] = 'account_settings';
+		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		
+		$this->template->set_page_title(lang('settings_page_name'));
+		$this->template->set_content('account/account_settings', $data);
+		$this->template->build();
 	}
 	
 	/**
