@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 	<meta charset="utf-8">
 	<title><?php echo (isset($page_title)) ? $page_title . ' - ' . lang('website_name') : lang('website_name'); ?></title>
