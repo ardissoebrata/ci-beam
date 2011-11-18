@@ -42,7 +42,7 @@ class Account_linked extends CI_Controller {
 			if ($this->input->post('facebook_id')) $this->account_facebook_model->delete($this->input->post('facebook_id'));
 			elseif ($this->input->post('twitter_id')) $this->account_twitter_model->delete($this->input->post('twitter_id'));
 			elseif ($this->input->post('openid')) $this->account_openid_model->delete($this->input->post('openid'));
-			$this->session->set_flashdata('linked_info', lang('linked_linked_account_deleted'));
+			$this->session->set_flashdata('success', lang('linked_linked_account_deleted'));
 			redirect('account/account_linked');
 		}
 		
@@ -86,7 +86,12 @@ class Account_linked extends CI_Controller {
 			}
 		}
 		
-		$this->load->view('account/account_linked', $data);
+		$data['current'] = 'account_linked';
+		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		
+		$this->template->set_page_title(lang('linked_page_name'));
+		$this->template->set_content('account/account_linked', $data);
+		$this->template->build();		
 	}
 	
 }
