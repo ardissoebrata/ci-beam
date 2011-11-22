@@ -2,7 +2,7 @@
 /*
  * Account_profile Controller
  */
-class Account_profile extends CI_Controller {
+class Account_profile extends AccountBaseController {
 	
 	/**
 	 * Constructor
@@ -12,11 +12,9 @@ class Account_profile extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->config('account/account');
-		$this->load->helper(array('language', 'account/ssl', 'url'));
-        $this->load->library(array('account/authentication', 'form_validation'));
-		$this->load->model(array('account/account_model', 'account/account_details_model'));
-		$this->load->language(array('general', 'account/account_profile'));
+        $this->load->library(array('form_validation'));
+		$this->load->model(array('account/account_details_model'));
+		$this->load->language(array('account/account_profile'));
 	}
 	
 	/**
@@ -24,9 +22,6 @@ class Account_profile extends CI_Controller {
 	 */
 	function index($action = NULL)
 	{
-		// Enable SSL?
-		maintain_ssl($this->config->item("ssl_enabled"));
-		
 		// Redirect unauthenticated users to signin page
 		if ( ! $this->authentication->is_signed_in()) 
 		{

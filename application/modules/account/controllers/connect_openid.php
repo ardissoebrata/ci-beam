@@ -2,7 +2,7 @@
 /*
  * Connect_openid Controller
  */
-class Connect_openid extends CI_Controller {
+class Connect_openid extends AccountBaseController {
 
 	/**
 	 * Constructor
@@ -12,18 +12,13 @@ class Connect_openid extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->config('account/account');
-		$this->load->helper(array('language', 'account/ssl', 'url', 'openid'));
-        $this->load->library(array('account/authentication'));
-		$this->load->model(array('account/account_model', 'account_openid_model'));
-		$this->load->language(array('general', 'account/sign_in', 'account/account_linked', 'account/connect_third_party'));
+		$this->load->helper(array('openid'));
+		$this->load->model(array('account_openid_model'));
+		$this->load->language(array('account/sign_in', 'account/account_linked', 'account/connect_third_party'));
 	}
 	
 	function index()
 	{
-		// Enable SSL?
-		maintain_ssl($this->config->item("ssl_enabled"));
-		
 		// Retrieve sign in user
 		if ($this->authentication->is_signed_in())
 		{

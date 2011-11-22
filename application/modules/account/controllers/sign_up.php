@@ -2,7 +2,7 @@
 /*
  * Sign_up Controller
  */
-class Sign_up extends CI_Controller {
+class Sign_up extends AccountBaseController {
 	
 	/**
 	 * Constructor
@@ -12,11 +12,9 @@ class Sign_up extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->config('account/account');
-		$this->load->helper(array('language', 'account/ssl', 'url'));
-        $this->load->library(array('account/authentication', 'account/recaptcha', 'form_validation'));
-		$this->load->model(array('account/account_model', 'account/account_details_model'));
-		$this->lang->load(array('general', 'account/sign_up', 'account/connect_third_party'));
+        $this->load->library(array('account/recaptcha', 'form_validation'));
+		$this->load->model(array('account/account_details_model'));
+		$this->lang->load(array('account/sign_up', 'account/connect_third_party'));
 	}
 	
 	/**
@@ -27,9 +25,6 @@ class Sign_up extends CI_Controller {
 	 */
 	function index()
 	{
-		// Enable SSL?
-		maintain_ssl($this->config->item("ssl_enabled"));
-		
 		// Redirect signed in users to homepage
 		if ($this->authentication->is_signed_in()) redirect('');
 		

@@ -2,7 +2,7 @@
 /*
  * Sign_in Controller
  */
-class Sign_in extends CI_Controller {
+class Sign_in extends AccountBaseController {
 	
 	/**
 	 * Constructor
@@ -12,11 +12,8 @@ class Sign_in extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->config('account/account');
-		$this->load->helper(array('language', 'account/ssl', 'url'));
         $this->load->library(array('account/authentication', 'account/recaptcha', 'form_validation'));
-		$this->load->model(array('account/account_model'));
-		$this->load->language(array('general', 'account/sign_in', 'account/connect_third_party'));
+		$this->load->language(array('account/sign_in', 'account/connect_third_party'));
 	}
 	
 	/**
@@ -27,8 +24,6 @@ class Sign_in extends CI_Controller {
 	 */
 	function index()
 	{	
-		// Enable SSL?
-		maintain_ssl($this->config->item("ssl_enabled"));
 		
 		// Redirect signed in users to homepage
 		if ($this->authentication->is_signed_in()) redirect('');
@@ -65,7 +60,7 @@ class Sign_in extends CI_Controller {
 					// Increment sign in failed attempts
 					$this->session->set_userdata('sign_in_failed_attempts', (int)$this->session->userdata('sign_in_failed_attempts')+1);
 
-					$this->template->set_message('error', lang('sign_in_combination_incorrect'));
+					$this->template->add_message('error', lang('sign_in_combination_incorrect'));
 				}
 				else
 				{

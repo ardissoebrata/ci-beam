@@ -2,7 +2,7 @@
 /*
  * Connect_yahoo Controller
  */
-class Connect_yahoo extends CI_Controller {
+class Connect_yahoo extends AccountBaseController {
 
 	/**
 	 * Constructor
@@ -12,19 +12,14 @@ class Connect_yahoo extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->config('account/account');
-		$this->load->helper(array('language', 'account/ssl', 'url', 'openid'));
-        $this->load->library(array('account/authentication'));
-		$this->load->model(array('account/account_model', 'account_openid_model'));
-		$this->load->language(array('general', 'account/sign_in', 'account/account_linked', 'account/connect_third_party'));
+		$this->load->helper(array('openid'));
+		$this->load->model(array('account_openid_model'));
+		$this->load->language(array('account/sign_in', 'account/account_linked', 'account/connect_third_party'));
 	}
 	
 	
 	function index()
 	{
-		// Enable SSL?
-		maintain_ssl($this->config->item("ssl_enabled"));
-		
 		// Get OpenID store object
 		$store = new Auth_OpenID_FileStore($this->config->item("openid_file_store_path"));
 		

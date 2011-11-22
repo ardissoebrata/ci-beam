@@ -2,7 +2,7 @@
 /*
  * Account_settings Controller
  */
-class Account_settings extends CI_Controller {
+class Account_settings extends AccountBaseController {
 	
 	/**
 	 * Constructor
@@ -12,11 +12,10 @@ class Account_settings extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->config('account/account');
-		$this->load->helper(array('date', 'language', 'account/ssl', 'url'));
-        $this->load->library(array('account/authentication', 'form_validation'));
-		$this->load->model(array('account/account_model', 'account/account_details_model', 'account/ref_country_model', 'account/ref_language_model', 'account/ref_zoneinfo_model'));
-		$this->load->language(array('general', 'account/account_settings'));
+		$this->load->helper(array('date'));
+        $this->load->library(array('form_validation'));
+		$this->load->model(array('account/account_details_model', 'account/ref_country_model', 'account/ref_language_model', 'account/ref_zoneinfo_model'));
+		$this->load->language(array('account/account_settings'));
 	}
 	
 	/**
@@ -24,9 +23,6 @@ class Account_settings extends CI_Controller {
 	 */
 	function index()
 	{
-		// Enable SSL?
-		maintain_ssl($this->config->item("ssl_enabled"));
-		
 		// Redirect unauthenticated users to signin page
 		if ( ! $this->authentication->is_signed_in()) 
 		{

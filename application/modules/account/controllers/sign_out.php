@@ -2,7 +2,7 @@
 /*
  * Sign_out Controller
  */
-class Sign_out extends CI_Controller {
+class Sign_out extends AccountBaseController {
 	
 	/**
 	 * Constructor
@@ -12,10 +12,7 @@ class Sign_out extends CI_Controller {
         parent::__construct();
 		
 		// Load the necessary stuff...
-		$this->load->helper(array('language', 'url'));
-		$this->load->config('account/account');
-		$this->load->language(array('general', 'account/sign_out'));
-        $this->load->library(array('account/authentication'));
+		$this->load->language(array('account/sign_out'));
 	}
 	
 	// --------------------------------------------------------------------
