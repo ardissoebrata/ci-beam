@@ -2,7 +2,7 @@
 /*
  * Connect_facebook Controller
  */
-class Connect_facebook extends AccountBaseController {
+class Connect_facebook extends BaseController {
 	
 	/**
 	 * Constructor

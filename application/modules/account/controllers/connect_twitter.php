@@ -2,7 +2,7 @@
 /*
  * Connect_twitter Controller
  */
-class Connect_twitter extends AccountBaseController {
+class Connect_twitter extends BaseController {
 	
 	/**
 	 * Constructor

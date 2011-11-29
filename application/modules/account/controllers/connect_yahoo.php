@@ -2,7 +2,7 @@
 /*
  * Connect_yahoo Controller
  */
-class Connect_yahoo extends AccountBaseController {
+class Connect_yahoo extends BaseController {
 
 	/**
 	 * Constructor

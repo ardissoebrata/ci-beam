@@ -2,7 +2,7 @@
 /*
  * Sign_up Controller
  */
-class Sign_up extends AccountBaseController {
+class Sign_up extends PublicController {
 	
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ class Sign_up extends AccountBaseController {
 			// Either already pass recaptcha or just passed recaptcha
 			if ( ! ($this->session->userdata('sign_up_recaptcha_pass') == TRUE || $recaptcha_result === TRUE) && $this->config->item("sign_up_recaptcha_enabled") === TRUE)
 			{
-				$data['sign_up_recaptcha_error'] = $this->input->post('recaptcha_response_field') ? lang('sign_up_recaptcha_incorrect') : lang('sign_up_recaptcha_required');
+				$this->data['sign_up_recaptcha_error'] = $this->input->post('recaptcha_response_field') ? lang('sign_up_recaptcha_incorrect') : lang('sign_up_recaptcha_required');
 			}
 			else 
 			{
@@ -74,11 +74,11 @@ class Sign_up extends AccountBaseController {
 		// Load recaptcha code
 		if ($this->config->item("sign_up_recaptcha_enabled") === TRUE)
 			if ($this->session->userdata('sign_up_recaptcha_pass') != TRUE) 
-				$data['recaptcha'] = $this->recaptcha->load($recaptcha_result, $this->config->item("ssl_enabled"));
+				$this->data['recaptcha'] = $this->recaptcha->load($recaptcha_result, $this->config->item("ssl_enabled"));
 		
 		// Load sign up view
 		$this->template->set_page_title(lang('sign_up_page_name'));
-		$this->template->set_content('sign_up', isset($data) ? $data : NULL);
+		$this->template->set_content('sign_up', $this->data);
         $this->template->build();
 	}
 	

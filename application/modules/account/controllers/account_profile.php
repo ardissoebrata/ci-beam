@@ -2,7 +2,7 @@
 /*
  * Account_profile Controller
  */
-class Account_profile extends AccountBaseController {
+class Account_profile extends AdminController {
 	
 	/**
 	 * Constructor
@@ -22,20 +22,12 @@ class Account_profile extends AccountBaseController {
 	 */
 	function index($action = NULL)
 	{
-		// Redirect unauthenticated users to signin page
-		if ( ! $this->authentication->is_signed_in()) 
-		{
-			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_profile'));
-		}
-		
-		// Retrieve sign in user
-		$data['account'] = $this->account_model->get_by_id($this->session->userdata('account_id'));
-		$data['account_details'] = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
+		$this->data['account_details'] = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
 		
 		// Delete profile picture
 		if ($action == 'delete')
 		{
-			$this->account_details_model->update($data['account']->id, array('picture' => NULL));
+			$this->account_details_model->update($this->data['account']->id, array('picture' => NULL));
 			redirect('account/account_profile');
 		}
 		
@@ -49,15 +41,15 @@ class Account_profile extends AccountBaseController {
 		if ($this->form_validation->run()) 
 		{
 			// If user is changing username and new username is already taken
-			if (strtolower($this->input->post('profile_username')) != strtolower($data['account']->username) && $this->username_check($this->input->post('profile_username')) === TRUE)
+			if (strtolower($this->input->post('profile_username')) != strtolower($this->data['account']->username) && $this->username_check($this->input->post('profile_username')) === TRUE)
 			{
-				$data['profile_username_error'] = lang('profile_username_taken');
+				$this->data['profile_username_error'] = lang('profile_username_taken');
 				$error = TRUE;
 			}
 			else
 			{
-				$data['account']->username = $this->input->post('profile_username');
-				$this->account_model->update_username($data['account']->id, $this->input->post('profile_username'));
+				$this->data['account']->username = $this->input->post('profile_username');
+				$this->account_model->update_username($this->data['account']->id, $this->input->post('profile_username'));
 			}
 			
 			// If user has uploaded a file
@@ -65,7 +57,7 @@ class Account_profile extends AccountBaseController {
 			{
 				// Load file uploading library - http://codeigniter.com/user_guide/libraries/file_uploading.html
 				$this->load->library('upload', array(
-					'file_name' => md5($data['account']->id).'.jpg',
+					'file_name' => md5($this->data['account']->id).'.jpg',
 					'overwrite' => true,
 					'upload_path' => FCPATH.'resource/user/profile',
 					'allowed_types' => 'jpg|png|gif',
@@ -75,7 +67,7 @@ class Account_profile extends AccountBaseController {
 				/// Try to upload the file
 				if ( ! $this->upload->do_upload('account_picture_upload')) 
 				{
-					$data['profile_picture_error'] = $this->upload->display_errors('', '');
+					$this->data['profile_picture_error'] = $this->upload->display_errors('', '');
 					$error = TRUE;
 				}
 				else 
@@ -99,13 +91,13 @@ class Account_profile extends AccountBaseController {
 					// Try resizing the picture
 					if ( ! $this->image_lib->resize()) 
 					{
-						$data['profile_picture_error'] = $this->image_lib->display_errors();
+						$this->data['profile_picture_error'] = $this->image_lib->display_errors();
 						$error = TRUE;
 					}
 					else
 					{
-						$data['account_details']->picture = 'pic_'.$picture['raw_name'].'.jpg';
-						$this->account_details_model->update($data['account']->id, array('picture' => $data['account_details']->picture));
+						$this->data['account_details']->picture = 'pic_'.$picture['raw_name'].'.jpg';
+						$this->account_details_model->update($this->data['account']->id, array('picture' => $this->data['account_details']->picture));
 					}
 					
 					// Delete original uploaded file
@@ -116,11 +108,11 @@ class Account_profile extends AccountBaseController {
 			if ( ! isset($error)) $this->template->add_message('success', lang('profile_updated'));
 		}
 		
-		$data['current'] = 'account_profile';
-		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		$this->data['current'] = 'account_profile';
+		$this->data['page_menu'] = $this->load->view('account/account_menu', $this->data, TRUE);
 		
 		$this->template->set_page_title(lang('profile_page_name'));
-		$this->template->set_content('account/account_profile', $data);
+		$this->template->set_content('account/account_profile', $this->data);
 		$this->template->build();
 	}
 	

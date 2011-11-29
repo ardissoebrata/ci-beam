@@ -2,7 +2,7 @@
 /*
  * Account_settings Controller
  */
-class Account_settings extends AccountBaseController {
+class Account_settings extends AdminController {
 	
 	/**
 	 * Constructor
@@ -23,28 +23,21 @@ class Account_settings extends AccountBaseController {
 	 */
 	function index()
 	{
-		// Redirect unauthenticated users to signin page
-		if ( ! $this->authentication->is_signed_in()) 
-		{
-			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_settings'));
-		}
-		
 		// Retrieve sign in user
-		$data['account'] = $this->account_model->get_by_id($this->session->userdata('account_id'));
-		$data['account_details'] = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
+		$this->data['account_details'] = $this->account_details_model->get_by_account_id($this->session->userdata('account_id'));
 		
 		// Retrieve countries, languages and timezones
-		$data['countries'] = $this->ref_country_model->get_all();
-		$data['languages'] = $this->ref_language_model->get_all();
-		$data['zoneinfos'] = $this->ref_zoneinfo_model->get_all();
+		$this->data['countries'] = $this->ref_country_model->get_all();
+		$this->data['languages'] = $this->ref_language_model->get_all();
+		$this->data['zoneinfos'] = $this->ref_zoneinfo_model->get_all();
 		
 		// Split date of birth into month, day and year
-		if ($data['account_details'] && $data['account_details']->dateofbirth)
+		if ($this->data['account_details'] && $this->data['account_details']->dateofbirth)
 		{
-			$dateofbirth = strtotime($data['account_details']->dateofbirth);
-			$data['account_details']->dob_month = mdate('%m', $dateofbirth);
-			$data['account_details']->dob_day = mdate('%d', $dateofbirth);
-			$data['account_details']->dob_year = mdate('%Y', $dateofbirth);
+			$dateofbirth = strtotime($this->data['account_details']->dateofbirth);
+			$this->data['account_details']->dob_month = mdate('%m', $dateofbirth);
+			$this->data['account_details']->dob_day = mdate('%d', $dateofbirth);
+			$this->data['account_details']->dob_year = mdate('%Y', $dateofbirth);
 		}
 		
 		// Setup form validation
@@ -61,20 +54,20 @@ class Account_settings extends AccountBaseController {
 		if ($this->form_validation->run()) 
 		{
 			// If user is changing email and new email is already taken
-			if (strtolower($this->input->post('settings_email')) != strtolower($data['account']->email) && $this->email_check($this->input->post('settings_email')) === TRUE)
+			if (strtolower($this->input->post('settings_email')) != strtolower($this->data['account']->email) && $this->email_check($this->input->post('settings_email')) === TRUE)
 			{
-				$data['settings_email_error'] = lang('settings_email_exist');
+				$this->data['settings_email_error'] = lang('settings_email_exist');
 			}
 			// Detect incomplete birthday dropdowns
 			elseif ( ! (($this->input->post('settings_dob_month') && $this->input->post('settings_dob_day') && $this->input->post('settings_dob_year')) || 
 					( ! $this->input->post('settings_dob_month') && ! $this->input->post('settings_dob_day') && ! $this->input->post('settings_dob_year'))) )
 			{
-				$data['settings_dob_error'] = lang('settings_dateofbirth_incomplete');
+				$this->data['settings_dob_error'] = lang('settings_dateofbirth_incomplete');
 			}
 			else
 			{
 				// Update account email
-				$this->account_model->update_email($data['account']->id, $this->input->post('settings_email') ? $this->input->post('settings_email') : NULL);
+				$this->account_model->update_email($this->data['account']->id, $this->input->post('settings_email') ? $this->input->post('settings_email') : NULL);
 				
 				// Update account details
 				if ($this->input->post('settings_dob_month') && $this->input->post('settings_dob_day') && $this->input->post('settings_dob_year'))
@@ -87,17 +80,17 @@ class Account_settings extends AccountBaseController {
 				$attributes['country'] = $this->input->post('settings_country') ? $this->input->post('settings_country') : NULL;
 				$attributes['language'] = $this->input->post('settings_language') ? $this->input->post('settings_language') : NULL;
 				$attributes['timezone'] = $this->input->post('settings_timezone') ? $this->input->post('settings_timezone') : NULL;
-				$this->account_details_model->update($data['account']->id, $attributes);
+				$this->account_details_model->update($this->data['account']->id, $attributes);
 				
 				$this->template->add_message('success', lang('settings_details_updated'));
 			}
 		}
 		
-		$data['current'] = 'account_settings';
-		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		$this->data['current'] = 'account_settings';
+		$this->data['page_menu'] = $this->load->view('account/account_menu', $this->data, TRUE);
 		
 		$this->template->set_page_title(lang('settings_page_name'));
-		$this->template->set_content('account/account_settings', $data);
+		$this->template->set_content('account/account_settings', $this->data);
 		$this->template->build();
 	}
 	

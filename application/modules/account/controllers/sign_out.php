@@ -2,7 +2,8 @@
 /*
  * Sign_out Controller
  */
-class Sign_out extends AccountBaseController {
+class Sign_out extends PublicController 
+{
 	
 	/**
 	 * Constructor

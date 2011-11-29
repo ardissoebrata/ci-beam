@@ -2,7 +2,7 @@
 /*
  * Account_password Controller
  */
-class Account_password extends AccountBaseController {
+class Account_password extends AdminController {
 	
 	/**
 	 * Constructor
@@ -22,17 +22,8 @@ class Account_password extends AccountBaseController {
 	 */
 	function index()
 	{
-		// Redirect unauthenticated users to signin page
-		if ( ! $this->authentication->is_signed_in()) 
-		{
-			redirect('account/sign_in/?continue='.urlencode(base_url().'account/account_password'));
-		}
-		
-		// Retrieve sign in user
-		$data['account'] = $this->account_model->get_by_id($this->session->userdata('account_id'));
-		
 		// No access to users without a password
-		if ( ! $data['account']->password) redirect('');
+		if ( ! $this->data['account']->password) redirect('');
 		
 		### Setup form validation
 		$this->form_validation->set_error_delimiters('<span class="help-block">', '</span>');
@@ -45,16 +36,16 @@ class Account_password extends AccountBaseController {
 		if ($this->form_validation->run()) 
 		{
 			// Change user's password
-			$this->account_model->update_password($data['account']->id, $this->input->post('password_new_password'));
+			$this->account_model->update_password($this->data['account']->id, $this->input->post('password_new_password'));
 			$this->session->set_flashdata('success', lang('password_password_has_been_changed'));
 			redirect('account/account_password');
 		}
 	
-		$data['current'] = 'account_password';
-		$data['page_menu'] = $this->load->view('account/account_menu', $data, TRUE);
+		$this->data['current'] = 'account_password';
+		$this->data['page_menu'] = $this->load->view('account/account_menu', $this->data, TRUE);
 		
 		$this->template->set_page_title(lang('password_page_name'));
-		$this->template->set_content('account/account_password', $data);
+		$this->template->set_content('account/account_password', $this->data);
 		$this->template->build();
 	}
 	

@@ -2,7 +2,7 @@
 /*
  * Sign_in Controller
  */
-class Sign_in extends AccountBaseController {
+class Sign_in extends PublicController {
 	
 	/**
 	 * Constructor
@@ -12,7 +12,7 @@ class Sign_in extends AccountBaseController {
         parent::__construct();
 		
 		// Load the necessary stuff...
-        $this->load->library(array('account/authentication', 'account/recaptcha', 'form_validation'));
+        $this->load->library(array('account/recaptcha', 'form_validation'));
 		$this->load->language(array('account/sign_in', 'account/connect_third_party'));
 	}
 	
@@ -47,7 +47,7 @@ class Sign_in extends AccountBaseController {
 			// Either don't need to pass recaptcha or just passed recaptcha
 			if ( ! ($recaptcha_pass === TRUE || $recaptcha_result === TRUE) && $this->config->item("sign_in_recaptcha_enabled") === TRUE)
 			{
-				$data['sign_in_recaptcha_error'] = $this->input->post('recaptcha_response_field') ? lang('sign_in_recaptcha_incorrect') : lang('sign_in_recaptcha_required');
+				$this->data['sign_in_recaptcha_error'] = $this->input->post('recaptcha_response_field') ? lang('sign_in_recaptcha_incorrect') : lang('sign_in_recaptcha_required');
 			}
 			else
 			{
@@ -76,11 +76,11 @@ class Sign_in extends AccountBaseController {
 		// Load recaptcha code
 		if ($this->config->item("sign_in_recaptcha_enabled") === TRUE) 
 			if ($this->config->item('sign_in_recaptcha_offset') >= $this->session->userdata('sign_in_failed_attempts')) 
-				$data['recaptcha'] = $this->recaptcha->load($recaptcha_result, $this->config->item("ssl_enabled"));
+				$this->data['recaptcha'] = $this->recaptcha->load($recaptcha_result, $this->config->item("ssl_enabled"));
 		
 		// Load sign in view
 		$this->template->set_page_title(lang('sign_in_page_name'));
-		$this->template->set_content('sign_in', isset($data) ? $data : NULL);
+		$this->template->set_content('sign_in', $this->data);
         $this->template->build();
 	}
 	

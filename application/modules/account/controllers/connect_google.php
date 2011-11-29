@@ -2,7 +2,7 @@
 /*
  * Connect_google Controller
  */
-class Connect_google extends AccountBaseController {
+class Connect_google extends BaseController {
 	
 	/**
 	 * Constructor
