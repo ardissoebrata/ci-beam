@@ -39,3 +39,5 @@ Thumbs.db
 /.git-rewrite/
 !/ci-beam.sql
 /application/logs/*.php
+/wiki/
+cache/

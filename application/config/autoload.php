@@ -37,7 +37,7 @@
 |
 */
 
-$autoload['packages'] = array(APPPATH.'third_party');
+$autoload['packages'] = array();
 
 
 /*
@@ -52,7 +52,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('account/authentication', 'template');
+$autoload['libraries'] = array();
 
 
 /*
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('account/authentication', 'template');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('language', 'account/ssl', 'url');
+$autoload['helper'] = array('url');
 
 
 /*
@@ -80,7 +80,7 @@ $autoload['helper'] = array('language', 'account/ssl', 'url');
 |
 */
 
-$autoload['config'] = array('account/account');
+$autoload['config'] = array();
 
 
 /*
@@ -96,7 +96,7 @@ $autoload['config'] = array('account/account');
 |
 */
 
-$autoload['language'] = array('general');
+$autoload['language'] = array();
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array('general');
 |
 */
 
-$autoload['model'] = array('account/account_model');
+$autoload['model'] = array();
 
 
 /* End of file autoload.php */
