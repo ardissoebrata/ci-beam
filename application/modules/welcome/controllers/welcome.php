@@ -41,7 +41,8 @@ class Welcome extends CI_Controller
 	 */
 	public function index()
 	{
-		$this->template->build('welcome_message');
+		$this->template->load_module_partial('sections', 'welcome/hmvc/section_partial')
+			->build('welcome_message');
 	}
 	
 	/**
@@ -52,9 +53,11 @@ class Welcome extends CI_Controller
 	 */
 	public function bootstrap_demo($page = 'starter')
 	{
-		$this->template->load_module_partial('sidebar', 'test/hmvc/partial');
 		if ($page == 'fluid')
-			$this->template->set_layout('fluid');
+		{
+			$this->template->set_layout('fluid')
+				->load_module_partial('sidebar', 'welcome/hmvc/sidebar_partial');
+		}
 		$this->template->build('bootstrap_' . $page);
 	}
 }

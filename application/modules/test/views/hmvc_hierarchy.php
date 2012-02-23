@@ -1,3 +1,0 @@
-<pre>
-HMVC Hierarchy.
-</pre>
