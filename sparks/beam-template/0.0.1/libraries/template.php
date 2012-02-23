@@ -267,11 +267,13 @@ class Template
 	 * 
 	 * @param string $name Partial name.
 	 * @param string $content Content to be append to the partial.
+	 * @return Template
 	 */
 	public function load_partial($name, $content)
 	{
 		if (!isset($this->partials[$name])) $this->partials[$name] = '';
 		$this->partials[$name] .= "\r\n{$content}\r\n";
+		return $this;
 	}
 	
 	/**
@@ -279,10 +281,12 @@ class Template
 	 * 
 	 * @param string $name Partial name.
 	 * @param string $uri URI of the module to be append to the partial.
+	 * @return Template
 	 */
 	public function load_module_partial($name, $uri)
 	{
 		$this->load_partial($name, Modules::run($uri));
+		return $this;
 	}
 		
 	/**
