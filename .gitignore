@@ -41,3 +41,4 @@ Thumbs.db
 /application/logs/*.php
 /wiki/
 cache/
+!/sparks/
