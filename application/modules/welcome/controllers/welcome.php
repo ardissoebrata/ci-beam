@@ -1,10 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * Default controller.
- * 
- * @package App
- * @author Ardi Soebrata 
- */
+
 /**
  * Show welcome message.
  * 
@@ -12,7 +7,7 @@
  * @category Controller
  * @author Ardi Soebrata
  */
-class Welcome extends CI_Controller 
+class Welcome extends MY_Controller 
 {
 	
 	public function __construct()

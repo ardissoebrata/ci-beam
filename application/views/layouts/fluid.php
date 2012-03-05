@@ -27,9 +27,20 @@
 		<?php $this->load->view('navbar', $template); ?>
 
 		<div class="container-fluid">
-			
-			<?php echo $template['content']; ?>
-			
+			<div class="row-fluid">
+				<?php if (isset($template['partials']['sidebar'])): ?>
+				<div class="span3">
+					<?php echo $template['partials']['sidebar']; ?>
+				</div><!--/span-->
+				<div class="span9">
+					<?php echo $template['content']; ?>
+				</div><!--/span-->
+				<?php else: ?>
+				<div class="span12">
+					<?php echo $template['content']; ?>
+				</div><!--/span-->
+				<?php endif; ?>
+			</div><!--/row-->
 			<?php $this->load->view('footer'); ?>
 			
 		</div> <!-- /container -->

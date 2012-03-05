@@ -520,3 +520,30 @@ legend + .control-group {
     padding-left: 160px;
   }
 }
+
+// Boxed forms
+// --------------------------
+
+form.box {
+	border: 1px solid #ddd;
+	.border-radius(3px);
+
+	.box-header {
+		padding: (@baseLineHeight - 1) 20px @baseLineHeight;
+		margin-top: 0;
+		margin-bottom: @baseLineHeight;
+		background-color: #f5f5f5;
+		border-top: 0;
+		border-bottom: 1px solid #ddd;
+	}
+
+	legend {
+		.box-sizing(border-box);
+		padding: 0 20px;
+	}
+
+	.form-actions:last-child {
+		margin-bottom: 0;
+	}
+
+}
