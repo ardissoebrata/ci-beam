@@ -1129,16 +1129,6 @@ form.box {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  /*
-	.box-body {
-		padding: 0 20px;
-	}
-
-	&.form-horizontal .form-actions {
-		padding-left: 180px;
-	}
-*/
-
 }
 form.box .box-header {
   padding: 17px 20px 18px;
