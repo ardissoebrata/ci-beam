@@ -40,5 +40,5 @@ Thumbs.db
 !/ci-beam.sql
 /application/logs/*.php
 /wiki/
-cache/
+/application/cache/
 !/sparks/

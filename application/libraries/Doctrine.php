@@ -10,6 +10,11 @@ use Doctrine\Common\ClassLoader,
 	Doctrine\ORM\Tools\SchemaTool,
 	Doctrine\Common\EventManager;
 
+/**
+ * Doctrine2 bridge to CodeIgniter
+ * 
+ * @todo Add ENVIRONMENT aware configuration & database.
+ */
 class Doctrine 
 {
 	public $em = null;
@@ -18,12 +23,12 @@ class Doctrine
 	{
 		// Set up class loading. You could use different autoloaders, provided by your favorite framework,
 		// if you want to.
-		$gitCheckoutRootPath = APPPATH . "/third_party/doctrine2-orm";
+		$directory = APPPATH . "third_party/doctrine2-orm";
 		if (!class_exists('Doctrine\ORM\Tools\Setup', false)) 
 		{
-			require $gitCheckoutRootPath . '/lib/Doctrine/ORM/Tools/Setup.php';
+			require $directory . '/Doctrine/ORM/Tools/Setup.php';
 		}
-		Doctrine\ORM\Tools\Setup::registerAutoloadGit($gitCheckoutRootPath);
+		Doctrine\ORM\Tools\Setup::registerAutoloadDirectory($directory);
 
 		$doctrineClassLoader = new ClassLoader('Doctrine',  APPPATH.'libraries');
 		$doctrineClassLoader->register();
