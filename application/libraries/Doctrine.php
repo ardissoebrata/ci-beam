@@ -54,15 +54,13 @@ class Doctrine
 		$config->setMetadataDriverImpl($driverImpl);
 		$config->setQueryCacheImpl($cache);
 
-		$config->setQueryCacheImpl($cache);
-
 		// Proxy configuration
 		$config->setProxyDir(APPPATH.'/models/proxies');
 		$config->setProxyNamespace('Proxies');
 
 		// Set up logger
-		$logger = new EchoSQLLogger;
-		$config->setSQLLogger($logger);
+//		$logger = new EchoSQLLogger;
+//		$config->setSQLLogger($logger);
 
 		$config->setAutoGenerateProxyClasses( TRUE );
 
