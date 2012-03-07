@@ -447,6 +447,42 @@ class MX_Loader extends CI_Loader
 			}
 		}
 	}
+		
+	/**
+	 * Initialize the Loader
+	 *
+	 * This method is called once in CI_Controller.
+	 *
+	 * @param 	array
+	 * @return 	object
+	 */
+	public function initialize()
+	{
+		parent::initialize();
+		
+		if (defined('ENVIRONMENT') AND file_exists(APPPATH.'config/'.ENVIRONMENT.'/autoload.php'))
+		{
+			include(APPPATH.'config/'.ENVIRONMENT.'/autoload.php');
+		}
+		else
+		{
+			include(APPPATH.'config/autoload.php');
+		}
+
+		if (isset($autoload))
+		{
+			/* autoload sparks */
+			if (isset($autoload['sparks'])){
+
+				/* autoload libraries */
+				foreach ($autoload['sparks'] as $spark){
+					$this->spark($spark);
+				}
+			}
+		}
+
+		return $this;
+	}
 }
 
 /** load the CI class for Modular Separation **/

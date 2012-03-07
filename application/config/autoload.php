@@ -112,5 +112,18 @@ $autoload['language'] = array();
 $autoload['model'] = array();
 
 
+/*
+| -------------------------------------------------------------------
+|  Auto-load Sparks
+| -------------------------------------------------------------------
+| Prototype:
+|
+|	$autoload['sparks'] = array('spark1/1.0.0', 'spark2/1.2.1');
+|
+*/
+
+$autoload['sparks'] = array('beam-template/0.0.1');
+
+
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
