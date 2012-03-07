@@ -12,13 +12,17 @@ class Auth extends MY_Controller
 	function __construct()
 	{
 		parent::__construct();
-		
-		$this->load->spark('beam-template/0.0.1');
 	}
 	
 	function index()
 	{
-		$this->template->build('user-list');
+		/**
+		 * @var \Doctrine\ORM\Query 
+		 */
+		$query = $this->doctrine->em->createQuery('SELECT u FROM auth\models\user u');
+		$users = $query->getArrayResult();
+		
+		$this->template->build('user-list', array('users' => $users));
 	}
 	
 	function edit()

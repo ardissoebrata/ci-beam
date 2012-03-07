@@ -13,8 +13,6 @@ class Welcome extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		
-		$this->load->spark('beam-template/0.0.1');
 	}
 
 	/**
