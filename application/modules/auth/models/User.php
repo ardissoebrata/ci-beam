@@ -168,7 +168,7 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = $this->hash($password);
         return $this;
     }
 
@@ -202,5 +202,35 @@ class User
     public function getRegistered()
     {
         return $this->registered;
+    }
+	
+    /**
+     * Password hashing function
+     * 
+     * @param string $password
+	 * @return string
+     */
+    public function hash($password) 
+	{
+		$CI =& get_instance();
+        $CI->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => FALSE));
+        
+        // hash password
+        return $CI->passwordhash->HashPassword($password);
+    }
+    
+    /**
+     * Compare user input password to stored hash
+     * 
+     * @param string $password
+	 * @return boolean
+     */
+    public function check_password($password) 
+	{
+		$CI =& get_instance();
+        $CI->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => FALSE));
+        
+        // check password
+        return $CI->passwordhash->CheckPassword($password, $this->password);
     }
 }
