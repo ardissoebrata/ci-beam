@@ -3010,6 +3010,9 @@ input[type="submit"].btn.small {
 .pagination-right {
   text-align: right;
 }
+.pagination-height {
+  padding: 26px 0 18px;
+}
 .pager {
   margin-left: 0;
   margin-bottom: 18px;
