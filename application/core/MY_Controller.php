@@ -7,8 +7,9 @@
  * @category Controller
  * @author Ardi Soebrata
  * 
+ * @property CI_Config $config
  * @property CI_Loader $load
- * @property CI_Form_validation $form_validation
+ * @property MY_Form_validation $form_validation
  * @property CI_Input $input
  * @property CI_Email $email
  * @property CI_DB_active_record $db
@@ -19,11 +20,18 @@
  * @property CI_Pagination $pagination
  * 
  * @property Template $template
- * @property Doctrine\ORM\EntityManager $em
+ * @property Doctrine $doctrine
  * 
  */
 class MY_Controller extends CI_Controller 
 {
+	/**
+	 * View's Data
+	 * 
+	 * @var array 
+	 */
+	public $data = array();
+	
 	public function __construct()
 	{
 		parent::__construct();
