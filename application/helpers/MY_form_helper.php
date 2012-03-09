@@ -24,7 +24,7 @@ if ( ! function_exists('_generate_input_label'))
 	 */
 	function _generate_input_label($type, $name, $label, $required = FALSE, $value = '', $data = array())
 	{
-		$defaults = array('type' => $type, 'name' => $name, 'id' => $name, 'value' => $value);
+		$defaults = array('type' => $type, 'name' => $name, 'id' => $name, 'value' => set_value($name, $value));
 		if ($required) $defaults['required'] = 'required';
 		
 		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
@@ -39,9 +39,9 @@ if ( ! function_exists('_generate_input_label'))
 		if ($required)
 			$output .= '<span class="add-on"><i class="icon-asterisk"></i></span></div>';
 		
+		$output .= form_error($name, '<span class="help-inline">', '</span>');
 		$output .= '</div>';
 		$output .= '</div>' . "\r\n";
-		$output .= form_error($name);
 		
 		return $output;
 	}
