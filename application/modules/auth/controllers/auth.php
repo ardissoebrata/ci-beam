@@ -70,8 +70,8 @@ class Auth extends Admin_Controller
 		$config['base_url'] = site_url('auth/auth/index');
 		$config['total_rows'] = $paginator->count();
 		$config['per_page'] = $this->config->item('rows_limit');
-		$this->pagination->initialize($config); 
-
+		$this->pagination->initialize($config);
+		
 		$this->template->build('user-list');
 	}
 	
@@ -85,7 +85,7 @@ class Auth extends Admin_Controller
 		
 		if ($this->form_validation->run())
 		{
-			$user = $this->form_validation->get_values();
+			$user = $this->form_validation->set_values();
 			$this->doctrine->em->persist($user);
 			$this->doctrine->em->flush();
 			
