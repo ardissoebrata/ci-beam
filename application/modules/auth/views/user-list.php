@@ -15,6 +15,7 @@
 					<th>Username</th>
 					<th>Email</th>
 					<th>Registered</th>
+					<th style="width: 36px;"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,6 +26,7 @@
 					<td><a href="<?php echo site_url('auth/edit/' . $user->getId()); ?>"><?php echo $user->getUsername() ?></a></td>
 					<td><?php echo $user->getEmail() ?></td>
 					<td><?php echo date_format($user->getRegistered(), 'd M Y H:i:s'); ?></td>
+					<td><a href="<?php echo site_url('auth/delete/' . $user->getId()); ?>" class="btn"><i class="icon-remove"></i></a></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>

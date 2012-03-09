@@ -6,11 +6,14 @@
  * @package App
  * @category Controller
  * @author Ardi Soebrata
- * 
- * @property BeamForm $beamform
  */
 class Auth extends Admin_Controller 
 {
+	/**
+	 * User form definition.
+	 * 
+	 * @var array
+	 */
 	protected $user_form = array(
 		'first_name' => array(
 			'label' => 'First Name',
@@ -46,6 +49,9 @@ class Auth extends Admin_Controller
 		)
 	);
 	
+	/**
+	 * Redirect to index if cancel-button clicked.
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -54,6 +60,9 @@ class Auth extends Admin_Controller
 			redirect ('auth/auth/index');
 	}
 	
+	/**
+	 * Display User list. 
+	 */
 	function index()
 	{
 		$query = $this->doctrine->em->createQueryBuilder();
@@ -75,6 +84,11 @@ class Auth extends Admin_Controller
 		$this->template->build('user-list');
 	}
 	
+	/**
+	 * Edit User
+	 * 
+	 * @param integer $id 
+	 */
 	function edit($id)
 	{
 		$this->load->library('form_validation');
@@ -96,6 +110,9 @@ class Auth extends Admin_Controller
 		$this->template->build('user-form');
 	}
 	
+	/**
+	 * Add a new User. 
+	 */
 	function add()
 	{
 		$this->load->library('form_validation');
@@ -112,6 +129,23 @@ class Auth extends Admin_Controller
 		
 		$this->data['form'] = $this->form_validation;
 		$this->template->build('user-form');
+	}
+	
+	/**
+	 * Delete a User
+	 * 
+	 * @param integer $id 
+	 */
+	function delete($id)
+	{
+		$user = $this->doctrine->em->find('auth\models\User', $id);
+		if ($user)
+		{
+			$this->doctrine->em->remove($user);
+			$this->doctrine->em->flush();
+		}
+		
+		redirect('auth');
 	}
 }
 
