@@ -27,12 +27,12 @@ class Auth extends Admin_Controller
 		),
 		'username' => array(
 			'label' => 'Username',
-			'rules' => 'trim|required|max_length[255]|xss_clean',
+			'rules' => 'trim|required|max_length[255]|callback_unique_username|xss_clean',
 			'helper' => 'form_inputlabel'
 		),
 		'email' => array(
 			'label' => 'Email',
-			'rules' => 'trim|required|max_length[255]|valid_email|xss_clean',
+			'rules' => 'trim|required|max_length[255]|valid_email|callback_unique_email|xss_clean',
 			'helper' => 'form_emaillabel'
 		),
 		'password' => array(
@@ -147,6 +147,41 @@ class Auth extends Admin_Controller
 		
 		redirect('auth');
 	}
+	
+	function unique_username($value)
+	{
+		$query = $this->doctrine->em->createQueryBuilder();
+		$query->select('u')
+				->from('auth\models\User', 'u')
+				->where('u.username = :username')
+				->setParameter('username', $value);
+		$user = $query->getQuery()->getSingleResult();
+		if (count($user) > 0)
+		{
+			$this->form_validation->set_message('unique_username', 'The %s is already taken.');
+			return FALSE;
+		}
+		else
+			return TRUE;
+	}
+	
+	function unique_email($value)
+	{
+		$query = $this->doctrine->em->createQueryBuilder();
+		$query->select('u')
+				->from('auth\models\User', 'u')
+				->where('u.email = :email')
+				->setParameter('email', $value);
+		$email = $query->getQuery()->getSingleResult();
+		if (count($email) > 0)
+		{
+			$this->form_validation->set_message('unique_email', 'The %s is already taken.');
+			return FALSE;
+		}
+		else
+			return TRUE;
+	}
+	
 }
 
 /* End of file auth.php */
