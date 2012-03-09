@@ -347,6 +347,9 @@ class Template
 	 */
 	public function build($view, $data = array(), $output = FALSE)
 	{
+		if($this->ci->data !== $data)
+			$data = array_merge ($this->ci->data, $data);
+		
 		$template_data = array();
 		
 		// Create Page Title.
