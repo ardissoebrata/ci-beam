@@ -8,7 +8,8 @@ use Doctrine\Common\ClassLoader,
 	Doctrine\DBAL\Logging\EchoSqlLogger,
 	Doctrine\DBAL\Event\Listeners\MysqlSessionInit,
 	Doctrine\ORM\Tools\SchemaTool,
-	Doctrine\Common\EventManager;
+	Doctrine\Common\EventManager,
+	Doctrine\ORM\Tools\Setup;
 
 /**
  * Doctrine2 bridge to CodeIgniter
@@ -17,7 +18,15 @@ use Doctrine\Common\ClassLoader,
  */
 class Doctrine 
 {
+	/**
+	 * Doctrine Entity Manager
+	 * @var Doctrine\ORM\EntityManager 
+	 */
 	public $em = null;
+	
+	public $config = null;
+	
+	public $connectionOptions = null;
 
 	public function __construct()
 	{
@@ -47,28 +56,34 @@ class Doctrine
 		$proxiesClassLoader->register();
 
 		// Set up caches
-		$config = new Configuration;
-		$cache = new ArrayCache;
-		$config->setMetadataCacheImpl($cache);
-		$driverImpl = $config->newDefaultAnnotationDriver(array(APPPATH.'models/Entities'));
-		$config->setMetadataDriverImpl($driverImpl);
-		$config->setQueryCacheImpl($cache);
+		$this->config = new Configuration;
+//		$cache = new ArrayCache;
+		$cache = new \Doctrine\Common\Cache\ApcCache;
+		$this->config->setMetadataCacheImpl($cache);
+		$this->config->setQueryCacheImpl($cache);
+
+		// Set up models
+		$models = array(APPPATH.'models');
+		foreach (glob(APPPATH.'modules/*/models', GLOB_ONLYDIR) as $m)
+			array_push($models, $m);
+		$driverImpl = $this->config->newDefaultAnnotationDriver($models);
+		$this->config->setMetadataDriverImpl($driverImpl);
 
 		// Proxy configuration
-		$config->setProxyDir(APPPATH.'/models/proxies');
-		$config->setProxyNamespace('Proxies');
+		$this->config->setProxyDir(APPPATH.'/models/proxies');
+		$this->config->setProxyNamespace('Proxies');
 
 		// Set up logger
 //		$logger = new EchoSQLLogger;
-//		$config->setSQLLogger($logger);
+//		$this->config->setSQLLogger($logger);
 
-		$config->setAutoGenerateProxyClasses( TRUE );
+		$this->config->setAutoGenerateProxyClasses( TRUE );
 
 		// Database connection information
 		// load database configuration from CodeIgniter
 		require APPPATH.'config/database.php';
 			
-		$connectionOptions = array(
+		$this->connectionOptions = array(
 			'driver'	=> 'pdo_mysql',
 			'user'		=> $db['default']['username'],
 			'password'	=> $db['default']['password'],
@@ -77,6 +92,6 @@ class Doctrine
 		);
 
 		// Create EntityManager
-		$this->em = EntityManager::create($connectionOptions, $config);
+		$this->em = EntityManager::create($this->connectionOptions, $this->config);
 	}
 }
