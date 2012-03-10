@@ -122,7 +122,7 @@ $autoload['model'] = array();
 |
 */
 
-$autoload['sparks'] = array('beam-template/0.0.1');
+$autoload['sparks'] = array('beam-template/0.0.1', 'secure-auth/2.0.0');
 
 
 /* End of file autoload.php */

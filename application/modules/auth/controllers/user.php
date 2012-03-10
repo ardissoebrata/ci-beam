@@ -1,13 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Authentication controller.
+ * User management controller.
  * 
  * @package App
  * @category Controller
  * @author Ardi Soebrata
  */
-class Auth extends Admin_Controller 
+class User extends Admin_Controller 
 {
 	/**
 	 * User form definition.
@@ -15,6 +15,9 @@ class Auth extends Admin_Controller
 	 * @var array
 	 */
 	protected $user_form = array(
+		'id' => array(
+			'helper' => 'form_hidden'
+		),
 		'first_name' => array(
 			'label' => 'First Name',
 			'rules' => 'trim|max_length[50]|xss_clean',
@@ -57,7 +60,7 @@ class Auth extends Admin_Controller
 		parent::__construct();
 		
 		if ($this->input->post('cancel-button'))
-			redirect ('auth/auth/index');
+			redirect ('auth/user/index');
 	}
 	
 	/**
@@ -76,7 +79,7 @@ class Auth extends Admin_Controller
 		$this->data['users'] = $paginator;
 
 		$this->load->library('pagination');
-		$config['base_url'] = site_url('auth/auth/index');
+		$config['base_url'] = site_url('auth/user/index');
 		$config['total_rows'] = $paginator->count();
 		$config['per_page'] = $this->config->item('rows_limit');
 		$this->pagination->initialize($config);
@@ -92,7 +95,10 @@ class Auth extends Admin_Controller
 	function edit($id)
 	{
 		$this->load->library('form_validation');
-		$this->form_validation->init($this->user_form);
+		$user_form = $this->user_form;
+		$user_form['username']['rules'] = "trim|required|max_length[255]|callback_unique_username[$id]|xss_clean";
+		$user_form['email']['rules'] = "trim|required|max_length[255]|valid_email|callback_unique_email[$id]|xss_clean";
+		$this->form_validation->init($user_form);
 		
 		$user = $this->doctrine->em->find('auth\models\User', $id);
 		$this->form_validation->set_default($user);
@@ -103,7 +109,7 @@ class Auth extends Admin_Controller
 			$this->doctrine->em->persist($user);
 			$this->doctrine->em->flush();
 			
-			redirect('auth');
+			redirect('auth/user');
 		}
 		
 		$this->data['form'] = $this->form_validation;
@@ -124,7 +130,7 @@ class Auth extends Admin_Controller
 			$this->doctrine->em->persist($user);
 			$this->doctrine->em->flush();
 			
-			redirect('auth');
+			redirect('auth/user');
 		}
 		
 		$this->data['form'] = $this->form_validation;
@@ -145,44 +151,54 @@ class Auth extends Admin_Controller
 			$this->doctrine->em->flush();
 		}
 		
-		redirect('auth');
+		redirect('auth/user');
 	}
 	
-	function unique_username($value)
+	function unique_username($value, $id = 0)
 	{
 		$query = $this->doctrine->em->createQueryBuilder();
 		$query->select('u')
 				->from('auth\models\User', 'u')
-				->where('u.username = :username')
-				->setParameter('username', $value);
-		$user = $query->getQuery()->getSingleResult();
-		if (count($user) > 0)
+				->where('u.username = :username AND u.id <> :userid')
+				->setParameters(array(
+					'username'	=> $value,
+					'userid'	=> $id
+				));
+		try
 		{
+			$user = $query->getQuery()->getSingleResult();
 			$this->form_validation->set_message('unique_username', 'The %s is already taken.');
 			return FALSE;
 		}
-		else
+		catch (Doctrine\ORM\NoResultException $e)
+		{
 			return TRUE;
+		}
 	}
 	
-	function unique_email($value)
+	function unique_email($value, $id = 0)
 	{
 		$query = $this->doctrine->em->createQueryBuilder();
 		$query->select('u')
 				->from('auth\models\User', 'u')
-				->where('u.email = :email')
-				->setParameter('email', $value);
-		$email = $query->getQuery()->getSingleResult();
-		if (count($email) > 0)
+				->where('u.email = :email AND u.id <> :userid')
+				->setParameters(array(
+					'email'		=> $value,
+					'userid'	=> $id
+				));
+		try
 		{
+			$email = $query->getQuery()->getSingleResult();
 			$this->form_validation->set_message('unique_email', 'The %s is already taken.');
 			return FALSE;
 		}
-		else
+		catch (Doctrine\ORM\NoResultException $e)
+		{
 			return TRUE;
+		}
 	}
 	
 }
 
-/* End of file auth.php */
-/* Location: ./application/modules/auth/controllers/auth.php */
+/* End of file user.php */
+/* Location: ./application/modules/auth/controllers/user.php */
