@@ -57,8 +57,8 @@ class Doctrine
 
 		// Set up caches
 		$this->config = new Configuration;
-//		$cache = new ArrayCache;
-		$cache = new \Doctrine\Common\Cache\ApcCache;
+		$cache = new ArrayCache;
+//		$cache = new \Doctrine\Common\Cache\ApcCache;
 		$this->config->setMetadataCacheImpl($cache);
 		$this->config->setQueryCacheImpl($cache);
 
