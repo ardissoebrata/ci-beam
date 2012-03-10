@@ -25,7 +25,6 @@ if ( ! function_exists('_generate_input_label'))
 	function _generate_input_label($type, $name, $label, $required = FALSE, $value = '', $data = array())
 	{
 		$defaults = array('type' => $type, 'name' => $name, 'id' => $name, 'value' => set_value($name, $value));
-		if ($required) $defaults['required'] = 'required';
 		
 		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
 		$output .= form_label($label, $name, array('class' => 'control-label'));
