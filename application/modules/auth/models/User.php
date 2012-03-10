@@ -168,7 +168,8 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $this->hash($password);
+		if (!empty($password))		// Prevent empty password.
+			$this->password = $this->hash($password);
         return $this;
     }
 
