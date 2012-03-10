@@ -35,5 +35,21 @@ class MY_Controller extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		
+		if ($this->auth->loggedin())
+		{
+			// get current user id
+			$id = $this->auth->userid();
+
+			// get user from database
+			$user = $this->doctrine->em->find('auth\models\User', $id);
+			$this->data['auth_user'] = array(
+				'id'			=> $user->getId(),
+				'first_name'	=> $user->getFirstName(),
+				'last_name'		=> $user->getLastName(),
+				'username'		=> $user->getUsername(),
+				'email'			=> $user->getEmail()
+			);
+		}
 	}
 }

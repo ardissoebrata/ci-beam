@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('doctrine');
+$autoload['libraries'] = array('doctrine', 'auth');
 
 
 /*
@@ -122,7 +122,7 @@ $autoload['model'] = array();
 |
 */
 
-$autoload['sparks'] = array('beam-template/0.0.1', 'secure-auth/2.0.0');
+$autoload['sparks'] = array('beam-template/0.0.1');
 
 
 /* End of file autoload.php */

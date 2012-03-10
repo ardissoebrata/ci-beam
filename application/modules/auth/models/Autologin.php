@@ -9,14 +9,14 @@ namespace auth\models;
 class Autologin
 {
 	/**
-	 * @Column(type="integer")
+	 * @id @Column(type="integer")
 	 * 
 	 * @var integer 
 	 */
-	protected $id;
+	protected $user;
 	
 	/**
-	 * @Column(type="string", length=255)
+	 * @id @Column(type="string", length=255)
 	 * 
 	 * @var string
 	 */
@@ -27,7 +27,7 @@ class Autologin
 	 * 
 	 * @var string
 	 */
-	protected $key;
+	protected $privatekey;
 	
 	/**
 	 * @Column(type="datetime")
@@ -36,38 +36,21 @@ class Autologin
 	 */
 	protected $created;
 
+	public function __construct($user, $series)
+	{
+		$this->user = $user;
+		$this->series = $series;
+		$this->created = new \DateTime();
+	}
+	
     /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Autologin
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * Get id
+     * Get user
      *
      * @return integer 
      */
-    public function getId()
+    public function getUser()
     {
-        return $this->id;
-    }
-
-    /**
-     * Set series
-     *
-     * @param string $series
-     * @return Autologin
-     */
-    public function setSeries($series)
-    {
-        $this->series = $series;
-        return $this;
+        return $this->user;
     }
 
     /**
@@ -81,25 +64,25 @@ class Autologin
     }
 
     /**
-     * Set key
+     * Set privatekey
      *
      * @param string $key
      * @return Autologin
      */
-    public function setKey($key)
+    public function setPrivatekey($key)
     {
-        $this->key = $key;
+        $this->privatekey = $key;
         return $this;
     }
 
     /**
-     * Get key
+     * Get privatekey
      *
      * @return string 
      */
-    public function getKey()
+    public function getPrivatekey()
     {
-        return $this->key;
+        return $this->privatekey;
     }
 
     /**
