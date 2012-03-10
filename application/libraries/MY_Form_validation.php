@@ -33,8 +33,8 @@ class MY_Form_validation extends CI_Form_validation
 	 *		array(
 	 *			'<field_name>' => array(
 	 *				'helper' => '<field_helper>',
-	 *				'label'	=> '<field_label>',
-	 *				'rules' => '<field_rules>',
+	 *				'label'	=> '<field_label>',		// optional: for hidden fields.
+	 *				'rules' => '<field_rules>',		// optional: for hidden fields.
 	 *				'value' => '<field_value>',		// optional: force field value.
 	 *				'extra' => array(<field_extra>) // optional: field extras.
 	 *			),
@@ -49,7 +49,8 @@ class MY_Form_validation extends CI_Form_validation
 		$this->fields = $fields;
 		foreach($this->fields as $name => $field)
 		{
-			$this->set_rules($name, $field['label'], $field['rules']);
+			if (isset($field['label']) && isset($field['rules']))
+				$this->set_rules($name, $field['label'], $field['rules']);
 		}
 		
 		return $this;
@@ -97,7 +98,7 @@ class MY_Form_validation extends CI_Form_validation
 			$value = call_user_func(array($this->obj_data, $func_name));
 		
 		// Is field required?
-		$is_required = strpos($this->fields[$field_name]['rules'], 'required') !== FALSE;
+		$is_required = (isset($this->fields[$field_name]['rules']))? (strpos($this->fields[$field_name]['rules'], 'required') !== FALSE) : FALSE;
 		// Get extra field attributes.
 		$extra = (isset($this->fields[$field_name]['extra']))? $this->fields[$field_name]['extra'] : array();
 		
