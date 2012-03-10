@@ -15,9 +15,6 @@ class User extends Admin_Controller
 	 * @var array
 	 */
 	protected $user_form = array(
-		'id' => array(
-			'helper' => 'form_hidden'
-		),
 		'first_name' => array(
 			'label' => 'First Name',
 			'rules' => 'trim|max_length[50]|xss_clean',
@@ -27,6 +24,9 @@ class User extends Admin_Controller
 			'label'	=> 'Last Name',
 			'rules' => 'trim|max_length[50]|xss_clean',
 			'helper' => 'form_inputlabel'
+		),
+		'id' => array(
+			'helper' => 'form_hidden'
 		),
 		'username' => array(
 			'label' => 'Username',
