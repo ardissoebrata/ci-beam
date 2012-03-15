@@ -14,7 +14,7 @@ class Login extends MY_Controller
 		// user is already logged in
         if ($this->auth->loggedin()) 
 		{
-            redirect('/auth/user');
+            redirect($this->config->item('dashboard_uri'));
         }
 		
         // form submitted
@@ -34,7 +34,7 @@ class Login extends MY_Controller
 				{
                     // mark user as logged in
                     $this->auth->login($user->getId(), $remember);
-                    redirect('/auth/user');
+                    redirect($this->config->item('dashboard_uri'));
                 }
 				else
                     throw new Exception('Login failed!');
@@ -52,7 +52,7 @@ class Login extends MY_Controller
         
         // show login form
         $this->load->helper('form');
-		$this->template->build('login');
+		$this->template->set_layout('no-footer')->build('login');
 	}
 }
 

@@ -106,4 +106,28 @@ class Autologin
     {
         return $this->created;
     }
+
+    /**
+     * Set user
+     *
+     * @param integer $user
+     * @return Autologin
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * Set series
+     *
+     * @param string $series
+     * @return Autologin
+     */
+    public function setSeries($series)
+    {
+        $this->series = $series;
+        return $this;
+    }
 }
