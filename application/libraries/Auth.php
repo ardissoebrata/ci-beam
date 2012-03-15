@@ -33,7 +33,7 @@ class Auth
 	// default values
 	private $cookie_name = 'autologin';
 	private $cookie_encrypt = TRUE;
-	private $autologin_expire = 5184000;
+	private $autologin_expire = 604800;
 	private $hash_algorithm = 'sha256';
 	private $ci;
 	private $em;
@@ -173,8 +173,11 @@ class Auth
 		{
 			// remove current series
 			$autologin = $this->em->find('auth\models\Autologin', array('user' => $cookie['id'], 'series' => $cookie['series']));
-			$this->em->remove($autologin);
-			$this->em->flush();
+			if ($autologin)
+			{
+				$this->em->remove($autologin);
+				$this->em->flush();
+			}
 
 			// delete cookie
 			$this->ci->input->set_cookie(array('name' => $this->cookie_name, 'value' => '', 'expire' => ''));
@@ -192,13 +195,13 @@ class Auth
 		{
 			// remove expired keys
 			$time = new DateTime();
-			$query = $this->em->createQuery('DELETE u FROM auth\models\Autologin u WHERE (u.created < :expired)')
-					->setParameter('expired', $time->sub(new DateInterval('P' . $this->autologin_expire . 'S')));
+			$query = $this->em->createQuery('DELETE auth\models\Autologin u WHERE (u.created < :expired)')
+					->setParameter('expired', $time->sub(new DateInterval('PT' . $this->autologin_expire . 'S')));
 			$query->execute();
 
 			// get private key
 			$private = $this->em->createQuery('SELECT u.privatekey FROM auth\models\Autologin u WHERE (u.user = :user) AND (u.series = :series)')
-					->setParameter(array(
+					->setParameters(array(
 						'user' => $cookie['id'],
 						'series' => $cookie['series']
 					))
@@ -269,8 +272,7 @@ class Auth
 
 		$data = @unserialize($data);
 
-		echo 'reading cookie<br>';
-		print_r($data);
+		log_message('debug', 'reading cookie<br />' . print_r($data, TRUE));
 
 		if (isset($data['id']) && isset($data['series']) && isset($data['key']))
 		{
