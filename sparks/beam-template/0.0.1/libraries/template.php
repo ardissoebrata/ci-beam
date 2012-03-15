@@ -353,6 +353,7 @@ class Template
 		$template_data = array();
 		
 		// Create Page Title.
+		$template_data['base_title'] = $this->base_title;
 		$template_data['title'] = $this->base_title;
 		if (!empty($this->title))
 			$template_data['title'] .= $this->title_separator . $this->title;

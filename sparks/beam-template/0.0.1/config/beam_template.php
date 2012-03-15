@@ -67,8 +67,7 @@ $config['beam_template']['css'] = array(
 /**
  * Default Javascript
  */
-$config['beam_template']['js_footer'] = array(
+$config['beam_template']['js_header'] = array(
 	'jquery',
-	'default-script' => 'console.debug("JS Script test");',
 	'bootstrap',
 );
