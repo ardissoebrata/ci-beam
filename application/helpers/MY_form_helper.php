@@ -24,6 +24,13 @@ if ( ! function_exists('_generate_input_label'))
 	 */
 	function _generate_input_label($type, $name, $label, $required = FALSE, $value = '', $data = array())
 	{
+		if ($value instanceof DateTime)
+		{
+			if ($value->format('H:i:s') == '00:00:00')
+				$value = $value->format('Y-m-d');
+			else
+				$value = $value->format('Y-m-d H:i:s');
+		}
 		$defaults = array('type' => $type, 'name' => $name, 'id' => $name, 'value' => set_value($name, $value));
 		
 		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
@@ -130,6 +137,83 @@ if ( ! function_exists('form_actions'))
 			$output .= form_submit($attributes) . "\r\n";
 		}
 		$output .= '</div>';
+		return $output;
+	}
+}
+
+if ( ! function_exists('form_dropdownlabel'))
+{
+	function form_dropdownlabel($name = '', $label, $required = FALSE, $options = array(), $selected = array(), $extra = '')
+	{
+		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
+		$output .= form_label($label, $name, array('class' => 'control-label'));
+		$output .= '<div class="controls">';
+		
+		if ($required)
+			$output .= '<div class="input-append">';
+		
+		$output .= form_dropdown($name, $options, $selected, $extra);
+		
+		if ($required)
+			$output .= '<span class="add-on"><i class="icon-asterisk"></i></span></div>';
+		
+		$output .= form_error($name, '<span class="help-inline">', '</span>');
+		$output .= '</div>';
+		$output .= '</div>' . "\r\n";
+		
+		return $output;
+	}
+}
+
+if ( ! function_exists('form_uneditable'))
+{
+	function form_uneditable($label, $value, $class = "", $options = array())
+	{
+		if ($value instanceof DateTime)
+		{
+			if ($value->format('H:i:s') == '00:00:00')
+				$value = $value->format('d F Y');
+			else
+				$value = $value->format('d F Y H:i:s');
+		}
+			
+		if (!empty($options) && isset($options[$value]))
+			$value = $options[$value];
+		
+		$output = '<div class="control-group">';
+		$output .= form_label($label, '', array('class' => 'control-label'));
+		$output .= '<div class="controls">';
+		$output .= '<span class="uneditable-input ' . $class . '">' . $value . '</span>';
+		$output .= '</div>';
+		$output .= '</div>' . "\r\n";
+		return $output;
+	}
+}
+
+if ( ! function_exists('form_datelonglabel'))
+{
+	function form_datelonglabel($name, $label, $required = FALSE, $value = '', $data = '')
+	{
+		$defaults = array('name' => $name, 'id' => $name, 'value' => set_value($name, $value));
+		
+		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
+		$output .= form_label($label, $name, array('class' => 'control-label'));
+		$output .= '<div class="controls">';
+		
+		$output .= "<input " . _parse_form_attributes($data, $defaults) . " />";
+		
+		if ($required)
+			$output .= '<div class="input-append">';
+		
+		
+		
+		if ($required)
+			$output .= '<span class="add-on"><i class="icon-asterisk"></i></span></div>';
+		
+		$output .= form_error($name, '<span class="help-inline">', '</span>');
+		$output .= '</div>';
+		$output .= '</div>' . "\r\n";
+		
 		return $output;
 	}
 }
