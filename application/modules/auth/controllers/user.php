@@ -49,6 +49,11 @@ class User extends Admin_Controller
 			'rules' => 'trim',
 			'helper' => 'form_passwordlabel',
 			'value' => ''
+		),
+		'lang' => array(
+			'label'	=> 'Language',
+			'rules' => 'trim',
+			'helper' => 'form_dropdownlabel'
 		)
 	);
 	
@@ -98,6 +103,9 @@ class User extends Admin_Controller
 		$user_form = $this->user_form;
 		$user_form['username']['rules'] = "trim|required|max_length[255]|callback_unique_username[$id]|xss_clean";
 		$user_form['email']['rules'] = "trim|required|max_length[255]|valid_email|callback_unique_email[$id]|xss_clean";
+		$languages = $this->config->item('languages');
+		foreach($languages as $code => $language)
+			$user_form['lang']['options'][$code] = $language['name'];
 		$this->form_validation->init($user_form);
 		
 		$user = $this->doctrine->em->find('auth\models\User', $id);
@@ -122,6 +130,12 @@ class User extends Admin_Controller
 	function add()
 	{
 		$this->load->library('form_validation');
+		$user_form = $this->user_form;
+		$user_form['username']['rules'] = "trim|required|max_length[255]|callback_unique_username|xss_clean";
+		$user_form['email']['rules'] = "trim|required|max_length[255]|valid_email|callback_unique_email|xss_clean";
+		$languages = $this->config->item('languages');
+		foreach($languages as $code => $language)
+			$user_form['lang']['options'][$code] = $language['name'];
 		$this->form_validation->init($this->user_form);
 		
 		if ($this->form_validation->run())

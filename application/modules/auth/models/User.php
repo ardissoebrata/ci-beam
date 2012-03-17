@@ -51,6 +51,13 @@ class User
 	protected $password;
 	
 	/**
+	 * @Column(type="string", length=2)
+	 * 
+	 * @var string
+	 */
+	protected $lang;
+	
+	/**
 	 * @Column(type="datetime")
 	 * 
 	 * @var DateTime
@@ -182,6 +189,28 @@ class User
     {
         return $this->password;
     }
+	
+	/**
+	 * Set lang
+	 * 
+	 * @param string $lang
+	 * @return User 
+	 */
+	public function setLang($lang)
+	{
+		$this->lang = $lang;
+		return $this;
+	}
+	
+	/**
+	 * Get lang
+	 * 
+	 * @return string
+	 */
+	public function getLang()
+	{
+		return $this->lang;
+	}
 
     /**
      * Set registered
