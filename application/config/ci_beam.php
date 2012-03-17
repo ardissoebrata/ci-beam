@@ -5,3 +5,12 @@
  * 
  */
 $config['rows_limit']		= 20;
+
+/*
+ * Supported Languages
+ * 
+ */
+$config['languages']		= array(
+	'en' => array('name' => 'English', 'folder' => 'english'),
+	'id' => array('name' => 'Bahasa Indonesia', 'folder' => 'indonesian')
+);

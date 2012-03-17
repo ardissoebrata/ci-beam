@@ -48,8 +48,44 @@ class MY_Controller extends CI_Controller
 				'first_name'	=> $user->getFirstName(),
 				'last_name'		=> $user->getLastName(),
 				'username'		=> $user->getUsername(),
-				'email'			=> $user->getEmail()
+				'email'			=> $user->getEmail(),
+				'lang'			=> $user->getLang()
 			);
+			$this->session->set_userdata('lang', $this->data['auth_user']['lang']);
 		}
+		
+		$languages = $this->config->item('languages');
+		// Lang has already been set and is stored in a session
+		$lang = $this->session->userdata('lang');
+		// No Lang. Lets try some browser detection then
+		if (empty($lang) and !empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ))
+		{
+			// explode languages into array
+			$accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+
+			log_message('debug', 'Checking browser languages: '.implode(', ', $accept_langs));
+
+			// Check them all, until we find a match
+			foreach ($accept_langs as $lang)
+			{
+				// Turn en-gb into en
+				$lang = substr($lang, 0, 2);
+
+				// Check its in the array. If so, break the loop, we have one!
+				if(in_array($lang, array_keys($languages)))
+				{
+					break;
+				}
+			}
+		}
+		// If no language has been worked out - or it is not supported - use the default (first language)
+		if (empty($lang) or !in_array($lang, array_keys($languages)))
+		{
+			reset($languages);
+			$lang = key($languages);
+			$this->session->set_userdata('lang', $lang);
+		}
+		
+		$this->config->set_item('language', $languages[$lang]['folder']);
 	}
 }
