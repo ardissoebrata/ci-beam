@@ -26,8 +26,9 @@
 					<td><a href="<?php echo site_url('auth/user/edit/' . $user->getId()); ?>"><?php echo $user->getUsername() ?></a></td>
 					<td><?php echo $user->getEmail() ?></td>
 					<td><?php echo date_format($user->getRegistered(), 'd M Y H:i:s'); ?></td>
-					<td><a href="<?php echo site_url('auth/user/delete/' . $user->getId()); ?>" class="btn"><i class="icon-remove"></i></a></td>
+					<td><a href="<?php echo site_url('auth/user/delete/' . $user->getId()); ?>" class="btn" data-button="delete"><i class="icon-remove"></i></a></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php $this->load->view('delete-modal'); ?>
