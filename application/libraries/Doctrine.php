@@ -13,8 +13,6 @@ use Doctrine\Common\ClassLoader,
 
 /**
  * Doctrine2 bridge to CodeIgniter
- * 
- * @todo Add ENVIRONMENT aware configuration & database.
  */
 class Doctrine 
 {
@@ -81,7 +79,21 @@ class Doctrine
 
 		// Database connection information
 		// load database configuration from CodeIgniter
-		require APPPATH.'config/database.php';
+		// Is the config file in the environment folder?
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		{
+			if ( ! file_exists($file_path = APPPATH.'config/database.php'))
+			{
+				show_error('The configuration file database.php does not exist.');
+			}
+		}
+
+		include($file_path);
+
+		if ( ! isset($db) OR count($db) == 0)
+		{
+			show_error('No database connection settings were found in the database config file.');
+		}
 			
 		$this->connectionOptions = array(
 			'driver'	=> 'pdo_mysql',
