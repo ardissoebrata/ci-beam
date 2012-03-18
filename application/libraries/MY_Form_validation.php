@@ -105,6 +105,12 @@ class MY_Form_validation extends CI_Form_validation
 		// Get options.
 		$options = (isset($this->fields[$field_name]['options']))? $this->fields[$field_name]['options'] : array();
 		
+		// Get label.
+		if (isset($this->fields[$field_name]['label']))
+			$label = $this->_translate_fieldname($this->fields[$field_name]['label']);
+		else
+			$label = $field_name;
+		
 		// Execute form helpers
 		switch ($this->fields[$field_name]['helper'])
 		{
@@ -120,9 +126,9 @@ class MY_Form_validation extends CI_Form_validation
 			case 'form_inputlabel': 
 			case 'form_emaillabel':
 			case 'form_passwordlabel':
-				return call_user_func($this->fields[$field_name]['helper'], $field_name, $this->fields[$field_name]['label'], $is_required, $value, $extra);
+				return call_user_func($this->fields[$field_name]['helper'], $field_name, $label, $is_required, $value, $extra);
 			case 'form_dropdownlabel':
-				return call_user_func($this->fields[$field_name]['helper'], $field_name, $this->fields[$field_name]['label'], $is_required, $options, $value, $extra);
+				return call_user_func($this->fields[$field_name]['helper'], $field_name, $label, $is_required, $options, $value, $extra);
 			default:
 				show_error('Cannot find helper "' . $this->fields[$field_name]['helper'] . '".');
 				return '';
