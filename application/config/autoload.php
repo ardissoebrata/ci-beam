@@ -96,7 +96,7 @@ $autoload['config'] = array('ci_beam');
 |
 */
 
-$autoload['language'] = array('application');
+$autoload['language'] = array();
 
 
 /*

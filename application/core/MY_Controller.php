@@ -87,5 +87,7 @@ class MY_Controller extends CI_Controller
 		}
 		
 		$this->config->set_item('language', $languages[$lang]['folder']);
+		
+		$this->load->language('application');
 	}
 }
