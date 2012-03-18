@@ -17,6 +17,8 @@ class Login extends MY_Controller
             redirect($this->config->item('dashboard_uri'));
         }
 		
+		$this->load->language('auth');
+		
         // form submitted
         if ($this->input->post('username') && $this->input->post('password')) 
 		{
@@ -37,11 +39,11 @@ class Login extends MY_Controller
                     redirect($this->config->item('dashboard_uri'));
                 }
 				else
-                    throw new Exception('Login failed!');
+                    throw new Exception(lang('login_failed'));
 			}
 			catch (Exception $e)
 			{
-				$this->data['error'] = 'Login attempt failed!';
+				$this->data['error'] = lang('login_attempt_failed');
 			}
         }
 		

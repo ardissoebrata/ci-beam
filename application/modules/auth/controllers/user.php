@@ -16,12 +16,12 @@ class User extends Admin_Controller
 	 */
 	protected $user_form = array(
 		'first_name' => array(
-			'label' => 'First Name',
+			'label' => 'lang:first_name',
 			'rules' => 'trim|max_length[50]|xss_clean',
 			'helper' => 'form_inputlabel'
 		),
 		'last_name' => array(
-			'label'	=> 'Last Name',
+			'label'	=> 'lang:last_name',
 			'rules' => 'trim|max_length[50]|xss_clean',
 			'helper' => 'form_inputlabel'
 		),
@@ -29,29 +29,29 @@ class User extends Admin_Controller
 			'helper' => 'form_hidden'
 		),
 		'username' => array(
-			'label' => 'Username',
+			'label' => 'lang:username',
 			'rules' => 'trim|required|max_length[255]|callback_unique_username|xss_clean',
 			'helper' => 'form_inputlabel'
 		),
 		'email' => array(
-			'label' => 'Email',
+			'label' => 'lang:email',
 			'rules' => 'trim|required|max_length[255]|valid_email|callback_unique_email|xss_clean',
 			'helper' => 'form_emaillabel'
 		),
 		'password' => array(
-			'label' => 'Password',
+			'label' => 'lang:password',
 			'rules' => 'trim|matches[confirm-password]',
 			'helper' => 'form_passwordlabel',
 			'value' => ''
 		),
 		'confirm-password' => array(
-			'label' => 'Confirm Password',
+			'label' => 'lang:confirm_password',
 			'rules' => 'trim',
 			'helper' => 'form_passwordlabel',
 			'value' => ''
 		),
 		'lang' => array(
-			'label'	=> 'Language',
+			'label'	=> 'lang:language',
 			'rules' => 'trim',
 			'helper' => 'form_dropdownlabel'
 		)
@@ -66,6 +66,8 @@ class User extends Admin_Controller
 		
 		if ($this->input->post('cancel-button'))
 			redirect ('auth/user/index');
+		
+		$this->load->language('auth');
 	}
 	
 	/**
@@ -131,8 +133,6 @@ class User extends Admin_Controller
 	{
 		$this->load->library('form_validation');
 		$user_form = $this->user_form;
-		$user_form['username']['rules'] = "trim|required|max_length[255]|callback_unique_username|xss_clean";
-		$user_form['email']['rules'] = "trim|required|max_length[255]|valid_email|callback_unique_email|xss_clean";
 		$languages = $this->config->item('languages');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
@@ -181,7 +181,7 @@ class User extends Admin_Controller
 		try
 		{
 			$user = $query->getQuery()->getSingleResult();
-			$this->form_validation->set_message('unique_username', 'The %s is already taken.');
+			$this->form_validation->set_message('unique_username', lang('already_taken'));
 			return FALSE;
 		}
 		catch (Doctrine\ORM\NoResultException $e)
@@ -203,7 +203,7 @@ class User extends Admin_Controller
 		try
 		{
 			$email = $query->getQuery()->getSingleResult();
-			$this->form_validation->set_message('unique_email', 'The %s is already taken.');
+			$this->form_validation->set_message('unique_email', lang('already_taken'));
 			return FALSE;
 		}
 		catch (Doctrine\ORM\NoResultException $e)

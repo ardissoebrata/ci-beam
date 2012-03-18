@@ -2,6 +2,6 @@
 			<hr>
 
 			<footer>
-				<p class="pull-right">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
+				<p class="pull-right"><?php echo lang('page_rendered'); ?></p>
 				<p>&copy; Company 2012</p>
 			</footer>

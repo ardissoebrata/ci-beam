@@ -1,7 +1,7 @@
 		<h2>Users</h2>
 		<div class="row">
 			<div class="span4 pagination-height">
-				<a href="<?php echo site_url('auth/user/add'); ?>" class="btn">Add</a>
+				<a href="<?php echo site_url('auth/user/add'); ?>" class="btn"><?php echo lang('add'); ?></a>
 			</div>
 			<div class="span8">
 				<?php echo $this->pagination->create_links(); ?>
@@ -10,11 +10,11 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Username</th>
-					<th>Email</th>
-					<th>Registered</th>
+					<th><?php echo lang('first_name'); ?></th>
+					<th><?php echo lang('last_name'); ?></th>
+					<th><?php echo lang('username'); ?></th>
+					<th><?php echo lang('email'); ?></th>
+					<th><?php echo lang('registered'); ?></th>
 					<th style="width: 36px;"></th>
 				</tr>
 			</thead>
@@ -26,7 +26,7 @@
 					<td><a href="<?php echo site_url('auth/user/edit/' . $user->getId()); ?>"><?php echo $user->getUsername() ?></a></td>
 					<td><?php echo $user->getEmail() ?></td>
 					<td><?php echo date_format($user->getRegistered(), 'd M Y H:i:s'); ?></td>
-					<td><a href="<?php echo site_url('auth/user/delete/' . $user->getId()); ?>" class="btn" data-button="delete"><i class="icon-remove"></i></a></td>
+					<td><a href="<?php echo site_url('auth/user/delete/' . $user->getId()); ?>" title="<?php echo lang('delete'); ?>" class="btn" data-button="delete"><i class="icon-remove"></i></a></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>

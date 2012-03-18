@@ -40,13 +40,13 @@
 							</li>
 							<li class="divider-vertical"></li>
 							<li>
-								<a href="<?php echo site_url('auth/logout'); ?>">Logout</a>
+								<a href="<?php echo site_url('auth/logout'); ?>"><?php echo lang('logout'); ?></a>
 							</li>
 						</ul>
 						<?php else: ?>
 						<ul class="nav pull-right">
 							<li>
-								<a href="<?php echo site_url('auth/login'); ?>">Login</a>
+								<a href="<?php echo site_url('auth/login'); ?>"><?php echo lang('login'); ?></a>
 							</li>
 						</ul>
 						<?php endif; ?>

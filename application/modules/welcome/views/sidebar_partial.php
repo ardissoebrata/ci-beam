@@ -1,5 +1,5 @@
 		<div class="well sidebar-nav">
-			<p>This Sidebar is loaded using partials.</p>
+			<p><?php echo lang('sidebar_partial'); ?></p>
 			<ul class="nav nav-list">
 				<li class="nav-header">Sidebar</li>
 				<li class="active"><a href="#">Link</a></li>

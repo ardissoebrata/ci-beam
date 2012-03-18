@@ -1,4 +1,4 @@
-<p>This section is injected by calling a module controller, like this:</p>
+<p><?php echo lang('injected_module'); ?></p>
 <pre>
 &lt;?php
     echo Modules::run('welcome/hmvc/module_run');
