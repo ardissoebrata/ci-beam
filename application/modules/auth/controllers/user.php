@@ -50,6 +50,11 @@ class User extends Admin_Controller
 			'helper' => 'form_passwordlabel',
 			'value' => ''
 		),
+		'role_id' => array(
+			'label' => 'lang:Role',
+			'rules' => 'trim',
+			'helper' => 'form_dropdownlabel'
+		),
 		'lang' => array(
 			'label'	=> 'lang:language',
 			'rules' => 'trim',
@@ -94,6 +99,18 @@ class User extends Admin_Controller
 		$this->template->build('user-list');
 	}
 	
+	function generate_options($tree, $sep = '')
+	{
+		$result = array();
+		foreach($tree as $node)
+		{
+			$result[$node['id']] = $sep . $node['name'];
+			if (isset($node['children']))
+				$result = $result + $this->generate_options($node['children'], $sep . '&nbsp;&nbsp;');
+		}
+		return $result;
+	}
+	
 	/**
 	 * Edit User
 	 * 
@@ -108,6 +125,11 @@ class User extends Admin_Controller
 		$languages = $this->config->item('languages');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
+		
+		$this->load->model('acl/role_model');
+		$role_tree = $this->role_model->get_tree();
+		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
+		
 		$this->form_validation->init($user_form);
 		
 		$user = $this->doctrine->em->find('auth\models\User', $id);
@@ -136,6 +158,11 @@ class User extends Admin_Controller
 		$languages = $this->config->item('languages');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
+		
+		$this->load->model('acl/role_model');
+		$role_tree = $this->role_model->get_tree();
+		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
+		
 		$this->form_validation->init($this->user_form);
 		
 		if ($this->form_validation->run())

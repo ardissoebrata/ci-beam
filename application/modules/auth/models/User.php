@@ -64,6 +64,13 @@ class User
 	 */
 	protected $registered;
 	
+	/**
+	 * @Column(type="integer")
+	 * 
+	 * @var integer
+	 */
+	protected $role_id;
+	
 	public function __construct()
 	{
 		$this->registered = new \DateTime;
@@ -233,6 +240,28 @@ class User
     {
         return $this->registered;
     }
+	
+	/**
+	 * Set role_id
+	 * 
+	 * @param integer $role_id
+	 * @return \auth\models\User
+	 */
+	public function setRoleId($role_id)
+	{
+		$this->role_id = $role_id;
+		return $this;
+	}
+	
+	/**
+	 * Get role_id
+	 * 
+	 * @return integer
+	 */
+	public function getRoleId()
+	{
+		return $this->role_id;
+	}
 	
     /**
      * Password hashing function

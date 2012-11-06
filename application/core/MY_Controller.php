@@ -49,7 +49,8 @@ class MY_Controller extends CI_Controller
 				'last_name'		=> $user->getLastName(),
 				'username'		=> $user->getUsername(),
 				'email'			=> $user->getEmail(),
-				'lang'			=> $user->getLang()
+				'lang'			=> $user->getLang(),
+				'role_id'		=> $user->getRoleId()
 			);
 			$this->session->set_userdata('lang', $this->data['auth_user']['lang']);
 		}

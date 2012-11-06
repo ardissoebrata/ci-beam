@@ -217,3 +217,40 @@ if ( ! function_exists('form_datelonglabel'))
 		return $output;
 	}
 }
+
+/**
+ * Modal confirmation window link button.
+ *
+ * @access	public
+ * @param	mixed
+ * @param	string
+ * @param	string
+ * @return	string
+ */
+if ( ! function_exists('form_confirmwindow'))
+{
+	function form_confirmwindow($name, $link_title, $window_title, $window_content, $target_url, $class = 'btn-danger')
+	{
+		$cancel = lang('cancel');
+		if (empty($cancel)) $cancel = 'Cancel';
+		$ok = lang('ok');
+		if (empty($ok)) $ok = 'OK';
+		
+		$out = '<a href="#' . $name . '" role="button" class="btn ' . $class . '" data-toggle="modal">' . $link_title . '</a>';
+		$out .= '<div class="modal" id="' . $name . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">';
+		$out .= '<div class="modal-header">';
+		$out .= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+		$out .= '<h3 id="myModalLabel">' . $window_title . '</h3>';
+		$out .= '</div>';
+		$out .= '<div class="modal-body">';
+		$out .= $window_content;
+		$out .= '</div>';
+		$out .= '<div class="modal-footer">';
+		$out .= '<a href="' . $target_url . '" class="btn ' . $class . '">OK</a>';
+		$out .= '<button class="btn" data-dismiss="modal" aria-hidden="true">' . $cancel . '</button>';
+		$out .= '</div>';
+		$out .= '</div>';
+		
+		return $out;
+	}
+}

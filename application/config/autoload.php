@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('doctrine', 'auth');
+$autoload['libraries'] = array('doctrine', 'auth', 'database', 'Beam/Acl');
 
 
 /*

@@ -17,15 +17,35 @@
 						if (isset($auth_user))
 						{
 							$menus['auth/user'] = 'User';
+							$menus['acl'] = array(
+								'acl/rule'		=> 'Rules',
+								'acl/role'		=> 'Roles',
+								'acl/resource'	=> 'Resources'
+							);
 						}
 						?>
 						<ul class="nav">
 							<?php
 							foreach($menus as $url => $label):
+								if (is_array($label)):
+							?>
+							<li class="dropdown<?php if (substr(uri_string(), 0, strlen($url)) == $url) echo ' active'; ?>">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ucwords($url); ?><b class="caret"></b></a>
+								<ul class="dropdown-menu">
+								<?php foreach($label as $sub_url => $sub_label): ?>
+									<li <?php if (substr(uri_string(), 0, strlen($sub_url)) == $sub_url) echo 'class="active"'; ?>>
+										<a href="<?php echo site_url($sub_url); ?>"><?php echo $sub_label; ?></a>
+									</li>
+								<?php endforeach; ?>
+								</ul>
+							</li>
+							<?php
+								else:
 							?>
 							<li <?php if (substr(uri_string(), 0, strlen($url)) == $url) echo 'class="active"'; ?>>
 								<a href="<?php echo site_url($url); ?>"><?php echo $label; ?></a>
 							</li>
+							<?php endif; ?>
 							<?php endforeach; ?>
 						</ul>
 						<?php if (isset($auth_user)): ?>

@@ -36,6 +36,13 @@ class Login extends MY_Controller
 				{
                     // mark user as logged in
                     $this->auth->login($user->getId(), $remember);
+					
+					$this->load->model(array('acl/role_model'));
+					$role = $this->role_model->get_by_id($user->getRoleId());
+					
+					$ci = &get_instance();
+					$ci->session->set_userdata(array('role' => $role->name));
+					
                     redirect($this->config->item('dashboard_uri'));
                 }
 				else
