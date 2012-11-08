@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('doctrine', 'auth', 'database', 'Beam/Acl');
+$autoload['libraries'] = array('doctrine', 'database', 'auth', 'Beam/Template', 'Beam/Acl');
 
 
 /*
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('doctrine', 'auth', 'database', 'Beam/Acl');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'language');
+$autoload['helper'] = array('url', 'language', 'template');
 
 
 /*
@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'language');
 |
 */
 
-$autoload['config'] = array('ci_beam');
+$autoload['config'] = array('beam_template', 'ci_beam');
 
 
 /*
@@ -110,19 +110,6 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array();
-
-
-/*
-| -------------------------------------------------------------------
-|  Auto-load Sparks
-| -------------------------------------------------------------------
-| Prototype:
-|
-|	$autoload['sparks'] = array('spark1/1.0.0', 'spark2/1.2.1');
-|
-*/
-
-$autoload['sparks'] = array('beam-template/0.0.1');
 
 
 /* End of file autoload.php */
