@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('doctrine', 'database', 'auth', 'Beam/Template', 'Beam/Acl');
+$autoload['libraries'] = array('database', 'session', 'auth', 'Beam/Template', 'Beam/Acl');
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('auth/user_model', 'acl/role_model');
 
 
 /* End of file autoload.php */

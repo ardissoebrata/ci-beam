@@ -1,6 +1,19 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class BaseModel extends CI_Model
+/**
+ * Base Model
+ * 
+ * @package CI-Beam
+ * @category Model
+ * @author Ardi Soebrata
+ * 
+ * @property CI_DB_active_record $db
+ * @property CI_DB_forge $dbforge
+ * @property CI_Table $table
+ * @property CI_Input $input
+ * 
+ */
+class MY_Model extends CI_Model
 {
 	protected $filter_fields = array();
 	protected $is_filter_prep = FALSE;

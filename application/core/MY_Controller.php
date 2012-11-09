@@ -8,7 +8,7 @@
  * @author Ardi Soebrata
  * 
  * @property CI_Config $config
- * @property CI_Loader $load
+ * @property HMVC_Loader $load
  * @property MY_Form_validation $form_validation
  * @property CI_Input $input
  * @property CI_Email $email
@@ -19,11 +19,14 @@
  * @property CI_FTP $ftp
  * @property CI_Pagination $pagination
  * 
+ * @property Auth $auth
  * @property Template $template
  * @property Doctrine $doctrine
+ * @property User_model $user_model
+ * @property Role_model $role_model
  * 
  */
-class MY_Controller extends CI_Controller 
+class MY_Controller extends CI_Controller
 {
 	/**
 	 * View's Data
@@ -42,15 +45,16 @@ class MY_Controller extends CI_Controller
 			$id = $this->auth->userid();
 
 			// get user from database
-			$user = $this->doctrine->em->find('auth\models\User', $id);
+//			$this->load->model('auth/user_model');
+			$user = $this->user_model->get_by_id($id);
 			$this->data['auth_user'] = array(
-				'id'			=> $user->getId(),
-				'first_name'	=> $user->getFirstName(),
-				'last_name'		=> $user->getLastName(),
-				'username'		=> $user->getUsername(),
-				'email'			=> $user->getEmail(),
-				'lang'			=> $user->getLang(),
-				'role_id'		=> $user->getRoleId()
+				'id'			=> $user->id,
+				'first_name'	=> $user->first_name,
+				'last_name'		=> $user->last_name,
+				'username'		=> $user->username,
+				'email'			=> $user->email,
+				'lang'			=> $user->lang,
+				'role_id'		=> $user->role_id
 			);
 			$this->session->set_userdata('lang', $this->data['auth_user']['lang']);
 		}
