@@ -277,6 +277,22 @@ class Template
 	}
 	
 	/**
+	 * Get output from a module controller.
+	 * 
+	 * @todo $this->ci->load->controller($uri) also has buffer in it. Check if we can use this.
+	 * 
+	 * @param string $uri
+	 * @return string
+	 */
+	public function get_module_partial($uri)
+	{
+		ob_start();
+		$this->ci->load->controller($uri);
+		$buffer = ob_get_clean();
+		return $buffer;
+	}
+	
+	/**
 	 * Load a module controller to view partial.
 	 * 
 	 * @param string $name Partial name.
@@ -285,10 +301,10 @@ class Template
 	 */
 	public function load_module_partial($name, $uri)
 	{
-		$this->load_partial($name, Modules::run($uri));
+		$this->load_partial($name, $this->get_module_partial($uri));
 		return $this;
 	}
-		
+	
 	/**
 	 * Get Layout Name
 	 * 

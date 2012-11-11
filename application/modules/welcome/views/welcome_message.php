@@ -24,7 +24,7 @@
 <div class="row">
 	<div class="span4">
 		<h2><?php echo lang('run_module'); ?></h2>
-		<?php echo Modules::run('welcome/hmvc/module_run'); ?>
+		<?php echo $this->template->get_module_partial('welcome/hmvc/module_run'); ?>
 	</div>
 	<?php echo $template['partials']['sections']; ?>
 </div>
