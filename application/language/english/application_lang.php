@@ -16,6 +16,7 @@ $lang['save']			= 'Save';
 $lang['close']			= 'Close';
 $lang['continue']		= 'Continue';
 $lang['cancel']			= 'Cancel';
+$lang['none']			= 'None';
 
 /* End of file application_lang.php */
 /* Location: ./application/language/english/application_lang.php */

@@ -40,13 +40,13 @@ class User extends Admin_Controller
 		),
 		'password' => array(
 			'label' => 'lang:password',
-			'rules' => 'trim|matches[confirm-password]',
+			'rules' => 'trim|required|matches[confirm-password]',
 			'helper' => 'form_passwordlabel',
 			'value' => ''
 		),
 		'confirm-password' => array(
 			'label' => 'lang:confirm_password',
-			'rules' => 'trim',
+			'rules' => 'trim|required',
 			'helper' => 'form_passwordlabel',
 			'value' => ''
 		),
@@ -80,22 +80,7 @@ class User extends Admin_Controller
 	 */
 	function index()
 	{
-		$query = $this->doctrine->em->createQueryBuilder();
-		$query->select('u')
-				->from('auth\models\user', 'u')
-				->orderBy('u.last_name, u.first_name', 'ASC')
-				->setFirstResult($this->uri->segment(4))
-				->setMaxResults($this->config->item('rows_limit'));
-
-		$paginator = new Doctrine\ORM\Tools\Pagination\Paginator($query);
-		$this->data['users'] = $paginator;
-
-		$this->load->library('pagination');
-		$config['base_url'] = site_url('auth/user/index');
-		$config['total_rows'] = $paginator->count();
-		$config['per_page'] = $this->config->item('rows_limit');
-		$this->pagination->initialize($config);
-		
+		$this->data['users'] = $this->user_model->get_list(site_url('auth/user/index'));
 		$this->template->build('user-list');
 	}
 	
@@ -122,25 +107,19 @@ class User extends Admin_Controller
 		$user_form = $this->user_form;
 		$user_form['username']['rules'] = "trim|required|max_length[255]|callback_unique_username[$id]|xss_clean";
 		$user_form['email']['rules'] = "trim|required|max_length[255]|valid_email|callback_unique_email[$id]|xss_clean";
+		
 		$languages = $this->config->item('languages');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
 		
-		$this->load->model('acl/role_model');
 		$role_tree = $this->role_model->get_tree();
 		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
 		
 		$this->form_validation->init($user_form);
-		
-		$user = $this->doctrine->em->find('auth\models\User', $id);
-		$this->form_validation->set_default($user);
-		
+		$this->form_validation->set_default($this->user_model->get_by_id($id));
 		if ($this->form_validation->run())
 		{
-			$user = $this->form_validation->set_values();
-			$this->doctrine->em->persist($user);
-			$this->doctrine->em->flush();
-			
+			$this->user_model->update($id, $this->form_validation->get_values());
 			redirect('auth/user');
 		}
 		
@@ -155,22 +134,18 @@ class User extends Admin_Controller
 	{
 		$this->load->library('form_validation');
 		$user_form = $this->user_form;
+		
 		$languages = $this->config->item('languages');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
 		
-		$this->load->model('acl/role_model');
 		$role_tree = $this->role_model->get_tree();
 		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
 		
-		$this->form_validation->init($this->user_form);
-		
+		$this->form_validation->init($user_form);
 		if ($this->form_validation->run())
 		{
-			$user = $this->form_validation->set_values(new auth\models\User);
-			$this->doctrine->em->persist($user);
-			$this->doctrine->em->flush();
-			
+			$this->user_model->insert($this->form_validation->get_values());
 			redirect('auth/user');
 		}
 		
@@ -185,57 +160,32 @@ class User extends Admin_Controller
 	 */
 	function delete($id)
 	{
-		$user = $this->doctrine->em->find('auth\models\User', $id);
+		$user = $this->user_model->get_by_id($id);
 		if ($user)
-		{
-			$this->doctrine->em->remove($user);
-			$this->doctrine->em->flush();
-		}
+			$this->user_model->delete($id);
 		
 		redirect('auth/user');
 	}
 	
 	function unique_username($value, $id = 0)
 	{
-		$query = $this->doctrine->em->createQueryBuilder();
-		$query->select('u')
-				->from('auth\models\User', 'u')
-				->where('u.username = :username AND u.id <> :userid')
-				->setParameters(array(
-					'username'	=> $value,
-					'userid'	=> $id
-				));
-		try
+		if ($this->user_model->is_username_unique($value, $id))
+			return TRUE;
+		else
 		{
-			$user = $query->getQuery()->getSingleResult();
 			$this->form_validation->set_message('unique_username', lang('already_taken'));
 			return FALSE;
-		}
-		catch (Doctrine\ORM\NoResultException $e)
-		{
-			return TRUE;
 		}
 	}
 	
 	function unique_email($value, $id = 0)
 	{
-		$query = $this->doctrine->em->createQueryBuilder();
-		$query->select('u')
-				->from('auth\models\User', 'u')
-				->where('u.email = :email AND u.id <> :userid')
-				->setParameters(array(
-					'email'		=> $value,
-					'userid'	=> $id
-				));
-		try
+		if ($this->user_model->is_email_unique($value, $id))
+			return TRUE;
+		else
 		{
-			$email = $query->getQuery()->getSingleResult();
 			$this->form_validation->set_message('unique_email', lang('already_taken'));
 			return FALSE;
-		}
-		catch (Doctrine\ORM\NoResultException $e)
-		{
-			return TRUE;
 		}
 	}
 	

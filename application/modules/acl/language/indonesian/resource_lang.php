@@ -12,6 +12,7 @@ $lang['resource_empty_results']					= 'Tidak ada Resource yang dapat ditampilkan
 
 $lang['resource_name']							= 'Nama';
 $lang['resource_parent']						= 'Parent';
+$lang['resource_parent_none']					= 'Parent Kosong';
 $lang['resource_type']							= 'Jenis';
 $lang['resource_add_title']						= 'Buat sebuah Resource baru.';
 

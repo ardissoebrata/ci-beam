@@ -9,15 +9,127 @@
  * 
  * @property CI_DB_active_record $db
  * @property CI_DB_forge $dbforge
- * @property CI_Table $table
  * @property CI_Input $input
  * 
  */
 class MY_Model extends CI_Model
 {
+	protected $table;
+	protected $id_field = 'id';
+	
 	protected $filter_fields = array();
 	protected $is_filter_prep = FALSE;
 	protected $is_sorter_prep = FALSE;
+	
+	/**
+	 * Insert data to table
+	 * 
+	 * @param array $data
+	 * @return boolean
+	 */
+	function insert($data)
+	{
+		unset($data[$this->id_field]);
+		return $this->db->insert($this->table, $data);
+	}
+	
+	/**
+	 * Update data to table
+	 * 
+	 * @param mixed $id
+	 * @param array $data
+	 * @return boolean
+	 */
+	function update($id, $data)
+	{
+		return $this->db->update($this->table, $data, array($this->id_field => $id));
+	}
+	
+	/**
+	 * Delete data from table
+	 * 
+	 * @param mixed $id
+	 * @return boolean
+	 */
+	function delete($id)
+	{
+		return $this->db->delete($this->table, array($this->id_field => $id));
+	}
+	
+	/**
+	 * Get data by id
+	 * 
+	 * @param mixed $id
+	 * @return object/boolean
+	 */
+	function get_by_id($id)
+	{
+		$query = $this->db->get_where($this->table, array($this->table . '.' . $this->id_field => $id));
+		if ($query->num_rows() > 0)
+			return $query->row();
+		else
+			return FALSE;
+	}
+	
+	/**
+	 * Get list of data from table
+	 * Automatically create Pagination Class if base_url is not empty.
+	 * 
+	 * @return array
+	 */
+	function get_list($base_url = '', $offset = 0, $limit = 0)
+	{
+		// If base_url is empty, list all data.
+		if (empty($base_url))
+			return $this->db->get($this->table)->result();
+		else
+		{
+			$this->load->library('pagination');
+			
+			// Set pagination limit
+			if (empty($limit))
+			{
+				if ($this->input->get('page_limit'))
+					$limit = (int) $this->input->get('page_limit');
+				else
+					$limit = $this->config->item('rows_limit');
+			}
+			
+			// Set pagination offset
+			if (empty($offset))
+			{
+				if ($this->pagination->page_query_string)
+					$offset = (int) $this->input->get($this->pagination->query_string_segment);
+				else
+				{
+					$offset = $this->uri->segment(4);
+					if ($this->pagination->use_page_numbers && ($offset > 0))
+						$offset = ($offset - 1) * $limit;
+				}
+			}
+			
+			// Set base_url, 
+			if ($this->pagination->page_query_string)
+			{
+				$last_char = substr($base_url, -1, 1);
+				if ($last_char == '/') $base_url .= '?';
+				elseif ($last_char != '?') $base_url .= '/?';
+			}
+			
+			// Get number of rows
+			$row_counts = $this->db->count_all_results($this->table);
+
+			// Create pagination
+			$config['base_url']		= $base_url;
+			$config['total_rows']	= $row_counts;
+			$config['per_page']		= $limit;
+			$this->pagination->initialize($config);
+			
+			// Execute query
+			$query = $this->db->get($this->table, $limit, $offset);
+			return $query->result();
+		}
+	}
 	
 	/**
 	 * Get all filter fields.

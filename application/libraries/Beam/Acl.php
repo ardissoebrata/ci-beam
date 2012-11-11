@@ -88,23 +88,33 @@ class Acl
 	function is_allowed($resource, $role = '')
 	{
 		// If resource not exists, default to 'deny'.
-		if (!$this->acl->has($resource))
+		if (!$this->has($resource))
 		{
 			return FALSE;
 		}
 		// If role empty, try search the session.
 		if (empty($role)) 
 		{
-			if (isset($this->CI->session->userdata['role'])) 
+			if (isset($this->CI->session->userdata['role_name'])) 
 			{
-				$role = $this->CI->session->userdata['role'];
+				$role = $this->CI->session->userdata['role_name'];
 			}
 		}
 		// If role empty or not exists, default to 'deny'.
-		if (empty($role) || !$this->acl->hasRole($role)) 
+		if (empty($role) || !$this->has_role($role)) 
 		{
 			return false;
 		}
 		return $this->acl->isAllowed($role, $resource);
+	}
+	
+	function has($resource)
+	{
+		return $this->acl->has($resource);
+	}
+	
+	function has_role($role)
+	{
+		return $this->acl->hasRole($role);
 	}
 }

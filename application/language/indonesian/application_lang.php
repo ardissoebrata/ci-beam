@@ -16,6 +16,7 @@ $lang['save']			= 'Simpan';
 $lang['close']			= 'Tutup';
 $lang['continue']		= 'Lanjutkan';
 $lang['cancel']			= 'Batal';
+$lang['none']			= 'Kosong';
 
 /* End of file application_lang.php */
 /* Location: ./application/language/indonesian/application_lang.php */

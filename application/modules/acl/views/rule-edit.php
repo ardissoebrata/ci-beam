@@ -12,7 +12,7 @@
 					echo '<li>';
 					if (isset($node['children']))
 						echo '<span class="toggle"></span>';
-						if($acl->is_allowed('organization/structure/edit'))
+						if($acl->is_allowed('acl/rule/edit'))
 						{
 							echo '<a href="' . site_url('acl/rule/edit') . '/' . $node['id'] . '?redirect=' . urlencode(current_url_params()) . '" class="users">';
 							echo '<span>' . $node['name'] . '</span>';
@@ -50,31 +50,23 @@
 			?>
 			<fieldset>
 				<legend><?php echo lang('role_page_name'); ?></legend>
-				<div class="control-group">
-					<?php echo form_label(lang('role_name'), 'name', array('class' => 'control-label')); ?>
-					<div class="controls">
-						<a href="<?php echo site_url('acl/role/edit') . '/' . $role->id ?>"><?php echo $role->name ?></a>
-					</div>
-				</div>
-				<div class="control-group">
-					<?php echo form_label(lang('role_parents'), 'parents', array('class' => 'control-label')); ?>
-					<div class="controls">
-					<?php 
-					if (isset($role->parents) && count($role->parents) > 0)
+				<?php echo form_uneditable(lang('role_name'), '<a href="' . site_url('acl/role/edit') . '/' . $role->id . '">' . $role->name . '</a>'); ?>
+				<?php
+				$parents_value = '';
+				if (isset($role->parents) && count($role->parents) > 0)
+				{
+					foreach($role->parents as $index => $parent)
 					{
-						foreach($role->parents as $index => $parent)
-						{
-							echo '<a href="' . site_url('acl/rule/edit/') . '/' . $parent->parent . '" style="display: block; padding: 0 0 1em 20px;">';
-							echo '<img src="' . image_url('fugue/users.png') .'" width="16" height="16" style="float: left; margin: -0.33em 0 0 -20px"/>';
-							echo $parent->parent_name;
-							echo '</a>';
-						}
+						$parents_value .= '<a href="' . site_url('acl/rule/edit/') . '/' . $parent->parent . '" style="display: block; padding: 0 0 .5em 20px;">';
+						$parents_value .= '<img src="' . image_url('fugue/users.png') .'" width="16" height="16" style="float: left; margin: 2px 0 0 -20px"/>';
+						$parents_value .= $parent->parent_name;
+						$parents_value .= '</a>';
 					}
-					else
-						echo '-';
-					?>
-					</div>
-				</div>
+				}
+				else
+					$parents_value = '-';
+				?>
+				<?php echo form_uneditable(lang('role_parents'), $parents_value); ?>
 			</fieldset>
 			<fieldset>
 				<legend><?php echo lang('rule_page_name'); ?></legend>
@@ -155,7 +147,7 @@
 			<?php if (!$isAjax): ?>
 			<div class="form-actions" style="padding-left: 20px;">
 				<?php 
-				if($acl->is_allowed('organization/structure/edit'))
+				if($acl->is_allowed('acl/rule/edit'))
 				{
 					echo form_button(array(
 						'type' => 'submit',

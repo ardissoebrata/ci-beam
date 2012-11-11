@@ -100,7 +100,7 @@
 						}
 						return $result;
 					}
-					$parents = array(0 => '(' . lang('none') . ')') + generate_options($resource_tree);
+					$parents = array(0 => '(' . lang('resource_parent_none') . ')') + generate_options($resource_tree);
 					if (isset($resource->id) && isset($parents[$resource->id]))
 						unset($parents[$resource->id]);
 					echo form_dropdown('parent', 

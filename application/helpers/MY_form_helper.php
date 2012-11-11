@@ -152,7 +152,7 @@ if ( ! function_exists('form_dropdownlabel'))
 		if ($required)
 			$output .= '<div class="input-append">';
 		
-		$output .= form_dropdown($name, $options, $selected, $extra);
+		$output .= form_dropdown($name, $options, set_value($name, $selected), $extra);
 		
 		if ($required)
 			$output .= '<span class="add-on"><i class="icon-asterisk"></i></span></div>';

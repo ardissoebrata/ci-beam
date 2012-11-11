@@ -5,7 +5,6 @@
  * 
  */
 $config['rows_limit']		= 20;
-$config['item_per_page']		= 20;
 
 /*
  * Supported Languages

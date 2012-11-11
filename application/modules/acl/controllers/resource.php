@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * ACL management controller.
+ * ACL Resource management controller.
  * 
  * @package App
  * @category Controller
@@ -15,7 +15,7 @@ class Resource extends Admin_Controller
 		
 		$this->load->library(array('form_validation'));
 		$this->load->model(array('acl/resource_model'));
-		$this->lang->load(array('acl/resource'));
+		$this->load->language('acl/resource');
 		$this->template->set_css('simple-lists');
 		
 		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));
@@ -30,8 +30,8 @@ class Resource extends Admin_Controller
 		$this->acl->build();
 		$acl = $this->acl;
 		$this->data['acl'] =  $acl;
-		$this->template->set_title(lang('resource_page_name'));
-		$this->template->build('acl/resource-tree', $this->data);
+		$this->template->set_title(lang('resource_page_name'))
+				->build('acl/resource-tree', $this->data);
 	}
 	
 	function add()
@@ -116,8 +116,8 @@ class Resource extends Admin_Controller
 		}
 		
 		// Load resource view
-		$this->template->set_title(lang('resource_page_name'));
-		$this->template->build('acl/resource-edit', $this->data);
+		$this->template->set_title(lang('resource_page_name'))
+				->build('acl/resource-edit', $this->data);
 	}
 	
 	/**

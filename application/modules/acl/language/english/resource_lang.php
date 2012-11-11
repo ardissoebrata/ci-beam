@@ -12,6 +12,7 @@ $lang['resource_empty_results']					= 'No Resource to display.';
 
 $lang['resource_name']							= 'Name';
 $lang['resource_parent']						= 'Parent';
+$lang['resource_parent_none']					= 'No Parent';
 $lang['resource_type']							= 'Type';
 $lang['resource_add_title']						= 'Add a new Resource.';
 

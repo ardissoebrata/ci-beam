@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Role_model extends BaseModel 
+class Role_model extends MY_Model 
 {
 	protected $table_name = 'acl_roles';
 	protected $role_parents_table = 'acl_role_parents';

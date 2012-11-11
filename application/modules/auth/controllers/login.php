@@ -25,33 +25,23 @@ class Login extends MY_Controller
             $remember = $this->input->post('remember') ? TRUE : FALSE;
             
             // get user from database
-			$query = $this->doctrine->em->createQuery('SELECT u FROM auth\models\User u WHERE u.username = :username')
-					->setParameter('username', $this->input->post('username'));
-			try
+			$user = $this->user_model->get_by_username($this->input->post('username'));
+			if ($user && $this->user_model->check_password($this->input->post('password'), $user->password))
 			{
-				$user = $query->getSingleResult();
+				// mark user as logged in
+				$this->auth->login($user->id, $remember);
 				
-				// compare passwords
-				if ($user->check_password($this->input->post('password')))
-				{
-                    // mark user as logged in
-                    $this->auth->login($user->getId(), $remember);
-					
-					$this->load->model(array('acl/role_model'));
-					$role = $this->role_model->get_by_id($user->getRoleId());
-					
-					$ci = &get_instance();
-					$ci->session->set_userdata(array('role' => $role->name));
-					
-                    redirect($this->config->item('dashboard_uri'));
-                }
-				else
-                    throw new Exception(lang('login_failed'));
+				// Add session data
+				$this->session->set_userdata(array(
+					'lang'		=> $user->lang,
+					'role_id'	=> $user->role_id,
+					'role_name'	=> $user->role_name
+				));
+				
+				redirect($this->config->item('dashboard_uri'));
 			}
-			catch (Exception $e)
-			{
+			else
 				$this->data['error'] = lang('login_attempt_failed');
-			}
         }
 		
 		if ($this->input->post('username'))

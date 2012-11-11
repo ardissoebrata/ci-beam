@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Resource_model extends BaseModel 
+class Resource_model extends MY_Model 
 {
 	protected $table_name = 'acl_resources';
 	protected $rules_table = 'acl_rules';

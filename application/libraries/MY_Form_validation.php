@@ -20,7 +20,7 @@ class MY_Form_validation extends CI_Form_validation
 	protected $fields = array();
 	
 	/**
-	 * Default data as Doctrine2 entity object.
+	 * Default data as data object.
 	 * 
 	 * @var object
 	 */
@@ -57,7 +57,7 @@ class MY_Form_validation extends CI_Form_validation
 	}
 	
 	/**
-	 * Set default values from Doctrine2 object.
+	 * Set default values from data object.
 	 * 
 	 * @param object $obj
 	 * @return \MY_Form_validation 
@@ -69,7 +69,7 @@ class MY_Form_validation extends CI_Form_validation
 	}
 	
 	/**
-	 * Get default Doctrine2 object.
+	 * Get default object.
 	 * 
 	 * @return object
 	 */
@@ -88,14 +88,10 @@ class MY_Form_validation extends CI_Form_validation
 	public function field($field_name, $value = '')
 	{
 		// Set field value
-		$func_name = str_replace('_', ' ', $field_name);
-		$func_name = ucwords($func_name);
-		$func_name = 'get' . str_replace(' ', '', $func_name);
-		
 		if (isset($this->fields[$field_name]['value']))
 			$value = $this->fields[$field_name]['value'];
-		elseif (!empty($this->obj_data) && is_callable(array($this->obj_data, $func_name)))
-			$value = call_user_func(array($this->obj_data, $func_name));
+		elseif (!empty($this->obj_data))
+			$value = $this->obj_data->$field_name;
 		
 		// Is field required?
 		$is_required = (isset($this->fields[$field_name]['rules']))? (strpos($this->fields[$field_name]['rules'], 'required') !== FALSE) : FALSE;
@@ -153,27 +149,20 @@ class MY_Form_validation extends CI_Form_validation
 	}
 	
 	/**
-	 * Get updated values in Doctrine2 object from form values.
+	 * Get updated values in data object from form values.
 	 * 
-	 * @param object $obj_data Doctrine2 object to update. Use object from default if empty.
-	 * @return object 
+	 * @param object $obj_data data object to update. Use object from default if empty.
+	 * @return array 
 	 */
-	public function set_values($obj_data = NULL)
+	public function get_values()
 	{
-		if (!empty($obj_data)) $this->obj_data = $obj_data;
-		if (empty($this->obj_data)) return NULL;
-		
+		$values = array();
 		foreach($this->fields as $field_name => $field)
 		{
-			// Set field value
-			$func_name = str_replace('_', ' ', $field_name);
-			$func_name = ucwords($func_name);
-			$func_name = 'set' . str_replace(' ', '', $func_name);
-
-			if (is_callable(array($this->obj_data, $func_name)))
-				call_user_func(array($this->obj_data, $func_name), set_value($field_name));
+			$value = set_value($field_name);
+			if (!empty($value))
+				$values[$field_name] = $value;
 		}
-		
-		return $this->obj_data;
+		return $values;
 	}
 }

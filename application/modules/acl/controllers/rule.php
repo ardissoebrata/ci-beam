@@ -1,6 +1,11 @@
-<?php
-/*
- * Rule Controller
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * ACL Rule management controller
+ * 
+ * @package App
+ * @category Controller
+ * @author Ardi Soebrata
  */
 class Rule extends Admin_Controller 
 {

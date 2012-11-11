@@ -1,6 +1,11 @@
-<?php
-/*
- * Role Controller
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * ACL Role management controller
+ * 
+ * @package App
+ * @category Controller
+ * @author Ardi Soebrata
  */
 class Role extends Admin_Controller 
 {

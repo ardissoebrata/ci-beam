@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Rule_model extends CI_Model 
+class Rule_model extends MY_Model 
 {
 	protected $table_name = 'acl_rules';
 	protected $resource_table = 'acl_resources';
