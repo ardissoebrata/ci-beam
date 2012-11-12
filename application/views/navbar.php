@@ -45,7 +45,7 @@
 								if (strlen(trim($name)) == 0)
 									$name = $auth_user['username'];
 								?>
-								<a href="<?php echo site_url('auth/user/edit/' . $auth_user['id']); ?>"><?php echo $name; ?></a>
+								<a href="<?php echo site_url('auth/user/profile'); ?>"><?php echo $name; ?></a>
 							</li>
 							<li class="divider-vertical"></li>
 							<li>

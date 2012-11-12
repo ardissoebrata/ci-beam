@@ -127,6 +127,25 @@ class MY_Controller extends CI_Controller
 		// Set redirect 
 		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));
 	}
+	
+	/**
+	 * Generate options from data tree
+	 * 
+	 * @param array $tree
+	 * @param string $sep
+	 * @return array
+	 */
+	function generate_options($tree, $sep = '')
+	{
+		$result = array();
+		foreach($tree as $node)
+		{
+			$result[$node['id']] = $sep . $node['name'];
+			if (isset($node['children']))
+				$result = $result + $this->generate_options($node['children'], $sep . '&nbsp;&nbsp;');
+		}
+		return $result;
+	}
 }
 
 include_once(APPPATH . '/core/Admin_Controller.php');

@@ -80,20 +80,8 @@ class User extends Admin_Controller
 	 */
 	function index()
 	{
-		$this->data['users'] = $this->user_model->get_list(site_url('auth/user/index'));
+		$this->data['users'] = $this->user_model->get_list(site_url('auth/user'));
 		$this->template->build('user-list');
-	}
-	
-	function generate_options($tree, $sep = '')
-	{
-		$result = array();
-		foreach($tree as $node)
-		{
-			$result[$node['id']] = $sep . $node['name'];
-			if (isset($node['children']))
-				$result = $result + $this->generate_options($node['children'], $sep . '&nbsp;&nbsp;');
-		}
-		return $result;
 	}
 	
 	/**
@@ -103,28 +91,7 @@ class User extends Admin_Controller
 	 */
 	function edit($id)
 	{
-		$this->load->library('form_validation');
-		$user_form = $this->user_form;
-		$user_form['username']['rules'] = "trim|required|max_length[255]|callback_unique_username[$id]|xss_clean";
-		$user_form['email']['rules'] = "trim|required|max_length[255]|valid_email|callback_unique_email[$id]|xss_clean";
-		
-		$languages = $this->config->item('languages');
-		foreach($languages as $code => $language)
-			$user_form['lang']['options'][$code] = $language['name'];
-		
-		$role_tree = $this->role_model->get_tree();
-		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
-		
-		$this->form_validation->init($user_form);
-		$this->form_validation->set_default($this->user_model->get_by_id($id));
-		if ($this->form_validation->run())
-		{
-			$this->user_model->update($id, $this->form_validation->get_values());
-			redirect('auth/user');
-		}
-		
-		$this->data['form'] = $this->form_validation;
-		$this->template->build('user-form');
+		$this->_updatedata($id);
 	}
 	
 	/**
@@ -132,21 +99,67 @@ class User extends Admin_Controller
 	 */
 	function add()
 	{
+		$this->_updatedata();
+	}
+	
+	/**
+	 * Update profile.
+	 */
+	function profile()
+	{
+		$this->data['redirect'] = 'auth/user/profile';
+		$this->edit($this->auth->userid());
+	}
+	
+	/**
+	 * Update user data
+	 * 
+	 * @param int $id
+	 */
+	function _updatedata($id = 0)
+	{
 		$this->load->library('form_validation');
 		$user_form = $this->user_form;
 		
+		// Update rules for update data
+		if ($id > 0)
+		{
+			$user_form['username']['rules']	= "trim|required|max_length[255]|callback_unique_username[$id]|xss_clean";
+			$user_form['email']['rules']	= "trim|required|max_length[255]|valid_email|callback_unique_email[$id]|xss_clean";
+			$user_form['password']['rules']	= "trim|matches[confirm-password]";
+			$user_form['confirm-password']['rules']	= "trim";
+		}
+		
+		// Add language options
 		$languages = $this->config->item('languages');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
 		
+		// Add role options
 		$role_tree = $this->role_model->get_tree();
 		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
 		
 		$this->form_validation->init($user_form);
+		// Set default value for update data
+		if ($id > 0)
+			$this->form_validation->set_default($this->user_model->get_by_id($id));
 		if ($this->form_validation->run())
 		{
-			$this->user_model->insert($this->form_validation->get_values());
-			redirect('auth/user');
+			if ($id > 0)
+			{
+				$this->user_model->update($id, $this->form_validation->get_values());
+				$this->template->set_flashdata('info', lang('user_updated'));
+			}
+			else
+			{
+				$this->user_model->insert($this->form_validation->get_values());
+				$this->template->set_flashdata('info', lang('user_added'));
+			}
+			
+			if (isset($this->data['redirect']))
+				redirect($this->data['redirect']);
+			else
+				redirect('auth/user');
 		}
 		
 		$this->data['form'] = $this->form_validation;
@@ -167,6 +180,13 @@ class User extends Admin_Controller
 		redirect('auth/user');
 	}
 	
+	/**
+	 * Validation callback function to check whether the username is unique
+	 * 
+	 * @param string $value Username to check
+	 * @param int $id Don't check if the username has this ID
+	 * @return boolean
+	 */
 	function unique_username($value, $id = 0)
 	{
 		if ($this->user_model->is_username_unique($value, $id))
@@ -178,6 +198,13 @@ class User extends Admin_Controller
 		}
 	}
 	
+	/**
+	 * Validation callback function to check whether the email is unique
+	 * 
+	 * @param string $value Email to check
+	 * @param int $id Don't check if the email has this ID
+	 * @return boolean
+	 */
 	function unique_email($value, $id = 0)
 	{
 		if ($this->user_model->is_email_unique($value, $id))

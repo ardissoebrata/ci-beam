@@ -20,5 +20,10 @@ $lang['language']				= 'Language';
 
 $lang['already_taken']			= 'The %s is already taken.';
 
+$lang['user_delete_confirm']				= 'Are you sure you want to delete this user?';
+$lang['user_added']							= 'New user has been added.';
+$lang['user_updated']						= 'User has been updated.';
+$lang['user_deleted']						= 'User has been deleted.';
+
 /* End of file auth_lang.php */
 /* Location: ./application/modules/auth/language/english/auth_lang.php */
