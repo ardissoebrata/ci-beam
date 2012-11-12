@@ -228,8 +228,8 @@ class Auth {
         
         $data = @unserialize($data);
         
-        echo 'reading cookie<br>';
-        print_r($data);
+//        echo 'reading cookie<br>';
+//        print_r($data);
         
         if (isset($data['id']) && isset($data['series']) && isset($data['key'])) {
             return $data;

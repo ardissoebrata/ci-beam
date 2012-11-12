@@ -41,7 +41,7 @@ class MY_Controller extends CI_Controller
 	{
 		parent::__construct();
 		
-		// Setting up ACL
+		// Get auth data.
 		if ($this->auth->loggedin())
 		{
 			// Get current user id
@@ -59,34 +59,10 @@ class MY_Controller extends CI_Controller
 				'role_id'		=> $user->role_id,
 				'role_name'		=> $user->role_name
 			);
-			
-			// Check ACL
-			$allowed = FALSE;
-			// First check if it allowed for the exact uri_string
-			$this->acl->build();
-			if ($this->acl->has($this->uri->uri_string()))
-			{
-				$allowed = $this->acl->is_allowed($this->uri->uri_string());
-			}
-			else
-			{
-				// Check uri_string resources from the longest segment
-				$i = $this->uri->total_rsegments();
-				$segments = $this->uri->rsegment_array();
-				$has_resource = FALSE;
-				$resource = '';
-				while ($i > 0 && !$has_resource)
-				{
-					$resource_uri = array();
-					for($j = 1; $j <= $i; $j++)
-						array_push ($resource_uri, $segments[$j]);
-					$resource = implode('/', $resource_uri);
-					$has_resource = $this->acl->has($resource);
-					$i--;
-				} 
-				if ($has_resource)
-					$allowed = $this->acl->is_allowed ($resource);
-			}
+		}
+		else
+		{
+			$this->session->set_userdata('role_name', 'Guest');
 		}
 		
 		// Setting up language.
@@ -123,6 +99,11 @@ class MY_Controller extends CI_Controller
 		}
 		$this->config->set_item('language', $languages[$lang]['folder']);
 		$this->load->language('application');
+		
+		// Check ACL
+		$this->acl->build();
+		$allowed = $this->acl->is_allowed($this->uri->uri_string());
+		if (!$allowed) show_error(lang('error_401'), 401, lang('error_401_title'));
 		
 		// Set redirect 
 		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));

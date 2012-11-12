@@ -22,5 +22,8 @@ $lang['continue']		= 'Continue';
 $lang['cancel']			= 'Cancel';
 $lang['none']			= 'None';
 
+$lang['error_401_title'] = "Unauthorized Access";
+$lang['error_401']		= "Sorry, you do not have permission to access this page. Please contact the Administrator for more information.";
+
 /* End of file application_lang.php */
 /* Location: ./application/language/english/application_lang.php */

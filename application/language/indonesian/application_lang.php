@@ -22,5 +22,8 @@ $lang['continue']		= 'Lanjutkan';
 $lang['cancel']			= 'Batal';
 $lang['none']			= 'Kosong';
 
+$lang['error_401_title'] = "Akses Tidak Sah";
+$lang['error_401']		= "Maaf, Anda tidak memiliki hak untuk mengakses halaman ini. Silakan hubungi Administrator untuk keterangan lebih lanjut.";
+
 /* End of file application_lang.php */
 /* Location: ./application/language/indonesian/application_lang.php */

@@ -15,6 +15,7 @@ class Acl
 	{
 		// Get the instance
 		$this->CI =& get_instance();
+		$this->build();
 	}
 	
 	function build()
@@ -87,11 +88,29 @@ class Acl
 	// Function to check if the current or a preset role has access to a resource
 	function is_allowed($resource, $role = '')
 	{
+		// Home page always available to all.
+		if ($resource === '') return TRUE;
+		
+		// Check uri_string resources from the longest segment
+		$has_resource = $this->has($resource);
+		while((strlen($resource) > 0) && !$has_resource)
+		{
+			$pos = strrpos($resource, '/');
+			if ($pos === FALSE)
+				$resource = '';
+			else
+			{
+				$resource = substr($resource, 0, $pos);
+				$has_resource = $this->has($resource);
+			}
+		}
+		
 		// If resource not exists, default to 'deny'.
-		if (!$this->has($resource))
+		if (!$has_resource)
 		{
 			return FALSE;
 		}
+		
 		// If role empty, try search the session.
 		if (empty($role)) 
 		{
@@ -100,6 +119,7 @@ class Acl
 				$role = $this->CI->session->userdata['role_name'];
 			}
 		}
+		
 		// If role empty or not exists, default to 'deny'.
 		if (empty($role) || !$this->has_role($role)) 
 		{
