@@ -1,6 +1,7 @@
 <h1>
 	<?php echo lang('rule_page_name'); ?>
 </h1>
+<?php echo messages(); ?>
 <div class="row-fluid">
 	<div class="span6">
 		<?php

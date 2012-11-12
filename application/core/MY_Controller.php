@@ -123,6 +123,9 @@ class MY_Controller extends CI_Controller
 		}
 		$this->config->set_item('language', $languages[$lang]['folder']);
 		$this->load->language('application');
+		
+		// Set redirect 
+		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));
 	}
 }
 

@@ -165,4 +165,14 @@ class MY_Form_validation extends CI_Form_validation
 		}
 		return $values;
 	}
+	
+	/**
+	 * Return number of errors.
+	 * 
+	 * @return int
+	 */
+	public function num_errors()
+	{
+		return count($this->_error_array);
+	}
 }

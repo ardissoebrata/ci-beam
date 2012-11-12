@@ -18,8 +18,6 @@ class Resource extends Admin_Controller
 		$this->load->language('acl/resource');
 		$this->template->set_css('simple-lists');
 		
-		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));
-		
 		$this->data['resource_tree'] = $this->resource_model->get_tree();
 		
 		$this->data['isAjax'] = FALSE;
@@ -49,31 +47,31 @@ class Resource extends Admin_Controller
 		$this->data['acl'] =  $acl;
                         
 		if (!is_numeric($resource_id) || $resource_id < 1)
-			$this->_send_error_redirect(lang('resource_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('resource_cannot_be_found'));
 		
 		$this->data['resource'] = $this->resource_model->get_by_id($resource_id);
 		
 		if ($this->data['resource'])
 			$this->_updatedata();
 		else
-			$this->_send_error_redirect(lang('resource_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('resource_cannot_be_found'));
 	}
 	
 	function delete($resource_id)
 	{
 		if (!is_numeric($resource_id) || $resource_id < 1)
-			$this->_send_error_redirect(lang('resource_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('resource_cannot_be_found'));
 		
 		$this->data['resource'] = $this->resource_model->get_by_id($resource_id);
 		
 		if ($this->data['resource'])
 		{
 			$this->resource_model->delete($resource_id);
-//			$this->template->set_flashdata('notify', lang('resource_deleted'));
+			$this->template->set_flashdata('info', lang('resource_deleted'));
 			redirect($this->data['redirect']);
 		}
 		else
-			$this->_send_error_redirect(lang('resource_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('resource_cannot_be_found'));
 	}
 	
 	function _updatedata()
@@ -104,12 +102,12 @@ class Resource extends Admin_Controller
 			if (isset($attributes['id']))
 			{
 				$this->resource_model->update($attributes['id'], $attributes);			// Update resource
-//				$this->template->set_flashdata('notify', lang('resource_updated'));
+				$this->template->set_flashdata('info', lang('resource_updated'));
 			}
 			else
 			{
 				$this->resource_model->update(0, $attributes);							// Add resource
-//				$this->template->set_flashdata('notify', lang('resource_added'));
+				$this->template->set_flashdata('info', lang('resource_added'));
 			}
 
 			redirect($this->data['redirect']);
@@ -138,12 +136,9 @@ class Resource extends Admin_Controller
 			return TRUE;
 	}
 	
-	function _send_error_redirect($err_message)
+	function _send_message_redirect($type, $message)
 	{
-//		$this->template->set_flashdata('error', $err_message);
-//		if (!$this->_is_redirect_view())
-//			redirect($this->data['redirect']);
-//		else
-			redirect('acl/resource');
+		$this->template->set_flashdata($type, $message);
+		redirect('acl/resource');
 	}
 }

@@ -7,6 +7,7 @@
 	</a>
 	<?php } ?>
 </h1>
+<?php echo messages(); ?>
 <div class="row-fluid">
 	<div class="span6">
 		<?php
@@ -45,11 +46,6 @@
 	<div class="span6">
 <?php endif; ?>						
 		<?php echo form_open_multipart(uri_string(), array('class' => 'form-horizontal', 'id' => 'resource-form', 'name' => 'resource-form')); ?>
-			<?php if (validation_errors()): ?>
-			<ul class="message error no-margin">
-				<?php echo validation_errors(); ?>
-			</ul>
-			<?php endif; ?>
 			<?php 
 			echo form_hidden(array('id' => set_value('id', isset($resource->id) ? $resource->id : '')));
 			if (isset($redirect))

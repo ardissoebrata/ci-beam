@@ -4,12 +4,7 @@
 			<h3><?php echo lang('login'); ?></h3>
 		</div>
 		<div class="modal-body">
-			<?php if(isset($error)): ?>
-			<div class="alert">
-				<a class="close" data-dismiss="alert">×</a>
-				<strong><?php echo lang('warning'); ?></strong> <?php echo $error; ?>
-			</div>
-			<?php endif; ?>
+			<?php echo messages(); ?>
 			<div class="control-group">
 				<label for="username" class="control-label"><?php echo lang('username'); ?></label>
 				<div class="controls">

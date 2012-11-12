@@ -21,8 +21,6 @@ class Role extends Admin_Controller
 		$this->load->language('acl/role');
 		$this->template->set_css('simple-lists');
 		
-		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));
-		
 		$this->data['role_tree'] = $this->role_model->get_tree();
 		
 		$this->data['isAjax'] = FALSE;
@@ -53,7 +51,7 @@ class Role extends Admin_Controller
 		$acl = $this->acl;
 		$this->data['acl'] =  $acl;
 		if (!is_numeric($role_id) || $role_id < 1)
-			$this->_send_error_redirect(lang('role_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('role_cannot_be_found'));
 		
 		$this->load->model('acl/resource_model');
 		$this->data['resources'] = $this->resource_model->get_tree();
@@ -62,13 +60,13 @@ class Role extends Admin_Controller
 		if ($this->data['role'])
 			$this->_updatedata();
 		else
-			$this->_send_error_redirect(lang('role_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('role_cannot_be_found'));
 	}
 	
 	function delete($role_id)
 	{
 		if (!is_numeric($role_id) || $role_id < 1)
-			$this->_send_error_redirect(lang('role_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('role_cannot_be_found'));
 		
 		$this->data['role'] = $this->role_model->get_by_id($role_id);
 		
@@ -79,7 +77,7 @@ class Role extends Admin_Controller
 			redirect($this->data['redirect']);
 		}
 		else
-			$this->_send_error_redirect(lang('role_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('role_cannot_be_found'));
 	}
 	
 	function _updatedata()
@@ -109,12 +107,12 @@ class Role extends Admin_Controller
 			if (isset($attributes['id']))
 			{
 				$this->role_model->update($attributes['id'], $attributes);			// Update resource
-//				$this->template->set_flashdata('notify', lang('role_updated'));
+				$this->template->set_flashdata('info', lang('role_updated'));
 			}
 			else
 			{
 				$this->role_model->update(0, $attributes);							// Add resource
-//				$this->template->set_flashdata('notify', lang('role_added'));
+				$this->template->set_flashdata('info', lang('role_added'));
 			}
 
 			if (isset($this->data['redirect']) && !empty($this->data['redirect']))
@@ -128,13 +126,10 @@ class Role extends Admin_Controller
 		$this->template->build('acl/role-edit', $this->data);
 	}
 	
-	function _send_error_redirect($err_message)
+	function _send_message_redirect($type, $message)
 	{
-//		$this->template->set_flashdata('error', $err_message);
-//		if (!$this->_is_redirect_view())
-//			redirect($this->data['redirect']);
-//		else
-			redirect('acl/role');
+		$this->template->set_flashdata($type, $message);
+		redirect('acl/role');
 	}
 }
 

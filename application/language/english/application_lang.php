@@ -7,7 +7,11 @@ $lang['page_rendered']	= 'Page rendered in <strong>{elapsed_time}</strong> secon
 $lang['confirmation']	= 'Confirmation';
 $lang['are_you_sure']	= 'Are you sure you want to delete this?';
 
+$lang['error']			= 'Error!';
 $lang['warning']		= 'Warning!';
+$lang['info']			= 'Info';
+
+$lang['form_error']		= 'There are %d error(s) in this form.<br />Incorrect data has been marked in red.<br />Please correct the erroneous data, then save it.';
 
 $lang['add']			= 'Add';
 $lang['edit']			= 'Edit';

@@ -84,25 +84,38 @@ class Template
 	protected $css = array();
 	
 	/**
-	 * Javascript Files on header.
+	 * Javascript Files on header
 	 * 
 	 * @var array
 	 */
 	protected $js_header = array();
 	
 	/**
-	 * Javascript Files on footer.
+	 * Javascript Files on footer
 	 * 
 	 * @var array
 	 */
 	protected $js_footer = array();
 	
 	/**
-	 * View Partials.
+	 * View Partials
 	 * 
 	 * @var array 
 	 */
 	protected $partials = array();
+	
+	/**
+	 * Messages
+	 * 
+	 * @var array
+	 */
+	protected $messages = array(
+		'warning'	=> array(), 
+		'error'		=> array(), 
+		'success'	=> array(), 
+		'info'		=> array(),
+		'notify'	=> array()
+	);
 	
 	/**
 	 * Construct the Class
@@ -355,6 +368,54 @@ class Template
 	}
 	
 	/**
+	 * Adds a message to the current page stack
+	 * 
+	 * @param string $type Available types are warning, error, success and info
+	 * @param string $message
+	 * @return Template
+	 */
+	function add_message($type, $message)
+	{
+		$this->messages[$type][] = $message;
+		return $this;
+	}
+	
+	
+	/**
+	 * Serves purely as a wrapper for the CI flashdata
+	 * Just to keep syntax organised
+	 * 
+	 * @param string $type Available types are warning, error, success and info
+	 * @param string $message
+	 * @return Template
+	 */
+	function set_flashdata($type, $message)
+	{
+		$this->ci->session->set_flashdata($type, $message);
+		return $this;
+	}
+	
+	/**
+	 * Add any warning, error, success and info messages 
+	 * that were added via session->flashdata
+	 */
+	function prepare_messages()
+	{
+		foreach($this->messages as $type => $messages)
+		{
+			// add flash data for this type to the stack
+			$flash = $this->ci->session->flashdata($type);
+			if($flash != '')
+				$this->messages[$type][] = $flash;
+		}
+	}
+	
+	function get_messages()
+	{
+		return $this->messages;
+	}
+		
+	/**
 	 * Build The Template
 	 * 
 	 * @param string $view
@@ -431,6 +492,10 @@ class Template
 				$template_data['js_footer'] .= "\t\t<script>\r\n" . $value . "\r\n</script>\r\n";
 			}
 		}
+		
+		// Add messages.
+		$this->prepare_messages();
+		$template_data['messages'] = $this->get_messages();
 		
 		// Add partials.
 		$template_data['partials'] = $this->partials;

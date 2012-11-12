@@ -6,6 +6,7 @@
 	</a>
 	<?php } ?>
 </h1>
+<?php echo messages(); ?>
 <div class="row-fluid">
 	<div class="span6">
 		<?php

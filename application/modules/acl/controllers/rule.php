@@ -45,7 +45,7 @@ class Rule extends Admin_Controller
 		$acl = $this->acl;
 		$this->data['acl'] =  $acl;
 		if (!is_numeric($role_id) || $role_id < 1)
-			$this->_send_error_redirect(lang('role_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('role_cannot_be_found'));
 		
 		$this->load->model('acl/resource_model');
 		$this->data['resources'] = $this->resource_model->get_tree();
@@ -69,7 +69,7 @@ class Rule extends Admin_Controller
 				if (isset($attributes['id']))
 				{
 					$this->rule_model->update($attributes['id'], $attributes);			// Update rules
-//					$this->template->set_flashdata('notify', lang('rule_updated'));
+					$this->template->set_flashdata('info', lang('rule_updated'));
 				}
 
 				redirect($this->data['redirect']);
@@ -90,12 +90,12 @@ class Rule extends Admin_Controller
 			$this->template->build('acl/rule-edit', $this->data);
 		}
 		else
-			$this->_send_error_redirect(lang('role_cannot_be_found'));
+			$this->_send_message_redirect('error', lang('role_cannot_be_found'));
 	}
 	
-	function _send_error_redirect($err_message)
+	function _send_message_redirect($type, $message)
 	{
-//		$this->template->set_flashdata('notify', $err_message);
+		$this->template->set_flashdata($type, $message);
 		redirect('acl/rule');
 	}
 }

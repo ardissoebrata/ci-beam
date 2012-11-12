@@ -41,7 +41,7 @@ class Login extends MY_Controller
 				redirect($this->config->item('dashboard_uri'));
 			}
 			else
-				$this->data['error'] = lang('login_attempt_failed');
+				$this->template->add_message ('error', lang('login_attempt_failed'));
         }
 		
 		if ($this->input->post('username'))
