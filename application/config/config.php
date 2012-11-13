@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/ci-beam/';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
