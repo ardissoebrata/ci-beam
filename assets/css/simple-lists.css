@@ -222,6 +222,7 @@ ul.tags {
 ul.arbo, ul.arbo ul {
 	list-style-type: none;
 	margin: 0.5em 0 0;
+	padding-left: 0;
 	}
 	ul.arbo a:hover {
 		text-decoration: none;

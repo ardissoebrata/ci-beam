@@ -3,8 +3,8 @@
 </h1>
 <?php echo messages(); ?>
 <?php if (!$isAjax): ?>
-<div class="row-fluid">
-	<div class="span6">
+<div class="row">
+	<div class="col-sm-6">
 		<?php
 			function display_tree($tree, $acl)
 			{
@@ -36,7 +36,7 @@
 		</ul>
 	</div>
 	
-	<div class="span6">
+	<div class="col-sm-6">
 <?php endif; ?>
 		<?php echo form_open_multipart(uri_string(), array('class' => 'form-horizontal', 'id' => 'role-form', 'name' => 'role-form')); ?>
 			<?php if (validation_errors()): ?>

@@ -47,7 +47,8 @@ $config['beam_template']['title_separator'] = ' | ';
  */
 $config['beam_template']['metas'] = array(
 	'description'	=> 'My Site description',
-	'author'		=> 'Me'
+	'author'		=> 'Me',
+	'viewport'		=> 'width=device-width, initial-scale=1'
 );
 
 /**
@@ -61,7 +62,8 @@ $config['beam_template']['css'] = array(
 			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 		}'
 	),
-	'bootstrap-responsive',
+	'bootstrap-theme',
+	'simple-lists'
 );
 
 /**
@@ -69,5 +71,7 @@ $config['beam_template']['css'] = array(
  */
 $config['beam_template']['js_header'] = array(
 	'jquery',
+);
+$config['beam_template']['js_footer'] = array(
 	'bootstrap',
 );

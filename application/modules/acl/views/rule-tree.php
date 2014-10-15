@@ -2,8 +2,8 @@
 	<?php echo lang('rule_page_name'); ?>
 </h1>
 <?php echo messages(); ?>
-<div class="row-fluid">
-	<div class="span6">
+<div class="row">
+	<div class="col-sm-6">
 		<?php
 			function display_tree($tree, $acl)
 			{

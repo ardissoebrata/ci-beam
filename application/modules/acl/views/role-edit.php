@@ -8,8 +8,8 @@
 	<?php } ?>
 </h1>
 <?php echo messages(); ?>
-<div class="row-fluid">
-	<div class="span6">
+<div class="row">
+	<div class="col-md-6">
 		<?php
 			function display_tree($tree, $acl)
 			{
@@ -41,7 +41,7 @@
 	</div>
 	
 	<!-- Right column -->
-	<div class="span6">
+	<div class="col-md-6">
 <?php endif; ?>
 		<?php echo form_open_multipart(uri_string(), array('class' => 'form-horizontal', 'id' => 'role-form', 'name' => 'role-form')); ?>
 			<?php if (validation_errors()): ?>
@@ -56,15 +56,15 @@
 			?>
 			<fieldset>
 				<legend><?php echo lang('role_page_name'); ?></legend>
-				<div class="control-group">
-					<?php echo form_label(lang('role_name'), 'name', array('class' => 'control-label required')); ?>
-					<div class="controls">
+				<div class="form-group">
+					<?php echo form_label(lang('role_name'), 'name', array('class' => 'col-sm-2 control-label required')); ?>
+					<div class="col-sm-10">
 						<?php echo form_input(array(
 							'name'		=> 'name',
 							'id'		=> 'name',
 							'value'		=> set_value('name', isset($role->name) ? $role->name : ''),
 							'maxlength'	=> '255',
-							'class'		=> 'full-width' . (form_error('name') ? ' error' : '')
+							'class'		=> 'form-control' . (form_error('name') ? ' error' : '')
 						)); ?>
 					</div>
 				</div>
@@ -89,32 +89,33 @@
 				{
 					foreach($role->parents as $index => $parent)
 					{
-						echo '<div class="control-group">';
+						echo '<div class="form-group">';
 						if (! $isLabelEchoed)
 						{
-							echo form_label(lang('role_parents'), 'parents[' . $index . ']', array('class' => 'control-label'));
+							echo form_label(lang('role_parents'), 'parents[' . $index . ']', array('class' => 'col-sm-2 control-label'));
 							$isLabelEchoed = TRUE;
 						}
 						else
-							echo form_label('', 'parents[' . $index . ']', array('class' => 'control-label'));
-						echo '<div class="controls">'; 
+							echo form_label('', 'parents[' . $index . ']', array('class' => 'col-sm-2 control-label'));
+						echo '<div class="col-sm-10">'; 
 						echo form_dropdown('parents[' . $index . ']', 
 							$parents,
-							set_value('parents[' . $index . ']', $parent->parent)
+							set_value('parents[' . $index . ']', $parent->parent),
+							'class="form-control"'
 						);
 						echo '</div></div>';
 					}
 				}
-				echo '<div class="control-group">';
+				echo '<div class="form-group">';
 				if (! $isLabelEchoed)
 				{
-					echo form_label(lang('role_parents'), 'parents[]', array('class' => 'control-label'));
+					echo form_label(lang('role_parents'), 'parents[]', array('class' => 'col-sm-2 control-label'));
 					$isLabelEchoed = TRUE;
 				}
 				else
-					echo form_label('', 'parents[]', array('class' => 'control-label'));
-				echo '<div class="controls">';
-				echo form_dropdown('parents[]', $parents, 0);
+					echo form_label('', 'parents[]', array('class' => 'col-sm-2 control-label'));
+				echo '<div class="col-sm-10">';
+				echo form_dropdown('parents[]', $parents, 0, 'class="form-control"');
 				echo '</div></div>';
 				?>
 			</fieldset>
@@ -139,7 +140,7 @@
 					echo form_confirmwindow('delete-confirm', lang('delete'), lang('delete'), lang('role_delete_confirm'), $delete_url);
 				}
 				?>
-				<a href="<?php echo site_url('acl/role'); ?>" class="btn"><?php echo lang('cancel') ?></a>
+				<a href="<?php echo site_url('acl/role'); ?>" class="btn btn-default"><?php echo lang('cancel') ?></a>
 			</div>
 			<?php endif; ?>
 		<?php echo form_close(); ?>

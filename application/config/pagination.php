@@ -5,8 +5,8 @@ $config['use_page_numbers']		= FALSE;
 $config['page_query_string']	= FALSE;
 $config['uri_segment']			= 4;
 
-$config['full_tag_open']	= '<div class="pagination pagination-right"><ul>';
-$config['full_tag_close']	= '</ul></div>';
+$config['full_tag_open']	= '<ul class="pagination pull-right" style="margin-top: 0">';
+$config['full_tag_close']	= '</ul>';
 
 $config['first_link']		= 'First';
 $config['first_tag_open']	= '<li>';

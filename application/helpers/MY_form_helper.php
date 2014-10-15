@@ -31,11 +31,11 @@ if ( ! function_exists('_generate_input_label'))
 			else
 				$value = $value->format('Y-m-d H:i:s');
 		}
-		$defaults = array('type' => $type, 'name' => $name, 'id' => $name, 'value' => set_value($name, $value));
+		$defaults = array('type' => $type, 'name' => $name, 'id' => $name, 'value' => set_value($name, $value), 'class' => 'form-control');
 		
-		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
-		$output .= form_label($label, $name, array('class' => 'control-label'));
-		$output .= '<div class="controls">';
+		$output = '<div class="form-group' . ((form_error($name)) ? ' error' : '') . '">';
+		$output .= form_label($label, $name, array('class' => 'col-sm-2 control-label'));
+		$output .= '<div class="col-sm-10">';
 		
 		if ($required)
 			$output .= '<div class="input-append">';
@@ -128,7 +128,8 @@ if ( ! function_exists('form_actions'))
 	{
 		if (count($buttons) == 0) return '';
 		
-		$output = '<div class="form-actions">';
+		$output = '<div class="form-group">'. "\r\n";
+		$output .= '<div class="col-sm-offset-2 col-sm-10">';
 		foreach($buttons as $name => $attributes)
 		{
 			$attributes['class'] = (isset($attributes['class'])) ? $attributes['class'] . ' btn' : 'btn';
@@ -136,7 +137,7 @@ if ( ! function_exists('form_actions'))
 				$attributes['name'] = $attributes['id'];
 			$output .= form_submit($attributes) . "\r\n";
 		}
-		$output .= '</div>';
+		$output .= '</div></div>';
 		return $output;
 	}
 }
@@ -145,13 +146,16 @@ if ( ! function_exists('form_dropdownlabel'))
 {
 	function form_dropdownlabel($name = '', $label, $required = FALSE, $options = array(), $selected = array(), $extra = '')
 	{
-		$output = '<div class="control-group' . ((form_error($name)) ? ' error' : '') . '">';
-		$output .= form_label($label, $name, array('class' => 'control-label'));
-		$output .= '<div class="controls">';
+		$output = '<div class="form-group' . ((form_error($name)) ? ' error' : '') . '">';
+		$output .= form_label($label, $name, array('class' => 'col-sm-2 control-label'));
+		$output .= '<div class="col-sm-10">';
 		
 		if ($required)
 			$output .= '<div class="input-append">';
 		
+		if (empty($extra))
+			$extra = 'class="form-control"';
+
 		$output .= form_dropdown($name, $options, set_value($name, $selected), $extra);
 		
 		if ($required)
@@ -180,10 +184,10 @@ if ( ! function_exists('form_uneditable'))
 		if (!empty($options) && isset($options[$value]))
 			$value = $options[$value];
 		
-		$output = '<div class="control-group">';
-		$output .= form_label($label, '', array('class' => 'control-label'));
-		$output .= '<div class="controls">';
-		$output .= '<span class="uneditable-input ' . $class . '">' . $value . '</span>';
+		$output = '<div class="form-group">';
+		$output .= form_label($label, '', array('class' => 'col-sm-2 control-label'));
+		$output .= '<div class="col-sm-10">';
+		$output .= '<p class="form-control-static ' . $class . '">' . $value . '</p>';
 		$output .= '</div>';
 		$output .= '</div>' . "\r\n";
 		return $output;
@@ -204,8 +208,6 @@ if ( ! function_exists('form_datelonglabel'))
 		
 		if ($required)
 			$output .= '<div class="input-append">';
-		
-		
 		
 		if ($required)
 			$output .= '<span class="add-on"><i class="icon-asterisk"></i></span></div>';
@@ -237,17 +239,21 @@ if ( ! function_exists('form_confirmwindow'))
 		if (empty($ok)) $ok = 'OK';
 		
 		$out = '<a href="#' . $name . '" role="button" class="btn ' . $class . '" data-toggle="modal">' . $link_title . '</a>';
-		$out .= '<div class="modal" id="' . $name . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">';
+		$out .= '<div class="modal fade" id="' . $name . '" tabindex="-1" role="dialog" aria-labelledby="' . $name . 'Label" aria-hidden="true">';
+		$out .= '<div class="modal-dialog">';
+		$out .= '<div class="modal-content">';
 		$out .= '<div class="modal-header">';
 		$out .= '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
-		$out .= '<h3 id="myModalLabel">' . $window_title . '</h3>';
+		$out .= '<h3 id="' . $name . 'Label" class="modal-title">' . $window_title . '</h3>';
 		$out .= '</div>';
 		$out .= '<div class="modal-body">';
 		$out .= $window_content;
 		$out .= '</div>';
 		$out .= '<div class="modal-footer">';
 		$out .= '<a href="' . $target_url . '" class="btn ' . $class . '">OK</a>';
-		$out .= '<button class="btn" data-dismiss="modal" aria-hidden="true">' . $cancel . '</button>';
+		$out .= '<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">' . $cancel . '</button>';
+		$out .= '</div>';
+		$out .= '</div>';
 		$out .= '</div>';
 		$out .= '</div>';
 		

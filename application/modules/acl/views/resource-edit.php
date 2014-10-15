@@ -8,8 +8,8 @@
 	<?php } ?>
 </h1>
 <?php echo messages(); ?>
-<div class="row-fluid">
-	<div class="span6">
+<div class="row">
+	<div class="col-md-6">
 		<?php
 		function display_tree($tree, $curr_id = 0, $acl)
 		{
@@ -43,7 +43,7 @@
 		</ul>
 	</div>
 	
-	<div class="span6">
+	<div class="col-md-6">
 <?php endif; ?>						
 		<?php echo form_open_multipart(uri_string(), array('class' => 'form-horizontal', 'id' => 'resource-form', 'name' => 'resource-form')); ?>
 			<?php 
@@ -53,21 +53,21 @@
 			?>
 			<fieldset>
 				<legend><?php echo lang('resource_page_name'); ?></legend>
-				<div class="control-group">
-					<?php echo form_label(lang('resource_name'), 'name', array('class' => 'control-label required')); ?>
-					<div class="controls">
+				<div class="form-group">
+					<?php echo form_label(lang('resource_name'), 'name', array('class' => 'col-sm-2 control-label required')); ?>
+					<div class="col-sm-10">
 						<?php echo form_input(array(
 							'name'		=> 'name',
 							'id'		=> 'name',
 							'value'		=> set_value('name', isset($resource->name) ? $resource->name : ''),
 							'maxlength'	=> '255',
-							'class'		=> 'full-width' . (form_error('name') ? ' error' : '')
+							'class'		=> 'form-control' . (form_error('name') ? ' error' : '')
 						)); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<?php echo form_label(lang('resource_type'), 'type', array('class' => 'control-label')); ?>
-					<div class="controls">
+				<div class="form-group">
+					<?php echo form_label(lang('resource_type'), 'type', array('class' => 'col-sm-2 control-label')); ?>
+					<div class="col-sm-10">
 						<?php
 						echo form_dropdown('type', 
 							array(
@@ -76,14 +76,15 @@
 								'action'		=> 'Action',
 								'other'			=> 'Other'
 							),
-							set_value('type', isset($resource->type) ? $resource->type : 'other')
+							set_value('type', isset($resource->type) ? $resource->type : 'other'),
+							'class="form-control"'
 						);
 						?>
 					</div>
 				</div>
-				<div class="control-group">
-					<?php echo form_label(lang('resource_parent'), 'parent', array('class' => 'control-label')); ?>
-					<div class="controls">
+				<div class="form-group">
+					<?php echo form_label(lang('resource_parent'), 'parent', array('class' => 'col-sm-2 control-label')); ?>
+					<div class="col-sm-10">
 					<?php
 					function generate_options($tree, $sep = '')
 					{
@@ -101,7 +102,8 @@
 						unset($parents[$resource->id]);
 					echo form_dropdown('parent', 
 						$parents, 
-						set_value('parent', isset($resource->parent) ? $resource->parent : 0)
+						set_value('parent', isset($resource->parent) ? $resource->parent : 0),
+						'class="form-control"'
 					);
 					?>
 					</div>
@@ -127,7 +129,7 @@
 					echo form_confirmwindow('delete-confirm', lang('delete'), lang('delete'), lang('resource_delete_confirm'), $delete_url);
 				}
 				?>
-				<a href="<?php echo site_url('acl/resource'); ?>" class="btn"><?php echo lang('cancel') ?></a>
+				<a href="<?php echo site_url('acl/resource'); ?>" class="btn btn-default"><?php echo lang('cancel') ?></a>
 			</div>
 			<?php endif; ?>
 		<?php echo form_close(); ?>

@@ -1,4 +1,4 @@
-<div class="span4">
+<div class="col-md-4">
 	<h2>Partially Partials</h2>
 	<p><?php echo lang('load_module_partials'); ?></p>
 	<pre>

@@ -80,7 +80,7 @@ class User extends Admin_Controller
 	 */
 	function index()
 	{
-		$this->data['users'] = $this->user_model->get_list(site_url('auth/user'));
+		$this->data['users'] = $this->user_model->get_list(site_url('auth/user/index'));
 		$this->template->build('user-list');
 	}
 	

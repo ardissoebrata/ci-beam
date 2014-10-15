@@ -1,9 +1,9 @@
 		<h2>Users</h2>
 		<div class="row">
-			<div class="span4 pagination-height">
-				<a href="<?php echo site_url('auth/user/add'); ?>" class="btn"><?php echo lang('add'); ?></a>
+			<div class="col-md-4 pagination-height">
+				<a href="<?php echo site_url('auth/user/add'); ?>" class="btn btn-default"><?php echo lang('add'); ?></a>
 			</div>
-			<div class="span8">
+			<div class="col-md-8">
 				<?php echo $this->pagination->create_links(); ?>
 			</div>
 		</div>

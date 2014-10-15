@@ -2,6 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title><?php echo $template['title'] ?></title>
 		<?php echo $template['metas']; ?>
 
@@ -27,16 +28,16 @@
 		<?php $this->load->view('navbar', $template); ?>
 
 		<div class="container-fluid">
-			<div class="row-fluid">
+			<div class="row">
 				<?php if (isset($template['partials']['sidebar'])): ?>
-				<div class="span3">
+				<div class="col-md-3">
 					<?php echo $template['partials']['sidebar']; ?>
 				</div><!--/span-->
-				<div class="span9">
+				<div class="col-md-9">
 					<?php echo $template['content']; ?>
 				</div><!--/span-->
 				<?php else: ?>
-				<div class="span12">
+				<div class="col-md-12">
 					<?php echo $template['content']; ?>
 				</div><!--/span-->
 				<?php endif; ?>
