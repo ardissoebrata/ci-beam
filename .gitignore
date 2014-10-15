@@ -38,7 +38,15 @@ Thumbs.db
 /nbproject/
 /.git-rewrite/
 !/ci-beam.sql
-/application/logs/*.php
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
 /wiki/
-/application/cache/
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
 !/sparks/
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
