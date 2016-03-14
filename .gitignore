@@ -54,6 +54,7 @@ Thumbs.db
 !*/cache/index.html
 !*/cache/.htaccess
 /vendor/
+/application/tests/build/
 
 # Project specifics #
 ######################
