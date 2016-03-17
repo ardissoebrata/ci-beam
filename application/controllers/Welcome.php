@@ -1,16 +1,24 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends MY_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->load->language('welcome');
+	}
+	
 	/**
 	 * Index Page for this controller.
 	 *
 	 * Maps to the following URL
 	 * 		http://example.com/index.php/welcome
-	 *	- or -
+	 * 	- or -
 	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
+	 * 	- or -
 	 * Since this controller is set as the default controller in
 	 * config/routes.php, it's displayed at http://example.com/
 	 *
@@ -20,6 +28,7 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->template->build('welcome/welcome_message');
 	}
+
 }

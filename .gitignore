@@ -55,6 +55,7 @@ Thumbs.db
 !*/cache/.htaccess
 /vendor/
 /application/tests/build/
+/assets/bower_components/
 
 # Project specifics #
 ######################
