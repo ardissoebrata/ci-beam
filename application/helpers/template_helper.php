@@ -14,19 +14,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 if (!function_exists('messages'))
 {
-
+	/**
+	 * Return formatted messages.
+	 * 
+	 * @return string
+	 */
 	function messages()
 	{
 		if (FALSE === ($template = & _get_object('template')))
 			return '';
 
-		var_dump($template);
-		
 		$content = '';
 		$template_messages = $template->get_messages();
 		
-		var_dump($template_messages);
-
 		if (FALSE !== ($form_validation = & _get_object('form_validation')))
 		{
 			if ($form_validation->num_errors())
@@ -37,11 +37,16 @@ if (!function_exists('messages'))
 		{
 			if ($type == 'notify')
 				continue;
+			
+			$type_class = $type;
+			if ($type == 'error')
+				$type_class = 'danger';
+			
 			$num_messages = count($messages);
 			if ($num_messages)
 			{
-				$content .= "<div class=\"alert alert-block alert-$type\">";
-				$content .= '<button type="button" class="close" data-dismiss="alert">×</button>';
+				$content .= "<div class=\"alert alert-danger alert-$type_class  alert-dismissable\">";
+				$content .= '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
 				$content .= '<h4>' . lang($type) . '</h4>';
 				if ($num_messages > 1)
 				{
