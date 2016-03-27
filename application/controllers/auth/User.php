@@ -81,7 +81,14 @@ class User extends Admin_Controller
 	function index()
 	{
 		$this->data['users'] = $this->user_model->get_list(site_url('auth/user/index'));
-		$this->template->build('user-list', $this->data);
+		$this->template
+				->set_css('../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap')
+				->set_js('../bower_components/datatables/media/js/jquery.dataTables.min', TRUE)
+				->set_js('../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min')
+				->set_js_script(' 
+					
+				')
+				->build('auth/index', $this->data);
 	}
 	
 	/**
@@ -119,7 +126,6 @@ class User extends Admin_Controller
 	function _updatedata($id = 0)
 	{
 		$this->load->library('form_validation');
-        $this->form_validation->CI =& $this;
 		$user_form = $this->user_form;
 		
 		// Update rules for update data
@@ -132,13 +138,13 @@ class User extends Admin_Controller
 		}
 		
 		// Add language options
-		$languages = $this->config->item('languages');
+		$languages = $this->config->item('languages', 'template');
 		foreach($languages as $code => $language)
 			$user_form['lang']['options'][$code] = $language['name'];
 		
 		// Add role options
 		$role_tree = $this->role_model->get_tree();
-		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->generate_options($role_tree);
+		$user_form['role_id']['options'] = array(0 => '(' . lang('none') . ')') + $this->role_model->generate_options($role_tree);
 			
 		$this->form_validation->init($user_form);
 		// Set default value for update data
@@ -164,7 +170,7 @@ class User extends Admin_Controller
 		}
 		
 		$this->data['form'] = $this->form_validation;
-		$this->template->build('user-form', $this->data);
+		$this->template->build('auth/user-form', $this->data);
 	}
 	
 	/**

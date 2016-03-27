@@ -71,4 +71,9 @@ $config['navigation'] = array(
 			)
 		)
 	),
+	'user-management' => array(
+		'uri' => 'auth/user',
+		'title' => 'User Management',
+		'icon' => 'fa fa-user'
+	)
 );

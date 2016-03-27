@@ -143,4 +143,10 @@ class User_model extends MY_Model {
 		return ($query->num_rows() == 0);
 	}
 
+	function datatable()
+	{
+		$this->datatables->select('id, first_name, last_name, username, email, "" AS role, "" AS registered, "" AS action')
+				->from($this->table);
+		return $this->datatables->generate();
+	}
 }

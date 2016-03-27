@@ -31,6 +31,9 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- jQuery -->
+    <script src="<?php echo bower_url('jquery/dist/jquery.min.js') ?>"></script>
+	
 	<?php echo $template['js_header']; ?>
 </head>
 
@@ -145,9 +148,6 @@
 
     </div>
     <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="<?php echo bower_url('jquery/dist/jquery.min.js') ?>"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo bower_url('bootstrap/dist/js/bootstrap.min.js') ?>"></script>

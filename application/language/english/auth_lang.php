@@ -11,6 +11,7 @@ $lang['login_attempt_failed']	= 'Login Attempt Failed!';
 $lang['username_or_password_empty'] = 'Username and Password required.';
 
 $lang['user']					= 'User';
+$lang['users']					= 'Users';
 $lang['account']				= 'Account';
 
 $lang['first_name']				= 'First Name';

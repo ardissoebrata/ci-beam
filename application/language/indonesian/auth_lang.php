@@ -11,6 +11,7 @@ $lang['login_attempt_failed']	= 'Gagal melakukan login!';
 $lang['username_or_password_empty'] = 'Username dan Password harus diisi.';
 
 $lang['user']					= 'User';
+$lang['users']					= 'Users';
 $lang['account']				= 'Akun';
 
 $lang['first_name']				= 'Nama Depan';

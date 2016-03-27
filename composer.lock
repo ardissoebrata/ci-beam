@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2a1d6b6fc770e12730d35bd0402bcd11",
-    "content-hash": "9c6390e5c87ad24a3822133e96a763d0",
+    "hash": "dcba7605770a9ea741416efd39eb37a8",
+    "content-hash": "958cbedbaebd8f2be4dd3e1b32b6ba1f",
     "packages": [
         {
             "name": "codeigniter/framework",
-            "version": "3.0.5",
+            "version": "3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "4aeab69d8519873c0b20b8a51c910a0674a6c84e"
+                "reference": "8082544c5b4b33175790f505587e202e3ca9e488"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/4aeab69d8519873c0b20b8a51c910a0674a6c84e",
-                "reference": "4aeab69d8519873c0b20b8a51c910a0674a6c84e",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/8082544c5b4b33175790f505587e202e3ca9e488",
+                "reference": "8082544c5b4b33175790f505587e202e3ca9e488",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,56 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2016-03-11 16:29:31"
+            "time": "2016-03-21 16:26:30"
+        },
+        {
+            "name": "zendframework/zend-permissions-acl",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-permissions-acl.git",
+                "reference": "843bbd9c6f6d20b84dd0ce6c815d10397e98082b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-permissions-acl/zipball/843bbd9c6f6d20b84dd0ce6c815d10397e98082b",
+                "reference": "843bbd9c6f6d20b84dd0ce6c815d10397e98082b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "1.7.*",
+                "phpunit/phpunit": "~4.0",
+                "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
+            },
+            "suggest": {
+                "zendframework/zend-servicemanager": "To support Zend\\Permissions\\Acl\\Assertion\\AssertionManager plugin manager usage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev",
+                    "dev-develop": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Permissions\\Acl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "provides a lightweight and flexible access control list (ACL) implementation for privileges management",
+            "homepage": "https://github.com/zendframework/zend-permissions-acl",
+            "keywords": [
+                "acl",
+                "zf2"
+            ],
+            "time": "2016-02-03 21:46:45"
         }
     ],
     "packages-dev": [
@@ -97,16 +146,16 @@
         },
         {
             "name": "kenjis/ci-phpunit-test",
-            "version": "v0.11.1",
+            "version": "v0.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kenjis/ci-phpunit-test.git",
-                "reference": "61500cc8fcd8123df302f58d8cb90d0a7d8cb3ae"
+                "reference": "d71c4b5158518217bfc2afe101c1ef2fa2efa3f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/61500cc8fcd8123df302f58d8cb90d0a7d8cb3ae",
-                "reference": "61500cc8fcd8123df302f58d8cb90d0a7d8cb3ae",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/d71c4b5158518217bfc2afe101c1ef2fa2efa3f5",
+                "reference": "d71c4b5158518217bfc2afe101c1ef2fa2efa3f5",
                 "shasum": ""
             },
             "require": {
@@ -140,7 +189,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2016-02-22 02:25:31"
+            "time": "2016-03-25 10:14:36"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -994,25 +1043,25 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.3",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995"
+                "reference": "b5ba64cd67ecd6887f63868fa781ca094bd1377c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
-                "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/b5ba64cd67ecd6887f63868fa781ca094bd1377c",
+                "reference": "b5ba64cd67ecd6887f63868fa781ca094bd1377c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -1039,7 +1088,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-02-23 07:41:20"
+            "time": "2016-02-23 15:16:06"
         }
     ],
     "aliases": [],

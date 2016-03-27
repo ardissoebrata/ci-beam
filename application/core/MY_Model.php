@@ -12,6 +12,7 @@
  * @property CI_DB_active_record $db
  * @property CI_DB_forge $dbforge
  * @property CI_Input $input
+ * @property Datatables $datatables
  * 
  */
 class MY_Model extends CI_Model {
@@ -43,6 +44,7 @@ class MY_Model extends CI_Model {
 	 */
 	function update($id, $data)
 	{
+		unset($data[$this->id_field]);
 		return $this->db->update($this->table, $data, array($this->id_field => $id));
 	}
 
@@ -99,25 +101,17 @@ class MY_Model extends CI_Model {
 			// Set pagination offset
 			if (empty($offset))
 			{
-				if ($this->pagination->page_query_string)
-					$offset = (int) $this->input->get($this->pagination->query_string_segment);
-				else
-				{
-					$offset = $this->uri->segment(4);
-					if ($this->pagination->use_page_numbers && ($offset > 0))
-						$offset = ($offset - 1) * $limit;
-				}
+				$offset = $this->uri->segment(4);
+				if ($offset > 0)
+					$offset = ($offset - 1) * $limit;
 			}
 
 			// Set base_url, 
-			if ($this->pagination->page_query_string)
-			{
-				$last_char = substr($base_url, -1, 1);
-				if ($last_char == '/')
-					$base_url .= '?';
-				elseif ($last_char != '?')
-					$base_url .= '/?';
-			}
+			$last_char = substr($base_url, -1, 1);
+			if ($last_char == '/')
+				$base_url .= '?';
+			elseif ($last_char != '?')
+				$base_url .= '/?';
 
 			// Get number of rows
 			$row_counts = $this->db->count_all_results($this->table);
@@ -283,4 +277,22 @@ class MY_Model extends CI_Model {
 		return $this->is_sorter_prep;
 	}
 
+	/**
+	 * Generate options from data tree
+	 * 
+	 * @param array $tree
+	 * @param string $sep
+	 * @return array
+	 */
+	function generate_options($tree, $sep = '')
+	{
+		$result = array();
+		foreach($tree as $node)
+		{
+			$result[$node['id']] = $sep . $node['name'];
+			if (isset($node['children']))
+				$result = $result + $this->generate_options($node['children'], $sep . '&nbsp;&nbsp;');
+		}
+		return $result;
+	}
 }

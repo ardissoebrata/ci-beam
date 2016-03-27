@@ -40,7 +40,7 @@ class MY_Controller extends CI_Controller {
 		{
 			// Get current user id
 			$id = $this->auth->userid();
-
+			
 			// Get user from database
 			$user = $this->user_model->get_by_id($id);
 			$this->load->vars('auth_user', array(
