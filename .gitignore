@@ -47,7 +47,9 @@ Thumbs.db
 
 # CodeIgniter files #
 ######################
+.env
 */config/development
+*/config/testing
 */logs/log-*.php
 !*/logs/index.html
 */cache/*

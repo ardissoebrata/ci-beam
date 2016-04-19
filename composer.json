@@ -5,7 +5,9 @@
 	"require": {
 		"php": ">=5.2.4",
         "codeigniter/framework": "3.*",
-		"zendframework/zend-permissions-acl": "2.6.*"
+		"zendframework/zend-permissions-acl": "2.6.*",
+		"jenssegers/date": "*",
+		"vlucas/phpdotenv": "^2.2"
 	},
 	"require-dev": {
 		"kenjis/ci-phpunit-test": "^0.11.0",

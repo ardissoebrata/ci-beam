@@ -36,6 +36,8 @@
  * @filesource
  */
 
+date_default_timezone_set('Asia/Jakarta');
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -53,7 +55,20 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
+$dotenv->required('ENVIRONMENT')->allowedValues(['development', 'production', 'testing', 'staging']);
+$dotenv->required(['BASE_URL', 'DB_HOSTNAME', 'DB_USERNAME', 'DB_PASSWORD', 'DB_DATABASE'])->notEmpty();
+
+if (PHP_SAPI === 'cli') {
+	if($argv[1] != 'cli')
+        exit("Access denied\n");
+}
+
+define('ENVIRONMENT', isset($_ENV['ENVIRONMENT']) ? $_ENV['ENVIRONMENT'] : 'production');
 
 /*
  *---------------------------------------------------------------
