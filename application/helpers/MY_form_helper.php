@@ -200,7 +200,7 @@ if ( ! function_exists('form_actions'))
 
 if ( ! function_exists('form_dropdownlabel'))
 {
-	function form_dropdownlabel($name = '', $label, $required = FALSE, $options = array(), $selected = array(), $extra = '')
+	function form_dropdownlabel($name, $label, $required = FALSE, $options = array(), $selected = array(), $extra = '')
 	{
 		$output = '<div class="form-group' . ((form_error($name)) ? ' has-error' : '') . '">';
 		$output .= form_label($label . ($required ? ' <span class="required">*</span>' : ''), $name, array('class' => 'col-sm-4 control-label'));
@@ -222,6 +222,7 @@ if ( ! function_exists('form_dropdownlabel'))
 					$extras.= $key.'="'.$value.'" ';
 			}
 		}
+		$extras .= 'id="' . $name . '" ';
 		
 		$output .= form_dropdown($name, $options, set_value($name, $selected), $extras);
 		$output .= form_error($name, '<label for="' . $name . '" class="error">', '</span>');

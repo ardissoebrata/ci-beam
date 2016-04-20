@@ -59,6 +59,11 @@ class MY_Model extends CI_Model {
 		return $this->db->delete($this->table, array($this->id_field => $id));
 	}
 
+	public function prep_query()
+	{
+		
+	}
+	
 	/**
 	 * Get data by id
 	 * 
@@ -292,6 +297,52 @@ class MY_Model extends CI_Model {
 			$result[$node['id']] = $sep . $node['name'];
 			if (isset($node['children']))
 				$result = $result + $this->generate_options($node['children'], $sep . '&nbsp;&nbsp;');
+		}
+		return $result;
+	}
+	
+	/**
+	 * Get data by id
+	 * 
+	 * @param mixed $id
+	 * @return object/boolean
+	 */
+	function get_all($limit = 0, $offset = 0)
+	{
+		$this->prep_query();
+		
+		if (isset($this->default_sort_field) && $this->default_sort_field != "") {
+			$sort = $this->default_sort_order;
+			if ($this->default_sort_order == "") {
+				$sort = "ASC";
+			}
+			$this->db->order_by($this->default_sort_field, $sort);
+		}
+		
+		if ($limit != 0) {
+			$query = $this->db->get($this->table, $limit, $offset);
+		} else {
+			$query = $this->db->get($this->table);
+		}
+		
+		if ($query->num_rows() > 0)
+			return $query->result();
+		else
+			return FALSE;
+	}
+
+	function get_dropdown_array($display_field, $id_field = '')
+	{
+		if (empty($id_field))
+			$id_field = $this->id_field;
+
+		$rows = $this->get_all();
+		$result = array('' => '(Pilih)');
+
+		if ($rows) {
+			foreach ($rows as $row) {
+				$result[$row->{$id_field}] = $row->{$display_field};
+			}
 		}
 		return $result;
 	}

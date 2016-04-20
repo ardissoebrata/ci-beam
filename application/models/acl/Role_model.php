@@ -1,21 +1,35 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class Role_model extends MY_Model 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Role_model extends MY_Model
 {
-	protected $table_name = 'acl_roles';
+
+	protected $table = 'acl_roles';
 	protected $role_parents_table = 'acl_role_parents';
 	protected $rules_table = 'acl_rules';
-	
+	protected $has_updated_field = true;
+	public $validation_rules = array(
+		'id' => array(
+			'helper' => 'form_hidden'
+		),
+		'name' => array(
+			'label' => 'lang:role_name',
+			'rules' => 'trim|required|min_length[2]|max_length[255]|callback_role_name_check',
+			'helper' => 'form_inputlabel',
+		),
+	);
+
 	function get_list($base_url = '', $offset = 0, $limit = 0)
 	{
-		$this->db->select($this->table_name . '.*, ' .
+		$this->db->select($this->table . '.*, ' .
 				'role_parent.name AS parent_name, ' .
 				$this->role_parents_table . '.order AS parent_order')
-				->join($this->role_parents_table, $this->role_parents_table . '.role_id = ' . $this->table_name . '.id', 'left')
-				->join($this->table_name . ' role_parent', 'role_parent.id = ' . $this->role_parents_table . '.parent', 'left')
-				->order_by($this->table_name . '.id', 'ASC')
+				->join($this->role_parents_table, $this->role_parents_table . '.role_id = ' . $this->table . '.id', 'left')
+				->join($this->table . ' role_parent', 'role_parent.id = ' . $this->role_parents_table . '.parent', 'left')
+				->order_by($this->table . '.id', 'ASC')
 				->order_by($this->role_parents_table . '.order', 'ASC');
-		return $this->db->get($this->table_name)->result();
+		return $this->db->get($this->table)->result();
 	}
 	
 	/**
@@ -27,24 +41,22 @@ class Role_model extends MY_Model
 	function get_tree($parent = 0, $not_id = 0)
 	{
 		$results = array();
-		
+
 		if ($not_id > 0)
-			$this->db->where($this->table_name . '.id != ' . $not_id);
-		
-		$this->db->join($this->role_parents_table, $this->role_parents_table . '.role_id = ' . $this->table_name . '.id', 'left')
-				->order_by($this->table_name . '.name');
-		
+			$this->db->where($this->table . '.id != ' . $not_id);
+
+		$this->db->join($this->role_parents_table, $this->role_parents_table . '.role_id = ' . $this->table . '.id', 'left')
+				->order_by($this->table . '.name');
+
 		if ($parent > 0)
 			$this->db->where($this->role_parents_table . '.parent', $parent);
 		else
 			$this->db->where($this->role_parents_table . '.parent IS NULL');
-		
-		$query = $this->db->get($this->table_name);
-		if ($query->num_rows() > 0)
-		{
+
+		$query = $this->db->get($this->table);
+		if ($query->num_rows() > 0) {
 			$results = $query->result_array();
-			foreach($results as $index => $row)
-			{
+			foreach ($results as $index => $row) {
 				$children = $this->get_tree($row['id']);
 				if (!empty($children))
 					$results[$index]['children'] = $children;
@@ -52,7 +64,7 @@ class Role_model extends MY_Model
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Get role by id
 	 * 
@@ -61,14 +73,14 @@ class Role_model extends MY_Model
 	 */
 	function get_by_id($id)
 	{
-		$row = $this->db->get_where($this->table_name, array('id' => $id))->row();
-		
+		$row = parent::get_by_id($id);
+
 		if ($row)
 			$row->parents = $this->get_parents($row->id);
-		
+
 		return $row;
 	}
-	
+
 	/**
 	 * Get role by name
 	 * 
@@ -81,9 +93,9 @@ class Role_model extends MY_Model
 		$this->db->where('name', $name);
 		if ($not_id > 0)
 			$this->db->where('id !=', $not_id);
-		return $this->db->get($this->table_name)->row();
+		return $this->db->get($this->table)->row();
 	}
-	
+
 	/**
 	 * Get parents by role id
 	 * 
@@ -93,12 +105,12 @@ class Role_model extends MY_Model
 	function get_parents($role_id)
 	{
 		$this->db->select($this->role_parents_table . '.*, ' .
-				$this->table_name . '.name AS parent_name')
-			->join($this->table_name, $this->table_name . '.id = ' . $this->role_parents_table . '.parent', 'left')
-			->order_by('order');
+						$this->table . '.name AS parent_name')
+				->join($this->table, $this->table . '.id = ' . $this->role_parents_table . '.parent', 'left')
+				->order_by('order');
 		return $this->db->get_where($this->role_parents_table, array($this->role_parents_table . '.role_id' => $role_id))->result();
 	}
-	
+
 	/**
 	 * Update role details
 	 *
@@ -110,39 +122,28 @@ class Role_model extends MY_Model
 	function update($role_id = 0, $attributes = array())
 	{
 		$parents = array();
-		if (isset($attributes['parents']))
-		{
+		if (isset($attributes['parents'])) {
 			$parents = $attributes['parents'];
 			unset($attributes['parents']);
 		}
-		if (($role_id > 0) && (! $this->get_by_name($attributes['name'], $role_id)))			// Update
-		{
-			$attributes['modified'] = date('Y-m-d H:i:s');
-			$this->db->where('id', $role_id);
-			$this->db->update($this->table_name, $attributes);
-		}
-		elseif (! $this->get_by_name($attributes['name']))										// Insert
-		{
-			unset($attributes['id']);
-			$attributes['created'] = date('Y-m-d H:i:s');
-			$this->db->insert($this->table_name, $attributes);
-			$attributes['id'] = $this->db->insert_id();
-		}
-		else
-			return FALSE;
 		
+		if (($role_id > 0) && (!$this->get_by_name($attributes['name'], $role_id))) {   // Update
+			parent::update($role_id, $attributes);
+		} elseif (!$this->get_by_name($attributes['name'])) {		  // Insert
+			$role_id = parent::insert($attributes);
+		} else
+			return FALSE;
+
 		$this->db->delete($this->role_parents_table, array('role_id' => $attributes['id']));
-		if (!empty($parents))
-		{
-			foreach($parents as $index => $parent)
-			{
+		if (!empty($parents)) {
+			foreach ($parents as $index => $parent) {
 				if ($this->get_by_id($parent))
 					$this->db->insert($this->role_parents_table, array('role_id' => $attributes['id'], 'parent' => $parent, 'order' => $index));
 			}
 		}
-		return $attributes['id'];
+		return $role_id;
 	}
-	
+
 	/**
 	 * Delete role
 	 * 
@@ -151,22 +152,17 @@ class Role_model extends MY_Model
 	function delete($role_id)
 	{
 		//TODO: Throw exception if this role has users in it.
-		
 		//Check children
 		$children = $this->db->get_where($this->role_parents_table, array('parent' => $role_id))->result();
-		if ($children)
-		{
-			foreach($children as $row)
-			{
+		if ($children) {
+			foreach ($children as $row) {
 				$this->delete($row->role_id);
 			}
 		}
-		
+
 		$this->db->delete($this->rules_table, array('role_id' => $role_id));
 		$this->db->delete($this->role_parents_table, array('role_id' => $role_id));
-		$this->db->delete($this->table_name, array('id' => $role_id));
+		$this->db->delete($this->table, array('id' => $role_id));
 	}
-}
 
-/* End of file role_model.php */
-/* Location: ./application/modules/acl/models/role_model.php */
+}

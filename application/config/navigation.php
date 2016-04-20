@@ -75,5 +75,23 @@ $config['navigation'] = array(
 		'uri' => 'auth/user',
 		'title' => 'User Management',
 		'icon' => 'fa fa-user'
+	),
+	'acl' => array(
+		'title' => 'ACL',
+		'icon' => 'fa fa-unlock-alt',
+		'children' => array(
+			'rules' => array(
+				'uri' => 'acl/rule',
+				'title' => 'Rules'
+			),
+			'roles' => array(
+				'uri' => 'acl/role',
+				'title' => 'Roles'
+			),
+			'resources' => array(
+				'uri' => 'acl/resource',
+				'title' => 'Resources'
+			)
+		)
 	)
 );

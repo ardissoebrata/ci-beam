@@ -1,51 +1,40 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class Resource_model extends MY_Model 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Resource_model extends MY_Model
 {
-	protected $table_name = 'acl_resources';
+
+	protected $table = 'acl_resources';
 	protected $rules_table = 'acl_rules';
-	
-	/**
-	 * Get resource list
-	 * 
-	 * @param int		Maximum number of rows to return.
-	 * @param int		Number of rows to skip.
-	 * @param string	Field name to be sorted by.
-	 * @param string	Order of the sort ('asc'|'desc').
-	 * @param string	Search string to be applied to the list.
-	 * @return array	Array of resource objects
-	 */
-	function get_list($base_url = '', $offset = 0, $limit = 0, $sort_by = 'name', $sort_order = 'asc', $search = '')
-	{
-		$limit = empty($limit) ? $this->config->item('item_per_page') : $limit;
-		$sort_by = empty($sort_by) ? 'name' : $sort_by;
-		$sort_order = empty($sort_order) ? 'asc' : $sort_order;
-		
-		if (!empty($search))
-			$this->db->like($this->table_name . '.name', $search);
-		
-		$this->db->select($this->table_name . '.*, parent_resource.name AS parent_name')
-			->join($this->table_name . ' parent_resource', 'parent_resource.id = ' . $this->table_name . '.parent', 'left');
-		
-		$this->db->order_by($sort_by, $sort_order);
-		
-		return $this->db->get($this->table_name, $limit, $offset)->result();
-	}
-	
-	/**
-	 * Get resource list count
-	 * 
-	 * @param string	Search filter to be applied to the count.
-	 * @return int		Number of rows in list.
-	 */
-	function get_list_count($search = '')
-	{
-		if (!empty($search))
-			$this->db->like($this->table_name . '.name', $search);
-		
-		return $this->db->count_all_results($this->table_name);
-	}
-	
+	protected $has_updated_field = true;
+	public $validation_rules = array(
+		'id' => array(
+			'helper' => 'form_hidden'
+		),
+		'name' => array(
+			'label' => 'lang:resource_name',
+			'rules' => 'trim|required|min_length[2]|max_length[255]|callback_resource_name_check',
+			'helper' => 'form_inputlabel',
+		),
+		'type' => array(
+			'label' => 'lang:resource_type',
+			'rules' => 'trim|required',
+			'helper' => 'form_dropdownlabel',
+			'options' => array(
+				'module'		=> 'Module',
+				'controller'	=> 'Controller',
+				'action'		=> 'Action',
+				'other'			=> 'Other',
+			)
+		),
+		'parent' => array(
+			'label' => 'lang:resource_parent',
+			'rules' => 'trim',
+			'helper' => 'form_dropdownlabel',
+		),
+	);
+
 	/**
 	 * Get resources as tree of array
 	 * 
@@ -55,38 +44,24 @@ class Resource_model extends MY_Model
 	function get_tree($parent = NULL, $not_id = 0)
 	{
 		$results = array();
-		
+
 		if ($not_id > 0)
-			$this->db->where($this->table_name . '.id != ' . $not_id);
-		
+			$this->db->where($this->table . '.id != ' . $not_id);
+
 		$this->db->order_by('name');
-		$query = $this->db->get_where($this->table_name, array('parent' => $parent));
-		
-		if ($query->num_rows() > 0)
-		{
+		$query = $this->db->get_where($this->table, array('parent' => $parent));
+
+		if ($query->num_rows() > 0) {
 			$results = $query->result_array();
-			foreach($results as $index => $row)
-			{
+			foreach ($results as $index => $row) {
 				$children = $this->get_tree($row['id']);
 				if (!empty($children))
 					$results[$index]['children'] = $children;
 			}
-				
 		}
 		return $results;
 	}
-	
-	/**
-	 * Get resource by id
-	 * 
-	 * @param int $id
-	 * @return object resource
-	 */
-	function get_by_id($id)
-	{
-		return $this->db->get_where($this->table_name, array('id' => $id))->row();
-	}
-	
+
 	/**
 	 * Get resource by name
 	 * 
@@ -98,9 +73,9 @@ class Resource_model extends MY_Model
 		$this->db->where('name', $name);
 		if ($not_id > 0)
 			$this->db->where('id !=', $not_id);
-		return $this->db->get($this->table_name)->row();
+		return $this->db->get($this->table)->row();
 	}
-	
+
 	/**
 	 * Get child resources
 	 * 
@@ -110,11 +85,11 @@ class Resource_model extends MY_Model
 	function get_by_parent($parentid, $not_id = 0)
 	{
 		if ($not_id > 0)
-			$this->db->where($this->table_name . '.id != ' . $not_id);
-		
-		return $this->db->order_by('name')->get_where($this->table_name, array('parent' => $parentid))->result();
+			$this->db->where($this->table . '.id != ' . $not_id);
+
+		return $this->db->order_by('name')->get_where($this->table, array('parent' => $parentid))->result();
 	}
-	
+
 	/**
 	 * Update resource details
 	 *
@@ -125,24 +100,14 @@ class Resource_model extends MY_Model
 	 */
 	function update($resource_id = 0, $attributes = array())
 	{
-		if (($resource_id > 0) && (! $this->get_by_name($attributes['name'], $resource_id)))	// Update
-		{
-			$attributes['modified'] = date('Y-m-d H:i:s');
-			$this->db->where('id', $resource_id);
-			$this->db->update($this->table_name, $attributes);
-			return TRUE;
-		}
-		elseif (! $this->get_by_name($attributes['name']))										// Insert
-		{
-			unset($attributes['id']);
-			$attributes['created'] = date('Y-m-d H:i:s');
-			$this->db->insert($this->table_name, $attributes);
-			return TRUE;
-		}
-		else
+		if (($resource_id > 0) && (!$this->get_by_name($attributes['name'], $resource_id))) { // Update
+			return parent::update($resource_id, $attributes);
+		} elseif (!$this->get_by_name($attributes['name'])) {		  // Insert
+			return parent::insert($attributes);
+		} else
 			return FALSE;
 	}
-	
+
 	/**
 	 * Delete resource
 	 * 
@@ -152,17 +117,13 @@ class Resource_model extends MY_Model
 	{
 		//Check children
 		$children = $this->get_by_parent($resource_id);
-		if ($children)
-		{
-			foreach($children as $row)
-			{
+		if ($children) {
+			foreach ($children as $row) {
 				$this->delete($row->id);
 			}
 		}
 		$this->db->delete($this->rules_table, array('resource_id' => $resource_id));
-		$this->db->delete($this->table_name, array('id' => $resource_id));
+		$this->db->delete($this->table, array('id' => $resource_id));
 	}
-}
 
-/* End of file resource_model.php */
-/* Location: ./application/modules/acl/models/resource_model.php */
+}

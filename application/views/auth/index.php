@@ -1,13 +1,13 @@
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header"><?php echo lang('users') ?></h1>
+		<h1 class="page-header">
+			<?php echo lang('users') ?>
+			<a href="<?php echo site_url('auth/user/add') ?>" class="btn btn-primary pull-right">
+				<i class="fa fa-plus"></i> <?php echo lang('add') ?>
+			</a>
+		</h1>
 	</div>
 	<!-- /.col-lg-12 -->
-</div>
-<div class="row" style="padding-bottom: 20px;">
-	<div class="col-lg-12">
-		<a href="<?php echo site_url('auth/user/add') ?>" class="btn btn-primary"><?php echo lang('add') ?></a>
-	</div>
 </div>
 <table id="dataTable_user" class="table table-bordered table-striped">
 	<thead>

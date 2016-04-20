@@ -16,10 +16,13 @@
     <!-- MetisMenu CSS -->
     <link href="<?php echo bower_url('metisMenu/dist/metisMenu.min.css') ?>" rel="stylesheet">
 	
+	<link href="<?php echo bower_url('select2/dist/css/select2.min.css') ?>" rel="stylesheet">
+	
 	<?php echo $template['css']; ?>
 
     <!-- Custom CSS -->
     <link href="<?php echo css_url('sb-admin-2') ?>" rel="stylesheet">
+	<link href="<?php echo css_url('custom') ?>" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="<?php echo bower_url('font-awesome/css/font-awesome.css') ?>" rel="stylesheet">
@@ -127,19 +130,17 @@
         <div id="page-wrapper">
             <?php echo $template['content']; ?>
 			
-			<div class="row">
-				<div class="col-md-12">
-					<p>
-						Theme <a href="http://startbootstrap.com/template-overviews/sb-admin-2/" target="_blank">SB Admin 2</a> from <a href="http://startbootstrap.com/" target="_blank">startbootstrap.com</a>
-					</p>
-				</div>
-			</div>
 			
 			<!-- Footer -->
 			<footer id="page-footer">
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-6">
 						<p class="copyright text-muted small" style="margin-bottom: 0;">Copyright &copy; Your Company 2016. All Rights Reserved</p>
+					</div>
+					<div class="col-lg-6">
+						<p class="text-right text-muted small" style="margin-bottom: 0;">
+							Theme <a href="http://startbootstrap.com/template-overviews/sb-admin-2/" target="_blank">SB Admin 2</a> from <a href="http://startbootstrap.com/" target="_blank">startbootstrap.com</a>
+						</p>
 					</div>
 				</div>
 			</footer>
@@ -154,6 +155,8 @@
 
      <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo bower_url('metisMenu/dist/metisMenu.min.js') ?>"></script>
+
+    <script src="<?php echo bower_url('select2/dist/js/select2.min.js') ?>"></script>	
 
     <?php echo $template['js_footer']; ?>
 	
