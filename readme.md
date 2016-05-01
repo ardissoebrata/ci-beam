@@ -11,10 +11,8 @@ Lakukan langkah-langkah berikut untuk melakukan instalasi CI-Beam:
 
 1. Download CI-Beam ke direktori tujuan.
 2. Pindah ke direktori CI-Beam.
-3. Copy/ubah nama file `.env.example` menjadi `.env`.
-4. Masukkan konfigurasi environment dalam file `.env`.
-5. Jalankan `composer install`.
-6. Pindah ke direktori `assets`.
-7. Jalankan `bower update`.
+3. Jalankan `composer install`.
+4. Pindah ke direktori `assets`.
+5. Jalankan `bower update`.
 
 

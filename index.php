@@ -55,20 +55,21 @@ date_default_timezone_set('Asia/Jakarta');
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-require __DIR__ . '/vendor/autoload.php';
 
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
-
-$dotenv->required('ENVIRONMENT')->allowedValues(['development', 'production', 'testing', 'staging']);
-$dotenv->required(['BASE_URL', 'DB_HOSTNAME', 'DB_USERNAME', 'DB_PASSWORD', 'DB_DATABASE'])->notEmpty();
+$domains = array(
+	'localhost' => 'development'
+);
 
 if (PHP_SAPI === 'cli') {
 	if($argv[1] != 'cli')
         exit("Access denied\n");
+	define('ENVIRONMENT', 'cli');
+} else {
+	if (isset($_SERVER['HTTP_HOST']) && ! empty($domains[$_SERVER['HTTP_HOST']]))
+		define('ENVIRONMENT', $domains[$_SERVER['HTTP_HOST']]);
+	else
+		define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 }
-
-define('ENVIRONMENT', isset($_ENV['ENVIRONMENT']) ? $_ENV['ENVIRONMENT'] : 'production');
 
 /*
  *---------------------------------------------------------------
@@ -81,6 +82,8 @@ define('ENVIRONMENT', isset($_ENV['ENVIRONMENT']) ? $_ENV['ENVIRONMENT'] : 'prod
 switch (ENVIRONMENT)
 {
 	case 'development':
+	case 'staging':
+	case 'cli':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
 	break;
