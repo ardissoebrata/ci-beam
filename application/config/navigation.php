@@ -93,5 +93,23 @@ $config['navigation'] = array(
 				'title' => 'Resources'
 			)
 		)
+	),
+	'utils' => array(
+		'title' => 'Utils',
+		'icon' => 'fa fa-wrench',
+		'children' => array(
+			'system_logs' => array(
+				'uri' => 'utils/logs/system',
+				'title' => 'System Logs'
+			),
+			'deploy_logs' => array(
+				'uri' => 'utils/logs/deploy',
+				'title' => 'Deploy Logs'
+			),
+			'info' => array(
+				'uri' => 'utils/info',
+				'title' => 'Info'
+			)
+		)
 	)
 );
