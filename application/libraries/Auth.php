@@ -139,7 +139,7 @@ class Auth {
 		// generate keys
 		list($public, $private) = $this->generate_keys();
 
-		$this->ci->load->model('autologin_model');
+		$this->ci->load->model('auth/autologin_model');
 		
 		// create new series or expand current series
 		if (!$series)
@@ -165,7 +165,7 @@ class Auth {
 		if ($cookie = $this->read_cookie())
 		{
 			// remove current series
-			$this->ci->load->model('autologin_model');
+			$this->ci->load->model('auth/autologin_model');
 			$this->ci->autologin_model->delete($cookie['id'], $cookie['series']);
 
 			// delete cookie
@@ -183,7 +183,7 @@ class Auth {
 		if ($cookie = $this->read_cookie())
 		{
 			// remove expired keys
-			$this->ci->load->model('autologin_model');
+			$this->ci->load->model('auth/autologin_model');
 			$this->ci->autologin_model->purge();
 
 			// get private key

@@ -43,7 +43,7 @@ class MY_Controller extends CI_Controller {
 			
 			// Get user from database
 			$user = $this->user_model->get_by_id($id);
-			$this->load->vars('auth_user', array(
+			$user_data = array(
 				'id'			=> $user->id,
 				'first_name'	=> $user->first_name,
 				'last_name'		=> $user->last_name,
@@ -52,7 +52,9 @@ class MY_Controller extends CI_Controller {
 				'lang'			=> $user->lang,
 				'role_id'		=> $user->role_id,
 				'role_name'		=> $user->role_name
-			));
+			);
+			$this->load->vars('auth_user', $user_data);
+			$this->session->set_userdata($user_data);
 		}
 		else
 		{
@@ -95,9 +97,9 @@ class MY_Controller extends CI_Controller {
 		$this->load->language('application');
 		
 		// Check ACL
-//		$this->acl->build();
-//		$allowed = $this->acl->is_allowed($this->uri->uri_string());
-//		if (!$allowed) show_error(lang('error_401'), 401, lang('error_401_title'));
+		$this->acl->build();
+		$allowed = $this->acl->is_allowed($this->uri->uri_string());
+		if (!$allowed) show_error(lang('error_401'), 401, lang('error_401_title'));
 		
 		// Set redirect 
 		$this->load->vars('redirect', urldecode($this->input->get_post('redirect')));
