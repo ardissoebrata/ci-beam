@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{{ title }}</title>
+
+		<link href='https://fonts.googleapis.com/css?family=Work+Sans:300,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ baseUrl }}/bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/bower_components/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/bower_components/jquery.scrollbar/jquery.scrollbar.css">
+		<link rel="stylesheet" href="{{ baseUrl }}/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" />
+        <link rel="stylesheet" href="{{ baseUrl }}/css/main.css">
+    </head>
+    <body>
+
+        <nav id="sidebar" class="navbar-default">
+			<div id="header-wrapper">
+				<div id="header">
+					<a class="navbar-brand" href="{{ baseUrl }}/">
+						{{ title|default('The title') }}
+					</a>
+					<div class="searchbox">
+						<label for="search-by"><i class="fa fa-search"></i></label>
+						<input id="search-by" type="text" placeholder="Cari Dokumentasi" data-search-input="/search.json/query">
+						<span data-search-clear=""><i class="fa fa-close"></i></span>
+					</div>
+				</div>
+			</div>
+			<div id="menu-wrapper">
+				<ul id="menu-items" class="list-unstyled">
+					<li>
+						Introduction
+
+						<ul>
+							<li class="active">
+								<a href="http://php-di.org/doc/getting-started.html">
+									Getting started
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/understanding-di.html">
+									Understanding dependency injection
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/best-practices.html">
+									"Best practices" guide
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Usage
+
+						<ul>
+							<li class="">
+								<a href="http://php-di.org/doc/container-configuration.html">
+									Configuring the container
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/container.html">
+									Using the container
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Definitions
+
+						<ul>
+							<li class="">
+								<a href="http://php-di.org/doc/definition.html">
+									Introduction
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/autowiring.html">
+									Autowiring
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/php-definitions.html">
+									PHP definitions
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/annotations.html">
+									Annotations
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/definition-overriding.html">
+									Definition extensions and overriding
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Frameworks
+
+						<ul>
+							<li class="">
+								<a href="http://php-di.org/doc/frameworks/symfony2.html">
+									Symfony 2
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/frameworks/silex.html">
+									Silex
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/frameworks/zf2.html">
+									Zend Framework 2
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/frameworks/zf1.html">
+									Zend Framework 1
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/frameworks/slim.html">
+									Slim
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/frameworks/silly.html">
+									Silly
+								</a>
+							</li>
+							<li class="">
+								<a href="https://github.com/PHP-DI/demo">
+									Demo application
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Advanced topics
+
+						<ul>
+							<li class="">
+								<a href="http://php-di.org/doc/performances.html">
+									Performances
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/scopes.html">
+									Scopes
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/lazy-injection.html">
+									Lazy injection
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/inject-on-instance.html">
+									Inject on an existing instance
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/environments.html">
+									Injections depending on the environment
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/ide-integration.html">
+									IDE integration
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Migration guides
+
+						<ul>
+							<li class="">
+								<a href="http://php-di.org/doc/migration/4.0.html">
+									From PHP-DI 3.x to 4.0
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/migration/5.0.html">
+									From PHP-DI 4.x to 5.0
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Internals
+
+						<ul>
+							<li class="">
+								<a href="http://php-di.org/contributing.html">
+									Contributing
+								</a>
+							</li>
+							<li class="">
+								<a href="http://php-di.org/doc/how-it-works.html">
+									How PHP-DI works
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Old documentation
+
+						<ul>
+							<li class="">
+								<a href="https://github.com/PHP-DI/PHP-DI/tree/3.x/doc">
+									PHP-DI 3.x
+								</a>
+							</li>
+							<li class="">
+								<a href="https://github.com/PHP-DI/PHP-DI/tree/4.x/doc">
+									PHP-DI 4.x
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Old documentation
+
+						<ul>
+							<li class="">
+								<a href="https://github.com/PHP-DI/PHP-DI/tree/3.x/doc">
+									PHP-DI 3.x
+								</a>
+							</li>
+							<li class="">
+								<a href="https://github.com/PHP-DI/PHP-DI/tree/4.x/doc">
+									PHP-DI 4.x
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- /.sidebar-collapse -->
+			</div>
+        </nav>
+			
+        <main id="main-body-wrapper">
+			<div id="main-body" class="padding">
+				<a href="#" id="sidebar-toggle" class="hide" data-sidebar-toggle=""><i class="fa fa-2x fa-bars"></i></a>
+				<div id="top-bar">
+					<div id="top-github-link">
+						<a class="github-link" href="https://github.com/getgrav/grav-learn/blob/develop/pages/01.basics/01.what-is-grav/docs.md" title="Edit halaman ini di GitHub"><i class="fa fa-github"></i></a>
+					</div>
+
+
+					<div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<a href="/" itemprop="url"><span itemprop="title">Basics</span></a>
+						<i class="fa fa-angle-right"></i>
+						<span itemprop="title">What is Grav?</span>
+					</div>
+				</div>
+				{{ content|raw }}
+			</div>
+        </main>
+
+        <script src="{{ baseUrl }}/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="{{ baseUrl }}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="{{ baseUrl }}/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script>
+            $(function() {
+                // Little tweak for <h1>
+                $("#main-body > h1").wrap('<div class="page-header" />');
+				$('#menu-wrapper').mCustomScrollbar();
+            });
+			$(window).on('resize orientationChange', function(event) {
+				var width = $(window).width();
+				var height = $(window).height();
+				$('#menu-wrapper').height(height - $('#header-wrapper').height());
+			}).trigger('resize');
+        </script>
+
+    </body>
+</html>

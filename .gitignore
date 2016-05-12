@@ -59,6 +59,7 @@ Thumbs.db
 /vendor/
 /application/tests/build/
 /assets/bower_components/
+/doc/website/bower_components/
 
 # Project specifics #
 ######################

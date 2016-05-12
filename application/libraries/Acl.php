@@ -87,7 +87,7 @@ class Acl
 		// Home page always available to all.
 		if ($resource === '')
 			return TRUE;
-
+		
 		// Check uri_string resources from the longest segment
 		$has_resource = $this->has($resource);
 		while ((strlen($resource) > 0) && !$has_resource) {
@@ -107,8 +107,8 @@ class Acl
 
 		// If role empty, try search the session.
 		if (empty($role)) {
-			if (isset($this->CI->session->userdata['role_name'])) {
-				$role = $this->CI->session->userdata['role_name'];
+			if (isset($this->CI->session->role_name)) {
+				$role = $this->CI->session->role_name;
 			}
 		}
 
