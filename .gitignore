@@ -60,6 +60,7 @@ Thumbs.db
 /application/tests/build/
 /assets/bower_components/
 /doc/website/bower_components/
+!/application/database/ci_beam.sql
 
 # Project specifics #
 ######################
