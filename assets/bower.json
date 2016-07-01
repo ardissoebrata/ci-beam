@@ -1,0 +1,29 @@
+{
+  "name": "ci-beam",
+  "version": "3.0",
+  "homepage": "http://ci-beam.mybeam.me/",
+  "authors": [
+    "Ardi Soebrata"
+  ],
+  "description": "CodeIgniter Bootstrap",
+  "keywords": [
+    "codeigniter",
+    "bootstrap",
+    "theme"
+  ],
+  "license": "Apache",
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.2.0",
+    "datatables": "~1.10.4",
+    "datatables-plugins": "~1.0.1",
+    "flot": "~0.8.3",
+    "holderjs": "~2.4.1",
+    "metisMenu": "~1.1.3",
+    "raphael": "~2.2.0",
+    "morrisjs": "~0.5.1",
+    "bootstrap-social": "~4.8.0",
+    "flot.tooltip": "~0.8.4",
+    "select2": "~4.0.2"
+  }
+}

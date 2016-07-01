@@ -1,0 +1,187 @@
+body {
+	font-family: "Work Sans","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+	font-weight: 300;
+    font-size: 18px;
+    padding-bottom: 70px;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    width: 300px;
+    bottom: 0;
+    left: 0;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+#header {
+    background: #f6f6f6;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid #E6E6E6;
+}
+
+#header .navbar-brand {
+	display: block;
+    text-align: center;
+    width: 100%;
+    font-size: 34px;
+    line-height: 40px;
+    float: none;
+    height: auto;
+    padding: 10px;
+}
+
+.searchbox {
+    margin-top: .5rem;
+    position: relative;
+    border: 1px solid #ccc;
+    background: #F6F6F6;
+    border-radius: 4px;
+}
+.searchbox label {
+    color: rgba(119,119,119,.8);
+    position: absolute;
+    left: 10px;
+    top: 5px;
+}
+.searchbox input {
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    border: 0;
+    padding: 0 25px 0 30px;
+    margin: 0;
+    font-weight: 300;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.searchbox span {
+    color: rgba(119,119,119,.8);
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.scrollbar-inner {
+	overflow: scroll;
+}
+
+#menu-wrapper {
+    overflow-y: auto !important;
+    padding: 0 !important;
+    position: relative;
+}
+
+#main-body-wrapper {
+    position: relative;
+    margin-left: 300px;
+    min-height: 100%;
+}
+
+#main-body-wrapper .padding {
+    padding: 3rem 6rem;
+}
+
+#top-bar {
+	background: #f6f6f6;
+    border-radius: 2px;
+    margin: 0 0 3rem;
+    padding: 1rem;
+}
+
+#top-github-link {
+	float: right;
+}
+
+.default-animation, #header #logo-svg, #header #logo-svg path, #sidebar, #sidebar ul, #main-body-wrapper, #main-body-wrapper .padding, #main-body-wrapper .nav {
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+h2 {
+    font-size: 25px;
+    font-weight: 300;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.page-header {
+    margin-top: 0;
+}
+
+.mCSB_inside > .mCSB_container {
+	margin-right: 10px;
+}
+.mCSB_scrollTools {
+	width: 8px;
+}
+.mCSB_scrollTools .mCSB_draggerRail {
+    width: 8px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+	background-color: rgba(230,230,230,1);
+}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+	background-color: rgba(190,190,190,1);
+}
+
+#menu-items {
+	margin-bottom: 1em;
+	padding: 0 1em;
+    list-style: none;
+}
+#menu-items ul {
+	padding: 0;
+    list-style: none;
+}
+#menu-items > li {
+	font-size: 18px;
+	margin-top: 1em;
+}
+#menu-items li li {
+	font-size: 15px;
+}
+
+@media only all and (max-width: 59.938em) {
+	#main-body-wrapper {
+		margin-left: 230px;
+	}
+	#main-body-wrapper .padding {
+		position: static;
+		padding: 15px 3rem;
+	}
+	#sidebar {
+		width: 230px;
+	}
+}
+
+@media only all and (max-width: 47.938em) {
+	#main-body-wrapper {
+		margin-left: 0;
+	}
+	#main-body-wrapper .padding {
+		padding: 5px 1rem;
+	}
+	#sidebar {
+		width: 230px;
+		left: -230px;
+	}
+}

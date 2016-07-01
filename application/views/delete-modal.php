@@ -17,7 +17,7 @@
 	</div>
 </div>
 <script>
-$('[data-button=delete]').on('click', function(e) {
+$('body').on('click', '[data-button=delete]', function(e) {
 	$('#delete-modal-continue').attr('href', $(this).attr('href'));
 	$('#delete-modal').modal('show');
 	e.preventDefault();

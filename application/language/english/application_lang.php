@@ -10,6 +10,7 @@ $lang['are_you_sure']	= 'Are you sure you want to delete this?';
 $lang['error']			= 'Error!';
 $lang['warning']		= 'Warning!';
 $lang['info']			= 'Info';
+$lang['success']		= 'Success!';
 
 $lang['form_error']		= 'There are %d error(s) in this form.<br />Incorrect data has been marked in red.<br />Please correct the erroneous data, then save it.';
 
@@ -24,6 +25,3 @@ $lang['none']			= 'None';
 
 $lang['error_401_title'] = "Unauthorized Access";
 $lang['error_401']		= "Sorry, you do not have permission to access this page. Please contact the Administrator for more information.";
-
-/* End of file application_lang.php */
-/* Location: ./application/language/english/application_lang.php */

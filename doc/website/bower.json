@@ -1,0 +1,12 @@
+{
+  "name": "ci-beam-doc",
+  "authors": [
+    "Ardi Soebrata"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.2.0",
+    "jquery.scrollbar": "~0.2.10",
+    "malihu-custom-scrollbar-plugin": "~3.1.3"
+  }
+}

@@ -12,6 +12,9 @@
 				<div class="collapse navbar-collapse">
 					<?php 
 					$menus = $this->config->item('main_nav');
+					if (!$menus) {
+						$menus = array();
+					}
 					?>
 					<ul class="nav navbar-nav">
 						<?php
@@ -39,13 +42,13 @@
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
-			<?php if (isset($auth_user)): ?>
+			<?php if (FALSE && $this->auth && $this->auth->loggedin()): ?>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
 					<?php
-					$name = $auth_user['first_name'] . ' ' . $auth_user['last_name'];
+					$name = $this->session->userdata('first_name') . ' ' . $this->session->userdata('last_name');
 					if (strlen(trim($name)) == 0)
-						$name = $auth_user['username'];
+						$name = $this->session->userdata('username');
 					?>
 					<a href="<?php echo site_url('auth/user/profile'); ?>"><?php echo $name; ?></a>
 				</li>

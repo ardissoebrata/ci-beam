@@ -1,0 +1,15 @@
+{
+	"name": "ardissoebrata/ci-beam",
+	"description": "CodeIgniter Bootstrap",
+	"type": "project",
+	"require": {
+		"php": ">=5.2.4",
+        "codeigniter/framework": "3.*",
+		"zendframework/zend-permissions-acl": "2.6.*",
+		"jenssegers/date": "*"
+	},
+	"require-dev": {
+		"kenjis/ci-phpunit-test": "^0.11.0",
+		"phpunit/phpunit": "4.8.*"
+	}
+}

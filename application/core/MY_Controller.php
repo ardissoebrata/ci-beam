@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Base controller for public controllers.
@@ -8,7 +10,7 @@
  * @author Ardi Soebrata
  * 
  * @property CI_Config $config
- * @property HMVC_Loader $load
+ * @property CI_Loader $load
  * @property CI_URI $uri
  * @property MY_Form_validation $form_validation
  * @property CI_Input $input
@@ -23,19 +25,11 @@
  * @property Auth $auth
  * @property Acl $acl
  * @property Template $template
- * @property Doctrine $doctrine
  * @property User_model $user_model
  * @property Role_model $role_model
  * 
  */
-class MY_Controller extends CI_Controller
-{
-	/**
-	 * View's Data
-	 * 
-	 * @var array 
-	 */
-	public $data = array();
+class MY_Controller extends CI_Controller {
 	
 	public function __construct()
 	{
@@ -46,10 +40,10 @@ class MY_Controller extends CI_Controller
 		{
 			// Get current user id
 			$id = $this->auth->userid();
-
+			
 			// Get user from database
 			$user = $this->user_model->get_by_id($id);
-			$this->data['auth_user'] = array(
+			$user_data = array(
 				'id'			=> $user->id,
 				'first_name'	=> $user->first_name,
 				'last_name'		=> $user->last_name,
@@ -59,6 +53,8 @@ class MY_Controller extends CI_Controller
 				'role_id'		=> $user->role_id,
 				'role_name'		=> $user->role_name
 			);
+			$this->load->vars('auth_user', $user_data);
+			$this->session->set_userdata($user_data);
 		}
 		else
 		{
@@ -66,11 +62,11 @@ class MY_Controller extends CI_Controller
 		}
 		
 		// Setting up language.
-		$languages = $this->config->item('languages');
+		$languages = $this->config->item('languages', 'template');
 		// Lang has already been set and is stored in a session
 		$lang = $this->session->userdata('lang');
 		// No Lang. Lets try some browser detection then
-		if (empty($lang) and !empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ))
+		if (empty($lang) and !empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) and !empty($languages))
 		{
 			// explode languages into array
 			$accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
@@ -95,7 +91,7 @@ class MY_Controller extends CI_Controller
 		{
 			reset($languages);
 			$lang = key($languages);
-			$this->session->set_userdata('lang', $lang);
+			$this->load->vars('lang', $lang);
 		}
 		$this->config->set_item('language', $languages[$lang]['folder']);
 		$this->load->language('application');
@@ -106,26 +102,7 @@ class MY_Controller extends CI_Controller
 		if (!$allowed) show_error(lang('error_401'), 401, lang('error_401_title'));
 		
 		// Set redirect 
-		$this->data['redirect'] = urldecode($this->input->get_post('redirect'));
-	}
-	
-	/**
-	 * Generate options from data tree
-	 * 
-	 * @param array $tree
-	 * @param string $sep
-	 * @return array
-	 */
-	function generate_options($tree, $sep = '')
-	{
-		$result = array();
-		foreach($tree as $node)
-		{
-			$result[$node['id']] = $sep . $node['name'];
-			if (isset($node['children']))
-				$result = $result + $this->generate_options($node['children'], $sep . '&nbsp;&nbsp;');
-		}
-		return $result;
+		$this->load->vars('redirect', urldecode($this->input->get_post('redirect')));
 	}
 }
 

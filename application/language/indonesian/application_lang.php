@@ -10,6 +10,7 @@ $lang['are_you_sure']	= 'Anda yakin akan menghapus data ini?';
 $lang['error']			= 'Error!';
 $lang['warning']		= 'Perhatian!';
 $lang['info']			= 'Info';
+$lang['success']		= 'Sukses!';
 
 $lang['form_error']		= 'Terdapat %d kesalahan dalam form ini.<br />Data yang salah telah diberi tanda dengan warna merah.<br />Harap perbaiki data yang salah, kemudian simpan kembali form ini.';
 
@@ -24,6 +25,3 @@ $lang['none']			= 'Kosong';
 
 $lang['error_401_title'] = "Akses Tidak Sah";
 $lang['error_401']		= "Maaf, Anda tidak memiliki hak untuk mengakses halaman ini. Silakan hubungi Administrator untuk keterangan lebih lanjut.";
-
-/* End of file application_lang.php */
-/* Location: ./application/language/indonesian/application_lang.php */

@@ -1,4 +1,5 @@
 <?php
+
 #
 # Portable PHP password hashing framework.
 #
@@ -24,7 +25,9 @@
 # Obviously, since this code is in the public domain, the above are not
 # requirements (there can be none), but merely suggestions.
 #
+
 class PasswordHash {
+
 	var $itoa64;
 	var $iteration_count_log2;
 	var $portable_hashes;
@@ -34,7 +37,7 @@ class PasswordHash {
 	{
 		$iteration_count_log2 = (isset($params['iteration_count_log2'])) ? $params['iteration_count_log2'] : 8;
 		$portable_hashes = (isset($params['portable_hashes'])) ? $params['portable_hashes'] : FALSE;
-	
+
 		$this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 		if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
@@ -52,18 +55,20 @@ class PasswordHash {
 	{
 		$output = '';
 		if (is_readable('/dev/urandom') &&
-		    ($fh = @fopen('/dev/urandom', 'rb'))) {
+				($fh = @fopen('/dev/urandom', 'rb')))
+		{
 			$output = fread($fh, $count);
 			fclose($fh);
 		}
 
-		if (strlen($output) < $count) {
+		if (strlen($output) < $count)
+		{
 			$output = '';
-			for ($i = 0; $i < $count; $i += 16) {
-				$this->random_state =
-				    md5(microtime() . $this->random_state);
+			for ($i = 0; $i < $count; $i += 16)
+			{
+				$this->random_state = md5(microtime() . $this->random_state);
 				$output .=
-				    pack('H*', md5($this->random_state));
+						pack('H*', md5($this->random_state));
 			}
 			$output = substr($output, 0, $count);
 		}
@@ -75,7 +80,8 @@ class PasswordHash {
 	{
 		$output = '';
 		$i = 0;
-		do {
+		do
+		{
 			$value = ord($input[$i++]);
 			$output .= $this->itoa64[$value & 0x3f];
 			if ($i < $count)
@@ -98,7 +104,7 @@ class PasswordHash {
 	{
 		$output = '$P$';
 		$output .= $this->itoa64[min($this->iteration_count_log2 +
-			((PHP_VERSION >= '5') ? 5 : 3), 30)];
+						((PHP_VERSION >= '5') ? 5 : 3), 30)];
 		$output .= $this->encode64($input, 6);
 
 		return $output;
@@ -131,14 +137,19 @@ class PasswordHash {
 		# in PHP would result in much worse performance and
 		# consequently in lower iteration counts and hashes that are
 		# quicker to crack (by non-PHP code).
-		if (PHP_VERSION >= '5') {
+		if (PHP_VERSION >= '5')
+		{
 			$hash = md5($salt . $password, TRUE);
-			do {
+			do
+			{
 				$hash = md5($hash . $password, TRUE);
 			} while (--$count);
-		} else {
+		}
+		else
+		{
 			$hash = pack('H*', md5($salt . $password));
-			do {
+			do
+			{
 				$hash = pack('H*', md5($hash . $password));
 			} while (--$count);
 		}
@@ -185,11 +196,13 @@ class PasswordHash {
 		$output .= '$';
 
 		$i = 0;
-		do {
+		do
+		{
 			$c1 = ord($input[$i++]);
 			$output .= $itoa64[$c1 >> 2];
 			$c1 = ($c1 & 0x03) << 4;
-			if ($i >= 16) {
+			if ($i >= 16)
+			{
 				$output .= $itoa64[$c1];
 				break;
 			}
@@ -212,28 +225,26 @@ class PasswordHash {
 	{
 		$random = '';
 
-		if (CRYPT_BLOWFISH == 1 && !$this->portable_hashes) {
+		if (CRYPT_BLOWFISH == 1 && !$this->portable_hashes)
+		{
 			$random = $this->get_random_bytes(16);
-			$hash =
-			    crypt($password, $this->gensalt_blowfish($random));
+			$hash = crypt($password, $this->gensalt_blowfish($random));
 			if (strlen($hash) == 60)
 				return $hash;
 		}
 
-		if (CRYPT_EXT_DES == 1 && !$this->portable_hashes) {
+		if (CRYPT_EXT_DES == 1 && !$this->portable_hashes)
+		{
 			if (strlen($random) < 3)
 				$random = $this->get_random_bytes(3);
-			$hash =
-			    crypt($password, $this->gensalt_extended($random));
+			$hash = crypt($password, $this->gensalt_extended($random));
 			if (strlen($hash) == 20)
 				return $hash;
 		}
 
 		if (strlen($random) < 6)
 			$random = $this->get_random_bytes(6);
-		$hash =
-		    $this->crypt_private($password,
-		    $this->gensalt_private($random));
+		$hash = $this->crypt_private($password, $this->gensalt_private($random));
 		if (strlen($hash) == 34)
 			return $hash;
 
@@ -251,6 +262,5 @@ class PasswordHash {
 
 		return $hash == $stored_hash;
 	}
-}
 
-?>
+}

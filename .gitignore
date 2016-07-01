@@ -33,20 +33,35 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
+# IDE Files #
+#############
+/nbproject/
+.idea/*
+
+# Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# CodeIgniter files #
+######################
+.env
+/.couscous/
+*/config/development
+*/config/testing
+*/logs/log-*.php
+!*/logs/index.html
+*/cache/*
+!*/cache/index.html
+!*/cache/.htaccess
+/vendor/
+/application/tests/build/
+/assets/bower_components/
+/doc/website/bower_components/
+!/application/database/ci_beam.sql
+
 # Project specifics #
 ######################
-/nbproject/
-/.git-rewrite/
-!/ci-beam.sql
-application/logs/*
-!application/logs/index.html
-!application/logs/.htaccess
-/wiki/
-application/cache/*
-!application/cache/index.html
-!application/cache/.htaccess
-!/sparks/
-user_guide_src/build/*
-user_guide_src/cilexer/build/*
-user_guide_src/cilexer/dist/*
-user_guide_src/cilexer/pycilexer.egg-info/*
+# Any ignored files specific to the project should goes here #
