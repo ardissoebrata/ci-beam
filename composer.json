@@ -1,6 +1,6 @@
 {
-	"description": "CodeIgniter Boilerplate",
-	"name": "CI-Beam",
+	"name": "ardissoebrata/ci-beam",
+	"description": "CodeIgniter Bootstrap",
 	"type": "project",
 	"require": {
 		"php": ">=5.2.4",
