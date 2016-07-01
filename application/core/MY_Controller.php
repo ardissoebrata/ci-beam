@@ -35,32 +35,6 @@ class MY_Controller extends CI_Controller {
 	{
 		parent::__construct();
 		
-		// Get auth data.
-		if ($this->auth->loggedin())
-		{
-			// Get current user id
-			$id = $this->auth->userid();
-			
-			// Get user from database
-			$user = $this->user_model->get_by_id($id);
-			$user_data = array(
-				'id'			=> $user->id,
-				'first_name'	=> $user->first_name,
-				'last_name'		=> $user->last_name,
-				'username'		=> $user->username,
-				'email'			=> $user->email,
-				'lang'			=> $user->lang,
-				'role_id'		=> $user->role_id,
-				'role_name'		=> $user->role_name
-			);
-			$this->load->vars('auth_user', $user_data);
-			$this->session->set_userdata($user_data);
-		}
-		else
-		{
-			$this->session->set_userdata('role_name', 'Guest');
-		}
-		
 		// Setting up language.
 		$languages = $this->config->item('languages', 'template');
 		// Lang has already been set and is stored in a session
@@ -95,11 +69,6 @@ class MY_Controller extends CI_Controller {
 		}
 		$this->config->set_item('language', $languages[$lang]['folder']);
 		$this->load->language('application');
-		
-		// Check ACL
-		$this->acl->build();
-		$allowed = $this->acl->is_allowed($this->uri->uri_string());
-		if (!$allowed) show_error(lang('error_401'), 401, lang('error_401_title'));
 		
 		// Set redirect 
 		$this->load->vars('redirect', urldecode($this->input->get_post('redirect')));
