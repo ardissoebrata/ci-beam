@@ -1,6 +1,7 @@
 {
 	"name": "ardissoebrata/ci-beam",
 	"description": "CodeIgniter Bootstrap",
+    "license": "MIT",
 	"type": "project",
 	"require": {
 		"php": ">=5.2.4",
@@ -11,5 +12,10 @@
 	"require-dev": {
 		"kenjis/ci-phpunit-test": "^0.11.0",
 		"phpunit/phpunit": "4.8.*"
+	},
+	"scripts": {
+		"post-create-project-cmd": [
+            "cd assets && bower install && cd .."
+        ]
 	}
 }
