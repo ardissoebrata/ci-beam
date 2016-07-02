@@ -39,7 +39,8 @@ INSERT INTO `acl_resources` (`id`, `name`, `type`, `parent`, `created`, `modifie
 (18, 'acl/rule/edit', 'action', 17, '2012-07-12 17:53:25', NULL),
 (19, 'utils', 'module', NULL, NULL, NULL),
 (20, 'dashboard', 'module', NULL, NULL, NULL),
-(21, 'api', 'module', NULL, NULL, NULL);
+(21, 'api', 'module', NULL, NULL, NULL),
+(22, 'samples', 'module', NULL, NULL, NULL);
 
 CREATE TABLE `acl_roles` (
   `id` int(11) NOT NULL,

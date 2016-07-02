@@ -49,7 +49,7 @@ $config['navigation'] = array(
 					),
 					'notifications' => array(
 						'uri' => 'samples/ui_elements/notifications',
-						'title' => 'Natifications'
+						'title' => 'Notifications'
 					),
 					'typography' => array(
 						'uri' => 'samples/ui_elements/typography',

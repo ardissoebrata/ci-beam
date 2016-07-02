@@ -27,7 +27,7 @@ class Charts extends Admin_Controller {
 	public function morris()
 	{
 		$this->template
-				->set_js('../bower_components/raphael/raphael-min', TRUE)
+				->set_js('../bower_components/raphael/raphael.min', TRUE)
 				->set_js('../bower_components/morrisjs/morris.min', TRUE)
 				->set_js('morris-data', TRUE)
 				->build('samples/charts/morris');

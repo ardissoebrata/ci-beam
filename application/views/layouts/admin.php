@@ -85,7 +85,7 @@
 						?>
                         <li>
 							<?php $has_children = isset($nav_lvl_1['children']) && is_array($nav_lvl_1['children']); ?>
-                            <a href="<?php echo (isset($nav_lvl_1['uri']) ? site_url($nav_lvl_1['uri']) : '#') ?>">
+                            <a href="<?php echo (isset($nav_lvl_1['uri']) ? site_url($nav_lvl_1['uri']) : '#') ?>"<?php if (isset($nav_lvl_1['target'])): ?> target="<?php echo $nav_lvl_1['target'] ?>"<?php endif; ?>>
 								<i class="<?php echo $nav_lvl_1['icon'] ?>"></i>
 								<?php echo $nav_lvl_1['title'] ?>
 								<?php if ($has_children): ?><span class="fa arrow"></span><?php endif; ?>
@@ -96,7 +96,7 @@
 								<?php foreach($nav_lvl_1['children'] as $nav_lvl_2): ?>
 								<li>
 									<?php $has_children_2 = isset($nav_lvl_2['children']) && is_array($nav_lvl_2['children']); ?>
-                                    <a href="<?php echo (isset($nav_lvl_2['uri']) ? site_url($nav_lvl_2['uri']) : '#') ?>">
+                                    <a href="<?php echo (isset($nav_lvl_2['uri']) ? site_url($nav_lvl_2['uri']) : '#') ?>"<?php if (isset($nav_lvl_2['target'])): ?> target="<?php echo $nav_lvl_2['target'] ?>"<?php endif; ?>>
 										<?php echo $nav_lvl_2['title'] ?>
 										<?php if ($has_children_2): ?><span class="fa arrow"></span><?php endif; ?>
 									</a>
@@ -105,7 +105,7 @@
 									<ul class="nav nav-third-level">
 										<?php foreach ($nav_lvl_2['children'] as $nav_lvl_3): ?>
 										<li>
-											<a href="<?php echo (isset($nav_lvl_3['uri']) ? site_url($nav_lvl_3['uri']) : '#') ?>">
+											<a href="<?php echo (isset($nav_lvl_3['uri']) ? site_url($nav_lvl_3['uri']) : '#') ?>"<?php if (isset($nav_lvl_3['target'])): ?> target="<?php echo $nav_lvl_3['target'] ?>"<?php endif; ?>>
 												<?php echo $nav_lvl_3['title'] ?>
 											</a>
 										</li>
